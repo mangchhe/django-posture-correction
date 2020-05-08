@@ -22,6 +22,7 @@ urlpatterns = [
     # path('', Videos.views. , name = ),                        # Main 화면
     # path('videoListView/<int:>', Videos.views. , name = ),    # 영상 리스트 화면
     # path('modeView', Edus.views. , name = ),                  # 영상 선택 후 화면
-    # path('playView', Edus.views. , name = ),                  # 모드 선택 후 화면
+    path('playView', Edus.views.play , name = 'mode'),          # 모드 선택 후 화면
     # path('mypages', Users.views. , name = ),                  # 마이페이지 화면
 ]
+
