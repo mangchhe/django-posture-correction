@@ -1,0 +1,58 @@
+{% load static %}
+
+<title>
+    모드 선택 후 화면
+</title>
+
+<link rel ='stylesheet' type='text/css' href='{% static "playView.css" %}'>
+
+<body>
+
+    <head>
+        <form>
+            <input type = 'text' placeholder = "검색할 내용을 입력하세요." />
+            <button type = 'button' onclick = 'alert("로그인을 눌렀습니다.")'>
+                로그인
+            </button>
+            <button type = 'button' onclick = 'alert("회원가입을 눌렀습니다.")'>
+                회원가입
+            </button>
+        </form>
+    </head>
+
+    <br><br>
+
+    <section>
+        <div id = 's_left'>따라할 영상<br><br>
+            <video src = ''
+                   height = 180 width = 360 controls autoplay oncontextmenu="return false" type = 'video/mp4'>
+            </video>
+        </div>
+        <div id = 's_right'>나의 실시간 영상<br><br>
+            <img src="{% url 'video_feed' %}">
+        </div>
+    </section>
+
+    <footer>
+        <div id = 's_bottom'>
+            실전 / 연습 결과 <br><br>
+            등급 | 점수 | 날짜
+            <input type = 'checkbox'> 공유
+            <button type = 'button' onclick = 'alert("영상 보기를 눌렀습니다.")'>
+                영상 보기
+            </button>
+            <button type = 'button' onclick = 'alert("업로드를 눌렀습니다.")'>
+                업로드
+            </button>
+        </div>
+        <div id = 's_bbottom'>
+            결과 리스트 <br><br>
+            나의 영상 | 날짜
+            <button type = 'button' onclick = 'alert("영상 보기를 눌렀습니다.")'>
+                영상 보기
+            </button>
+
+        </div>
+    </footer>
+
+</body>
