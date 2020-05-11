@@ -4,6 +4,8 @@ from Edus.camera import VideoCamera
 
 # Create your views here.
 
+# 모드 선택 후 화면
+
 def play(request):
 
     return render(request, 'playView.html')
@@ -22,3 +24,8 @@ def video_feed(request):
 	return StreamingHttpResponse(gen(VideoCamera()),
 					content_type='multipart/x-mixed-replace; boundary=frame')
 
+# 마이페이지
+
+def mypage(request):
+
+	return render(request, 'mypageView.html')
