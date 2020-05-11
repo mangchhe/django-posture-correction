@@ -24,12 +24,6 @@ class VideoCamera(object):
 
 		gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) # 입력 받은 화면 gray로 변환
 
-		faces_detected = face_detection_videocam.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5) # 얼굴 검출
-
-		for (x, y, w, h) in faces_detected: # 검출된 얼굴 전부
-
-			cv2.rectangle(image, pt1=(x, y), pt2=(x + w, y + h), color=(255, 0, 0), thickness=2) # 얼굴 사각형 그리기
-
 		frame_flip = cv2.flip(image,1) # 1 좌우 반전, 0 상하 반전
 
 		ret, jpeg = cv2.imencode('.jpg', frame_flip) # jpg 형식으로 정보의 형태를 변환시킴(인코딩)
