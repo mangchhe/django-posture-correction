@@ -29,3 +29,4 @@ def video_feed(request):
 def mypage(request):
 
 	return render(request, 'mypageView.html')
+
