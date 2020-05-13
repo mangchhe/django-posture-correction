@@ -65,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media', # 템플릿 디렉토리에서 MEDIA_URL 변수를 참조 가능하게
             ],
         },
     },
@@ -123,5 +124,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/' # MEDIA_URL을 참조 할 때 스크립트가이 디렉토리의 위치를 ​​알 수 있도록 함
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # 폴더의 위치를 ​​Django가 알 수 있도록이 미디어 디렉토리의 경로를 지정
