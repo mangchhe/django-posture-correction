@@ -4,6 +4,7 @@ from django.db import models
 
 class VideosDB(models.Model):
 
+    #objects = models.Manager()
     video_id = models.CharField(max_length=10,primary_key=True) # 비디오 id
     title = models.TextField(blank=False) # 제목
     videofile= models.FileField(upload_to='videos/', null=True, verbose_name="") #video file
@@ -13,4 +14,4 @@ class VideosDB(models.Model):
     start_date = models.DateTimeField(auto_now_add=True) # 개시일
 
     def __str__(self):
-        return self.title + ": " + str(self.videofile)
+        return self.video_id + ": " + self.title + ": " + str(self.videofile)
