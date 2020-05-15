@@ -1,0 +1,111 @@
+{% load static %}
+
+<head>
+    <link rel ='stylesheet' type='text/css' href='{% static "mypageView.css" %}'>
+    <title>마이페이지</title>
+    <form>
+        <input type = 'text' placeholder = "검색할 내용을 입력하세요." />
+        <button type = 'button' onclick = 'alert("로그인을 눌렀습니다.")'>
+            로그인
+        </button>
+        <button type = 'button' onclick = 'alert("회원가입을 눌렀습니다.")'>
+            회원가입
+        </button>
+    </form>
+
+    <style>
+        .score{
+            padding:10px;
+            border: 2px solid black;
+            text-align: left;
+        }
+
+        .filebox input[type="file"] {
+            position: absolute;
+            width: 1px; 
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip:rect(0,0,0,0);
+            border: 0;
+        }
+        
+        .filebox label {
+            display: inline-block;
+            padding: .5em .75em;
+            color: #999;
+            font-size: inherit;
+            line-height: normal;
+            vertical-align: middle;
+            background-color: #fdfdfd;
+            cursor: pointer;
+            border: 1px solid #ebebeb;
+            border-bottom-color: #e2e2e2;
+            border-radius: .25em;
+            }
+            
+            /* named upload */
+            .filebox .upload-name {
+                display: inline-block;
+                padding: .5em .75em; /* label의 패딩값과 일치 */
+                font-size: inherit;
+                font-family: inherit;
+                line-height: normal;
+                vertical-align: middle;
+                background-color: #f5f5f5;
+                border: 1px solid #ebebeb;
+                border-bottom-color: #e2e2e2;
+                border-radius: .25em;
+                -webkit-appearance: none; /* 네이티브 외형 감추기 */
+                -moz-appearance: none;
+                appearance: none;
+            }
+            
+
+    </style>
+</head>
+
+<body>
+    <div class = 'wrapper'>
+        <div id = 's_left_top'>
+            <h3>나의 점수</h3>
+            <h5 class="score">총 점수: </h5>
+        </div>
+        <div id = 's_left_bottom'>
+            <h3>업로드 된 영상</h3>
+        </div>
+        <div id = 's_right'>
+            <h3>영상 올리기</h3>
+
+            <h5>영상 업로드</h5>
+            <div class="filebox video">
+                <input class="upload-name" value="파일선택" disabled="disabled">
+                <label for="ex_filename">업로드</label>
+                <input type="file" id="ex_filename" class="upload-hidden"> 
+            </div>
+
+            <h5>이미지 업로드</h5>
+
+            <div class="filebox image">
+                <input class="upload-name" value="파일선택" disabled="disabled">
+                <label for="ex_filename">업로드</label>
+                <input type="file" id="ex_filename" class="upload-hidden"> 
+            </div>
+
+            <div class="filebox title">
+                <h5 style="display: inline-block;">영상 제목: </h5>
+                <input class="upload-name" value="제목을 입력하세요.">
+            </div>
+
+            <div>
+                <h5 style="display: inline-block;">난이도: </h5>
+                <input type="radio" name="level" checked="">상
+                <input type="radio" name="level">중
+                <input type="radio" name="level">하
+            </div>
+
+
+        </div>
+    </div>
+</body>

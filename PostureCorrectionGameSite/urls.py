@@ -16,13 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import Users.views, Videos.views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', Videos.views. , name = ),                        # Main 화면
     # path('videoListView/<int:>', Videos.views. , name = ),    # 영상 리스트 화면
     # path('modeView', Edus.views. , name = ),                  # 영상 선택 후 화면
-    path('', include('Edus.urls'))
+    path('', include('Edus.urls')),
+    path('', include('Videos.urls')),
     # path('mypages', Users.views. , name = ),                  # 마이페이지 화면
 ]
 
+# urlpatterns 목록에 MEDIA_URL 추가
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
