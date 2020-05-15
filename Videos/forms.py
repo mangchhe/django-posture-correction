@@ -5,4 +5,4 @@ from .models import VideosDB
 class VideoForm(forms.ModelForm):
     class Meta:
         model= VideosDB
-        fields= ["video_id", "title", "videofile"]
+        fields= ["title", "videofile", "video_img", "level"]

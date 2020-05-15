@@ -57,7 +57,7 @@ ROOT_URLCONF = 'PostureCorrectionGameSite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,"templates")], #템플릿 디렉터리 연결
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,6 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'Users.UsersDB'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -122,7 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")] # static 디렉터리 경로 설정
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 MEDIA_URL = '/media/' # MEDIA_URL을 참조 할 때 스크립트가이 디렉토리의 위치를 ​​알 수 있도록 함
