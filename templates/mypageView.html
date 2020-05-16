@@ -78,33 +78,11 @@
         <div id = 's_right'>
             <h3>영상 올리기</h3>
 
-            <h5>영상 업로드</h5>
-            <div class="filebox video">
-                <input class="upload-name" value="파일선택" disabled="disabled">
-                <label for="ex_filename">업로드</label>
-                <input type="file" id="ex_filename" class="upload-hidden"> 
-            </div>
-
-            <h5>이미지 업로드</h5>
-
-            <div class="filebox image">
-                <input class="upload-name" value="파일선택" disabled="disabled">
-                <label for="ex_filename">업로드</label>
-                <input type="file" id="ex_filename" class="upload-hidden"> 
-            </div>
-
-            <div class="filebox title">
-                <h5 style="display: inline-block;">영상 제목: </h5>
-                <input class="upload-name" value="제목을 입력하세요.">
-            </div>
-
-            <div>
-                <h5 style="display: inline-block;">난이도: </h5>
-                <input type="radio" name="level" checked="">상
-                <input type="radio" name="level">중
-                <input type="radio" name="level">하
-            </div>
-
+            <form enctype="multipart/form-data" method="POST" action="">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Upload"/>
+            </form>    
 
         </div>
     </div>
