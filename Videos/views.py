@@ -18,4 +18,4 @@ def showvideo(request):
     context= {'videofile': videofile,
               'form': form}
       
-    return render(request, 'video.html', context) # context 사전으로 전달되는 템플릿 videos.html을 렌더링
+    return render(request, 'mypageView.html', context) # context 사전으로 전달되는 템플릿 videos.html을 렌더링
