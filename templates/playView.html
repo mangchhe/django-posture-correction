@@ -20,8 +20,8 @@
 
     <section>
         <div id = 's_left'>따라할 영상<br><br>
-            <video src = '{{ MEDIA_URL }}{{ VIDEO_NAME }}'
-                   height = 180 width = 360 controls autoplay oncontextmenu="return false" type = 'video/mp4'>
+            <video src = '{{ MEDIA_URL }}{{ videoName }}' autoplay muted="'muted"
+                   height = 180 width = 360 controls oncontextmenu="return false" type = 'video/mp4'>
             </video>
         </div>
         <div id = 's_right'>나의 실시간 영상<br><br>
@@ -71,6 +71,6 @@
         </div>
     </footer>
 
-    <meta http-equiv="refresh" content="10; url=result/page={{currentPage}}">
+    <meta http-equiv="refresh" content="{{videoLength}}; url=result/page={{currentPage}}">
 
 </body>

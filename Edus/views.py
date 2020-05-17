@@ -6,6 +6,8 @@ from Users.models import UsersDB
 from Videos.models import VideosDB
 from django.core.paginator import Paginator
 import datetime
+from PostureCorrectionGameSite import settings
+from mutagen.mp4 import MP4
 
 # Create your views here.
 
@@ -14,6 +16,12 @@ import datetime
 def play(request, page_no):
 
 	# 비디오 정보 (mp4, avi 등)
+
+	VIDEO_NAME = 'cat'
+
+	videoName = 'videos/' + VIDEO_NAME + '.mp4'
+
+	videoLength = MP4(settings.MEDIA_ROOT + 'videos/' + VIDEO_NAME + '.mp4').info.length + .5
 
 	edu = EdusDB.objects.filter(video_id = 1, user_id = 1).order_by('-edu_days') # 해당 영상과, 사용자 주
 
@@ -36,6 +44,8 @@ def play(request, page_no):
 		'videoList' : zip(idx, video, days),
 		'totalPageList' : totalPageList,
 		'currentPage' : currentPage,
+		'videoLength' : videoLength,
+		'videoName' : videoName,
 	}
 
 	if request.method == 'POST':
@@ -107,7 +117,7 @@ def play_after(request, page_no):
 def gen(camera): # https://item4.blog/2016-05-08/Generator-and-Yield-Keyword-in-Python/
 # 앨범 이미지
 	while True:
-
+		
 		frame = camera.get_frame()
 
 		yield (b'--frame\r\n'
