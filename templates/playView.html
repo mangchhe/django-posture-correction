@@ -47,13 +47,27 @@
         <div id = 's_bbottom'>
             결과 리스트 <br><br>
             나의 영상 | 날짜 <br><br>
-            {% for i, j in a %}
-                {{i}} {{j}} <br><br>
-            {% endfor %}
-            <button type = 'button' onclick = 'alert("영상 보기를 눌렀습니다.")'>
+            {% for i, j in videoList %}
+                {{i}} {{j}}
+                <button type = 'button' onclick = 'alert("영상 보기를 눌렀습니다.")'>
                 영상 보기
-            </button>
+                </button>
+                <br><br>
+            {% endfor %}
 
+            {% for page in totalPageList %}
+                <a href="{{page}}">
+                [
+                {% ifequal page currentPage %}
+                    <b>
+                {% endifequal %}
+                {{page}}
+                {% ifequal page currentPage %}
+                    </b>
+                </a>
+                {% endifequal %}
+                ]
+            {% endfor %}
         </div>
     </footer>
 
