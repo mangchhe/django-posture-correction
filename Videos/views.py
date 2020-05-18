@@ -21,7 +21,7 @@ def showvideo(request):
     
     context= {'videofile': videofile,
               'form': form}
-      
+
     return render(request, 'video.html', context) # context 사전으로 전달되는 템플릿 videos.html을 렌더링
 
 def search(request):
@@ -75,3 +75,5 @@ def main(request):
 
     return render(request, 'main.html', {'pop' : pop, 'late' : late,'user':user,})
 
+
+  

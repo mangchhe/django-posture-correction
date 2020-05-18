@@ -6,5 +6,5 @@ urlpatterns = [
     path('playView/result/page=<int:page_no>', views.play_after, name = 'playViewResult'),
     path('video_feed', views.video_feed, name='video_feed'),
 
-    path('mypageView', views.mypage, name = 'mypageView'),
+    path('mypageView', views.post_list, name = 'mypageView'),
 ]
