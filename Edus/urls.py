@@ -7,4 +7,8 @@ urlpatterns = [
     path('video_feed', views.video_feed, name='video_feed'),
 
     path('mypageView', views.post_list, name = 'mypageView'),
+
+    path('ResultVideosList', views.ResultVideosList, name='ResultVideosList'),
+    path('create', views.create, name='create'),
+
 ]

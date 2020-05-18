@@ -7,7 +7,7 @@ from Videos.models import VideosDB
 from django.core.paginator import Paginator
 import datetime
 from PostureCorrectionGameSite import settings
-from mutagen.mp4 import MP4
+#from mutagen.mp4 import MP4
 from django.db.models import Sum
 from Videos.forms import VideoForm
 from Videos.models import VideosDB
@@ -160,4 +160,15 @@ def post_list(request):
 			  'score_sum': s_sum,
               'Edus_list' : Edus_list}
 	return render(request, 'mypageView.html', context)
+
+def ResultVideosList(request):
+    ResultVideos = EdusDB.objects.all()
+    return render(request, 'ResultVideosList.html', {'ResultVideos': ResultVideos})
+
+def create(request):
+    form = EdusDBForm()
+    context = {'form': form}
+    html_form = render_to_string('create.html', context, request=request,)
+    return JsonResponse({'html_form': html_form})
+
 

@@ -1,0 +1,54 @@
+{% extends 'base1.html' %}
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static 'static/books.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  <h1 class="page-header">결과 영상 리스트 화면</h1>
+  <table class="table" id="book-table">
+    <thead>
+      <tr>
+        <th width=300>영상 번호</th>
+        <th width=100>학습일</th>
+        <th width=100>영상 확인</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in book_list %}
+        <tr>
+          <td>{{ video_id }}</td>
+          <td>{{ edu_days }}</td>
+          <td><button type="button" class="btn btn-success">영상 보기</button></td>
+
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7" class="text-center bg-warning">데이터가 없습니다.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="text-center">
+    <ul class="pagination">
+      <li><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+    </ul>
+  </div>
+  <div class="center">
+    <button type="button" class="btn btn-success js-create-book"><span class="glyphicon glyphicon-plus"></span>영상보기</button>
+  </div>
+
+    <!-- THE MODAL WE WILL BE USING -->
+    <div class="modal fade" id="modal-book">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+      </div>
+
+{% endblock %}
