@@ -15,7 +15,7 @@
 
     <style>
         #score{
-            /*padding:10px;*/
+            padding:10px;
             border: 2px solid black;
             text-align: left;
         }
@@ -27,12 +27,29 @@
         <div id = 's_left_top'>
             <h3>나의 점수</h3>
             <div id = 'score'>
-                <h5>총 점수: </h5>
-                
+                <h5 style="display: inline;">총 점수: </h5>
+                <h5 style="display: inline;">{{ score_sum|floatformat }}</h5>
             </div>
+            {% for edus_list in Edus_list %}
+                <p class="date">
+                video: {{edus_list.video_id}} score: {{ edus_list.score }} date: {{ edus_list.edu_days }}
+                </p>
+                {{ edus_list.body|truncatewords:30|linebreaks }}
+            {% endfor %}
         </div>
         <div id = 's_left_bottom'>
             <h3>업로드 된 영상</h3>
+            {% for edus_list in Edus_list %}
+                <h2>
+                <a href="{{ edus_list.get_absolute_url }}">
+                    {{ edus_list.video_id }}
+                </a>
+                </h2>
+                <p class="date">
+                score: {{ edus_list.score }} date: {{ edus_list.edu_days }}
+                </p>
+                {{ edus_list.body|truncatewords:30|linebreaks }}
+            {% endfor %}
         </div>
         <div id = 's_right'>
             <h3>영상 올리기</h3>
