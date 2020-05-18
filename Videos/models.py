@@ -22,6 +22,7 @@ class VideosDB(models.Model):
     views = models.PositiveIntegerField(default=0) # 조회수 - PositiveIntegerField를 이용
     level = models.CharField(choices=LEVEL_CHOICES, max_length=5, default=LOW) # 난이도
     start_date = models.DateTimeField(auto_now_add=True) # 개시일
+    editor = models.ForeignKey("Users.UsersDB", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title + ": " + str(self.videofile)

@@ -7,7 +7,7 @@ from Videos.models import VideosDB
 from django.core.paginator import Paginator
 import datetime
 from PostureCorrectionGameSite import settings
-#from mutagen.mp4 import MP4
+from mutagen.mp4 import MP4
 from django.db.models import Sum
 from Videos.forms import VideoForm
 from Videos.models import VideosDB
