@@ -40,15 +40,11 @@
         <div id = 's_left_bottom'>
             <h3>업로드 된 영상</h3>
             {% for edus_list in Edus_list %}
-                <h2>
+            <p>
                 <a href="{{ edus_list.get_absolute_url }}">
-                    {{ edus_list.video_id }}
+                    {{ edus_list.video_id }} score: {{ edus_list.score }} date: {{ edus_list.edu_days }}
                 </a>
-                </h2>
-                <p class="date">
-                score: {{ edus_list.score }} date: {{ edus_list.edu_days }}
-                </p>
-                {{ edus_list.body|truncatewords:30|linebreaks }}
+            </p>
             {% endfor %}
         </div>
         <div id = 's_right'>
