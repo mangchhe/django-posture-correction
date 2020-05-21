@@ -1,31 +1,43 @@
-
 <html>
+
 <head>
     <style>
-        form {display: inline;}
+        form {
+            display: inline;
+        }
     </style>
 </head>
+
 <body>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% if request.user.is_authenticated %}
+    
     <form action="{% url 'search'%}" method="GET">
-    <!--{% csrf_token %}-->
+        <!--{% csrf_token %}-->
         <input type="text" name="q" size="50" value="{{ q }}">
         <input type="submit" value="검색">
     </form>
+    <form action="{% url 'logout'%}" method="GET">
+        <input type="submit" value="로그아웃" onclick = 'alert("로그아웃")'>
+    </form>
+    <form action="{% url 'mypageView'%}" method="GET">
+        <input type="submit" value="마이페이지">
+    </form>
+    {% else %}
     <form action="{% url 'search'%}" method="GET">
+        <!--{% csrf_token %}-->
+        <input type="text" name="q" size="50" value="{{ q }}">
+        <input type="submit" value="검색">
+    </form>
+    <form action="{% url 'login'%}" method="GET">
         <input type="submit" value="로그인">
     </form>
-    <form action="{% url 'search'%}" method="GET">
+    <form action="{% url 'signup'%}" method="GET">
         <input type="submit" value="회원가입">
     </form>
-    <div class="content container">
-        <div class="row">
-            <div class="col-md-8">
-                {% block content %}
-                {% endblock %}
-            </div>
-        </div>
-    </div>
+    {% endif %}
+    {% block content %}
+    {% endblock %}
 </body>
-</html>
 
+</html>

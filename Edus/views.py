@@ -135,12 +135,13 @@ def video_feed(request):
 
 
 def mypage(request):
-
+	
 	return render(request, 'mypageView.html')
 
 	
 def post_list(request):
 	""" 비디오 업로드 """
+	print(request.user.id)
 	lastvideo= VideosDB.objects.last() # 데이터베이스 테이블에서 마지막 비디오(객체)인 변수 lastvideo를 생성
 	
 	videofile= lastvideo.videofile.url # 비디오 파일 경로를 포함하는 변수 videofile을 생성

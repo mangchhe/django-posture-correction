@@ -15,17 +15,26 @@
     <style>
         div {
             width: 100%;
-            height: 110px;
+            overflow: hidden;
+        }
+
+        div.stack{
+            width: 22%;
+            height: 150px;
+            float: left;
+            padding: 10px;
         }
 
         div.left {
             width: 50%;
+            height: 110px;
             float: left;
             box-sizing: border-box;
         }
 
         div.right {
             width: 50%;
+            height: 110px;
             float: right;
             box-sizing: border-box;
         }
@@ -35,12 +44,17 @@
 <body>
 
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    <h1><a href="{% url 'main'%}">{{ "인기 영상" }}</a></h1>
+    <h1>인기 영상</h1>
     {% if pop %}
     <div>
-        {% for x in pop %}
-        <a href="{% url 'search'%}">{{ x.title }}</a>
-        {% endfor %}
+        <div>
+            {% for x in pop %}
+            <div class="stack">
+                <img src="{{MEDIA_URL}}{{x.video_img}}" width="200" heith="100"><br>
+                <a href="{% url 'search'%}">{{ x.title }}</a>
+            </div>
+            {% endfor %}
+        </div>
     </div>
     {% else %}
     <p>No polls are available.</p>
@@ -49,11 +63,14 @@
         <input type="hidden" name="where" value="pop">
         <input type="submit" value="더보기">
     </form>
-    <h1><a href="{% url 'main'%}">{{ "최근 영상" }}</a></h1>
+    <h1>최근 영상</h1>
     {% if late %}
     <div>
         {% for y in late %}
-        <a href="{% url 'search'%}">{{ y.title }}</a>
+        <div class="stack">
+            <img src="{{MEDIA_URL}}{{y.video_img}}" width="200" heith="100"><br>
+            <a href="{% url 'search'%}">{{ y.title }}</a>
+        </div>
         {% endfor %}
     </div>
     {% else %}
@@ -63,7 +80,6 @@
         <input type="hidden" name="where" value="last">
         <input type="submit" value="더보기">
     </form>
-
     {% if user %}
     <div>
         <div class="left">
@@ -75,8 +91,7 @@
         </div>
         <div class="right">
             <h1>인기 채널 순위</h1>
-            {{popuser}}
-            {% for y in popuser %}
+            {% for y in user %}
             {{y.user_id}}</br>
             {% endfor %}
         </div>

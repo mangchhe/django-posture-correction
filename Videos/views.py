@@ -54,6 +54,7 @@ def main(request):
     late = VideosDB.objects.all().order_by('start_date')
     #user = UsersDB.objects.prefetch_related('id')
     user = EdusDB.objects.order_by('score')
+    
     pop = pop[0:4]
     late = late[0:4]
 

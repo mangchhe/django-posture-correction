@@ -26,6 +26,7 @@ urlpatterns = [
     # path('modeView', Edus.views. , name = ),                  # 영상 선택 후 화면
     path('', include('Edus.urls')),
     path('', include('Videos.urls')),
+    path('', include('Users.urls')),
     # path('mypages', Users.views. , name = ),                  # 마이페이지 화면
 ]
 
