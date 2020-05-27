@@ -17,7 +17,7 @@ from .forms import EdusDBForms
 from django.urls import reverse_lazy
 # 모드 선택 후 화면
 
-def play(request, page_no):
+def play(request, page_no, video_id):
 
 	# 비디오 정보 (mp4, avi 등)
 
