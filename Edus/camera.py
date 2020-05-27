@@ -25,7 +25,7 @@ class VideoCamera(object):
 		self.video.set(3, 360)	# 카메라 크기 조절 너비
 		self.video.set(4, 180)	# 카메라 크기 조절 높
 
-		self.net = cv2.dnn.readNet('human-pose-estimation-0001.xml', 'human-pose-estimation-0001.bin')  # model, proto
+		self.net = cv2.dnn.readNet(settings.MODEL_ROOT+'human-pose-estimation-0001.xml', settings.MODEL_ROOT+'human-pose-estimation-0001.bin')  # model, proto
 
 		self.net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
 
