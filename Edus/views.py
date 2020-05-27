@@ -12,6 +12,9 @@ from django.db.models import Sum
 from Videos.forms import VideoForm
 # Create your views here.
 from bootstrap_modal_forms.generic import BSModalUpdateView
+from django.http import JsonResponse
+from .forms import EdusDBForms
+from django.urls import reverse_lazy
 # 모드 선택 후 화면
 
 def play(request, page_no):
