@@ -4,7 +4,6 @@ from .models import VideosDB
 from .forms import VideoForm
 from Users.models import UsersDB
 from Edus.models import EdusDB
-from django.db.models import Sum, Subquery, OuterRef
 import math
 
 # Create your views here.
@@ -56,13 +55,19 @@ def main(request):
 
     pop = VideosDB.objects.all().order_by('-views')
     late = VideosDB.objects.all().order_by('start_date')
-    Edus_list = EdusDB.objects.values('user_id__username').annotate(Sum('score')).order_by('score__sum')
-    print(Edus_list)
+
     pop = pop[0:4]
     late = late[0:4]
     
 
     return render(request, 'main.html', {'pop' : pop, 'late' : late,'user':Edus_list,})
+
+
+class VideoShow(BSModalCreateView):
+    template_name = 'VideoShowModal.html'
+    model = VideosDB
+    form_class = VideoDBForm
+
 
 
   

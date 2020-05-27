@@ -1,28 +1,33 @@
-{% extends 'base1.html' %}
+{% extends 'base.html' %}
 
 {% load static %}
 
-{% block javascript %}
-  <script src="{% static 'static/books.js' %}"></script>
-{% endblock %}
-
 {% block content %}
   <h1 class="page-header">결과 영상 리스트 화면</h1>
-  <table class="table" id="book-table">
+<div class="content_wrap">
+  <table class = "table" id="Edus_video">
+    <colgroup>
+      <col width="10%">
+      <col width="5%">
+      <col width="40%" span="2">
+      <col>
+    </colgroup>
+
     <thead>
       <tr>
-        <th width=300>영상 번호</th>
-        <th width=100>학습일</th>
-        <th width=100>영상 확인</th>
+        <th width=200>영상</th>
+        <th width=200>학습일</th>
+        <th width=300>영상 확인</th>
       </tr>
     </thead>
     <tbody>
-      {% for book in book_list %}
+      {% for EdusDB in EdusDB_list %}
         <tr>
           <td>{{ video_id }}</td>
           <td>{{ edu_days }}</td>
-          <td><button type="button" class="btn btn-success">영상 보기</button></td>
-
+          <td><video width='400' controls><source src='{{ MEDIA_URL }}{{ EdusDB.recode_video }}' type='video/mp4'></video></td>
+          <td><button class="Edus-Show btn btn-primary" type="button" name="button" data-dismiss="modal">영상 확인</button></td>
+          <td><button id="button_1" class="Edus-Show1 btn btn btn-primary" data-id="{% url 'EdusVideoShow' %}">영상확인</button></td>
         </tr>
       {% empty %}
         <tr>
@@ -31,24 +36,42 @@
       {% endfor %}
     </tbody>
   </table>
-  <div class="text-center">
-    <ul class="pagination">
-      <li><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-    </ul>
-  </div>
-  <div class="center">
-    <button type="button" class="btn btn-success js-create-book"><span class="glyphicon glyphicon-plus"></span>영상보기</button>
-  </div>
+  <div class="pagination">
+    <span class="step-links">
+      {% if Edus.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ Edus.previous_page_number }}">previous</a>
+      {% endif %}
 
-    <!-- THE MODAL WE WILL BE USING -->
-    <div class="modal fade" id="modal-book">
-      <div class="modal-dialog">
-        <div class="modal-content">
-        </div>
-      </div>
+      <span class="current"> Page {{ Edus.number }} of {{ Edus.paginator.num_pages }}.
+      </span>
+
+      {% if Edus.has_next %}
+        <a href="?page={{ Edus.next_page_number }}">next</a>
+        <a href="?page={{ Edus.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+</div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
 
 {% endblock %}
+
+{% block extrascripts %}
+    <script type="text/javascript">
+    $(function () {
+      $(".Edus-Show").modalForm({
+          formURL: "{% url 'EdusVideoShow' %}"
+        });
+      $(".Edus-Show1").each(function () {
+            $(this).modalForm({formURL: $(this).data('id')});
+        });
+    });
+</script>
+{% endblock extrascripts %}

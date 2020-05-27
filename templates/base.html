@@ -1,11 +1,18 @@
 <html>
 
+{% load static %}
+
+<html lang="ko">
 <head>
     <style>
         form {
             display: inline;
         }
     </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
@@ -35,9 +42,19 @@
     <form action="{% url 'signup'%}" method="GET">
         <input type="submit" value="회원가입">
     </form>
+<<<<<<< HEAD
     {% endif %}
     {% block content %}
     {% endblock %}
+
+    {% block javascript %}
+    <script src="{% static '/static/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static '/static/js/bootstrap.js' %}"></script>
+    <!-- You can alternatively load the minified version -->
+    <script src="{% static '/static/js/jquery.bootstrap.modal.forms.js' %}"></script>
+    {% endblock javascript%}
+
+    {% block extrascripts %}{% endblock extrascripts %}
 </body>
 
 </html>

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'Edus',
     'Users',
     'Videos',
+    'jquery',
+    'bootstrap_modal_forms',
 ]
 
 MIDDLEWARE = [
@@ -124,8 +126,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")] # static 디렉터리 경로 설정
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
 
 MEDIA_URL = '/media/' # MEDIA_URL을 참조 할 때 스크립트가이 디렉토리의 위치를 ​​알 수 있도록 함
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # 폴더의 위치를 Django가 알 수 있도록이 미디어 디렉토리의 경로를 지정
