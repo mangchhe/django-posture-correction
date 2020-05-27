@@ -2,96 +2,88 @@
 
 {% load static %}
 
-{% block title %}modepage.html{% endblock %}
-
-{% block extra-style %}
-<style type="text/css">
-.title {
-    color: #c80;
-    font-weight: bold;
-}
-.powered {
-    position: relative;
-    top: 77%;
-    color: #cc0;
-    font-style: italic;
-}
-</style>
-{% endblock %}
+{% block title %}영상 선택 후 화면{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-6">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="images/1.png">
-            <div class="card-body">
-              <button type="button" class="btn btn-success btn-lg">연습모드</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-6">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="images/2.png">
-            <div class="card-body">
-              <button type="button" class="btn btn-danger btn-lg">실전모드</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-  </div>
-  <hr style="margin: 100px 0;">
-
-
-  <div>
-            <h3>이용자 순위</h3>
-            <table class = "table table-hover">
-                <thead>
-                  <tr>
-                    <th scope = "col"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 순위 </ font> </ font> </ th>
-                    <th scope = "col"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 사용자 이름 </ font> </ font> </ th>
-                    <th scope = "col"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;">  </ font> </ font> </ th>
-                    <th scope = "col"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 열 제목 </ font> </ font> </ th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope = "row"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 기본 </ font> </ font> </ th>
-                    <td> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 열 내용 </ font> </ font> </ td>
-                    <td> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 열 내용 </ font> </ font> </ td>
-                    <td> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 열 내용 </ font> </ font> </ td>
-                  </tr>
-                </tbody>
-              </table>
-    </div>
-
-
-    <div>          
-        <h3>다른 이용자가 올린 영상</h3>
-        <table class = "table table-hover">
-            <thead>
-              <tr>
-                <th scope = "col"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 순위 </ font> </ font> </ th>
-                <th scope = "col"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 사용자 이름 </ font> </ font> </ th>
-                <th scope = "col"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;">  </ font> </ font> </ th>
-                <th scope = "col"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 열 제목 </ font> </ font> </ th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope = "row"> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 기본 </ font> </ font> </ th>
-                <td> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 열 내용 </ font> </ font> </ td>
-                <td> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 열 내용 </ font> </ font> </ td>
-                <td> <font style = "vertical-align : inherit;"> <font style = "vertical-align : inherit;"> 열 내용 </ font> </ font> </ td>
-              </tr>
-            </tbody>
-          </table>
-
-    </div>
+<div class="col-8">
+    <a class="btn btn-lg btn-primary" href="{% url 'ResultVideosList' %}">연습모드</a>
+    <a class="btn btn-lg btn-primary" href="{% url 'ResultVideosList' %}">실전모드</a>
 </div>
 
-{% endblock content %}
+<div>
+    <table class="table" id="user_rank">
+    <thead>
+      <tr>
+        <th width=300>사용자 이름</th>
+        <th width=200>점수</th>
+        <th width=200>학습일</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for EdusDB in EdusDB_list %}
+      {% for UsersDB in UsersDB_list %}
 
-{% block footer %}
-{% endblock %} 
+        <tr>
+            <td>{{ UsersDB.username }}</td>
+          <td>{{ EdusDB.score }}</td>
+          <td>{{ EdusDB.edu_days }}</td>
+
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7" class="text-center bg-warning">데이터가 없습니다.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+
+<div>
+    <table class="table" id="user_video">
+    <thead>
+      <tr>
+        <th width=300>영상</th>
+        <th width=300>이용자 이름</th>
+        <th width=300>게시일</th>
+          <th width=300>영상보기</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for VideosDB in VideosDB_list %}
+      {% for UsersDB in UsersDB_list %}
+      {% for EdusDB in EdusDB_list %}
+        <tr>
+            <td><img src="{{MEDIA_URL}}{{VideosDB.video_img}}" width="200" height="100"></p></td>
+          <td>{{ UsersDB.username }}</td>
+          <td>{{ VideosDB.start_date }}</td>
+            <td><video width='400' controls><source src='{{ MEDIA_URL }}{{ VideosDB.videofile }}' type='video/mp4'></video></td>
+            <td><button class="Vidoe-Show btn btn-primary" type="button" name="button" data-dismiss="modal">영상 확인</button></td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7" class="text-center bg-warning">데이터가 없습니다.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+        {% endfor %}
+
+  </table>
+{% endfor %}
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+    {% endblock %}
+
+{% block extrascripts %}
+    <script type="text/javascript">
+    $(function () {
+      $(".Vidoe-Show").modalForm({
+          formURL: "{% url 'VideoShow' %}"
+        });
+    });
+</script>
+{% endblock extrascripts %}

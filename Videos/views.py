@@ -3,7 +3,8 @@ from .models import VideosDB
 from .forms import VideoForm
 from Users.models import UsersDB
 from Edus.models import EdusDB
-
+from bootstrap_modal_forms.generic import BSModalCreateView
+from .forms import VideoDBForm
 import math
 
 # Create your views here.
@@ -58,6 +59,13 @@ def main(request):
     late = late[0:4]
 
     return render(request, 'main.html', {'pop' : pop, 'late' : late,'user':user,})
+
+
+class VideoShow(BSModalCreateView):
+    template_name = 'VideoShowModal.html'
+    model = VideosDB
+    form_class = VideoDBForm
+
 
 
   
