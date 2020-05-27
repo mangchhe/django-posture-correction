@@ -4,4 +4,4 @@ from .models import EdusDB
 class EdusDBForm(forms.ModelForm):
     class Meta:
         model = EdusDB
-        fields = ["video_id", "recode_video"]
+        fields = ["user_id","video_id", "recode_video"]

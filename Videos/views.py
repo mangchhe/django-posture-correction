@@ -1,9 +1,10 @@
+#-*- coding: utf-8 -*-
 from django.shortcuts import render
 from .models import VideosDB
 from .forms import VideoForm
 from Users.models import UsersDB
 from Edus.models import EdusDB
-
+from django.db.models import Sum, Subquery, OuterRef
 import math
 
 # Create your views here.
@@ -40,25 +41,28 @@ def search(request):
     
     total_count = len(qs)
     total_page = math.ceil(total_count/paginated_by)
-    page_range = range(1, total_page+1)
+    if total_page > 1:
+        page_range = range(1, total_page+1)
+    else:
+        page_range = None
     start_index = paginated_by * (page-1)
     end_index = paginated_by * page
 
     qs = qs[start_index:end_index]
 
-    return render(request, 'search.html', {'search' : qs, 'q' : q, 'where':where, 'page_range':page_range, 'le':le})
+    return render(request, 'search.html', {'search' : qs, 'q' : q, 'where':where, 'page_range':page_range, 'le':le,})
 
 def main(request):
 
     pop = VideosDB.objects.all().order_by('-views')
     late = VideosDB.objects.all().order_by('start_date')
-    #user = UsersDB.objects.prefetch_related('id')
-    user = EdusDB.objects.order_by('score')
-    
+    Edus_list = EdusDB.objects.values('user_id__username').annotate(Sum('score')).order_by('score__sum')
+    print(Edus_list)
     pop = pop[0:4]
     late = late[0:4]
+    
 
-    return render(request, 'main.html', {'pop' : pop, 'late' : late,'user':user,})
+    return render(request, 'main.html', {'pop' : pop, 'late' : late,'user':Edus_list,})
 
 
   

@@ -51,7 +51,7 @@
             {% for x in pop %}
             <div class="stack">
                 <img src="{{MEDIA_URL}}{{x.video_img}}" width="200" heith="100"><br>
-                <a href="{% url 'search'%}">{{ x.title }}</a>
+                <a href="{% url 'select' video_id=x.id %}">{{ x.title }}</a>
             </div>
             {% endfor %}
         </div>
@@ -69,7 +69,7 @@
         {% for y in late %}
         <div class="stack">
             <img src="{{MEDIA_URL}}{{y.video_img}}" width="200" heith="100"><br>
-            <a href="{% url 'search'%}">{{ y.title }}</a>
+            <a href="{% url 'select' video_id=y.id%}">{{ y.title }}</a>
         </div>
         {% endfor %}
     </div>
@@ -85,8 +85,8 @@
         <div class="left">
             <h1>이용자 순위(총 점수)</h1>
             {% for x in user %}
-            {{x.user_id}}
-            {{x.score}}</br>
+            {{x.user_id__username}}
+            {{x.score__sum}}</br>
             {% endfor %}
         </div>
         <div class="right">
