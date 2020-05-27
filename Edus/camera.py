@@ -39,7 +39,6 @@ class VideoCamera(object):
 	def __del__(self): # 소멸자
 
 		self.video.release() # 비디오 객체 소멸
-		self.out.release()
 
 	def get_frame(self):
 
@@ -89,6 +88,9 @@ class VideoCamera(object):
 
 		ret, jpeg = cv2.imencode('.jpg', image) # jpg 형식으로 정보의 형태를 변환시킴(인코딩)
 
+		if 0.333333 - (time.time() - start) > 0:
+			time.sleep(0.333333 - (time.time() - start))
+		#print(0.333333 - (time.time() - start))
 		print(1 / (time.time() - start))
 
 		return jpeg.tobytes() # Returns the data in the buffer as a string.
