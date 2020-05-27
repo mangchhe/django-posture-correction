@@ -1,17 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
 {% load static %}
 
 <head>
     <link rel ='stylesheet' type='text/css' href='{% static "mypageView.css" %}'>
     <title>마이페이지</title>
-    <form>
-        <input type = 'text' placeholder = "검색할 내용을 입력하세요." />
-        <button type = 'button' onclick = 'alert("로그인을 눌렀습니다.")'>
-            로그인
-        </button>
-        <button type = 'button' onclick = 'alert("회원가입을 눌렀습니다.")'>
-            회원가입
-        </button>
-    </form>
 
     <style>
         #score{
@@ -23,6 +16,7 @@
 </head>
 
 <body>
+    {{request.user.id}}
     <div class = 'wrapper'>
         <div id = 's_left_top'>
             <h3>나의 점수</h3>
@@ -59,3 +53,4 @@
         </div>
     </div>
 </body>
+{% endblock %}

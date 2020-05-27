@@ -54,8 +54,8 @@
         </div>
         <div class="right">
             <!--링크위치 수정필요(세부 페이지)-->
-            <a href="{% url 'search'%}">{{ Video.title }}</a><br />
-            <a href="{% url 'search'%}">난이도 : {{ Video.level }}</a>
+            <a href="{% url 'select' video_id=Video.id%}">{{ Video.title }}</a><br />
+            <a href="{% url 'select' video_id=Video.id%}">난이도 : {{ Video.level }}</a>
         </div>
 
         {% endfor %}
@@ -63,20 +63,21 @@
     {% else %}
     <p>No polls are available.</p>
     {% endif %}
-
-
+    {% if page_range %}
     {% for page in page_range %}
     <form action="{% url 'search'%}" method="GET">
         <input type="hidden" name="q" value="{{ q }}">
         {% if le %}
-        <input type="hidden" name="le" value="{{ le }}">
+        {% for x in le %}
+        <input type="hidden" name="le" value="{{ x }}">
+        {% endfor %}
         {% endif %}
         <input type="hidden" name="page" value="{{ page }}">
         <input type="hidden" name="where" value="{{where}}">
         <input type="submit" value="{{page}}">
     </form>
     {% endfor %}
-
+    {% endif %}
 </body>
 
 </html>
