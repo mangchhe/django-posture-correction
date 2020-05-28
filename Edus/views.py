@@ -17,18 +17,16 @@ from .forms import EdusDBForms
 from django.urls import reverse_lazy
 # 모드 선택 후 화면
 
-def play(request, page_no):
+def play(request, page_no,video_no):
 
 	# 비디오 정보 (mp4, avi 등)
 
-	VIDEO_NAME = 'cat'
+	VIDEO_NAME = VideosDB.objects.get(id=video_no)
+	videoName = str(VIDEO_NAME.videofile)
 
-	videoName = 'videos/' + VIDEO_NAME + '.mp4'
+	videoLength = MP4(settings.MEDIA_ROOT + videoName).info.length + .5
 
-	videoLength = MP4(settings.MEDIA_ROOT + 'videos/' + VIDEO_NAME + '.mp4').info.length + .5
-
-	edu = EdusDB.objects.filter(video_id = 1, user_id = 1).order_by('-edu_days') # 해당 영상과, 사용자 주
-
+	edu = EdusDB.objects.filter(video_id = video_no, user_id = request.user.id).order_by('-edu_days') # 해당 영상과, 사용자 주
 	eduList = Paginator(edu, 4)
 
 	idx = []
@@ -63,7 +61,7 @@ def play(request, page_no):
 	
 	return render(request, 'playView.html', context)
 
-def play_after(request, page_no):
+def play_after(request, page_no, video_no):
 
 	# 비디오 정보 (mp4, avi 등)
 
@@ -83,7 +81,7 @@ def play_after(request, page_no):
 
 	# before
 
-	edu = EdusDB.objects.filter(video_id = 1, user_id = 1).order_by('-edu_days') # 해당 영상과, 사용자 주
+	edu = EdusDB.objects.filter(video_id = video_no, user_id = request.user.id).order_by('-edu_days') # 해당 영상과, 사용자 주
 
 	eduList = Paginator(edu, 4)
 

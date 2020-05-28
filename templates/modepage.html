@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
-
 {% load static %}
-
 {% block title %}modepage.html{% endblock %}
-
 {% block extra-style %}
 <style type="text/css">
   .title {
@@ -21,7 +18,6 @@
 {% endblock %}
 
 {% block content %}
-{{video_id}}
 <div class="container">
   <div class="row">
     <div class="col-6">
@@ -44,7 +40,10 @@
 
 </div>
 <hr style="margin: 100px 0;">
-
+<div class="col-8">
+  <a class="btn btn-lg btn-primary" href="{% url 'playView' video_id 1 %}">연습모드</a>
+  <a class="btn btn-lg btn-primary" href="{% url 'ResultVideosList' %}">실전모드</a>
+</div>
 <div>
   <h3>이용자 순위</h3>
   <table class="table table-hover">
@@ -98,10 +97,7 @@
       </tr>
     </tbody>
 
-<div class="col-8">
-    <a class="btn btn-lg btn-primary" href="{% url 'ResultVideosList' %}">연습모드</a>
-    <a class="btn btn-lg btn-primary" href="{% url 'ResultVideosList' %}">실전모드</a>
-</div>
+
 
 <div>
     <table class="table" id="user_rank">
