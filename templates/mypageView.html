@@ -35,7 +35,7 @@
             <h3>업로드 된 영상</h3>
             {% for edus_list in Edus_list %}
             <p>
-                <a href="{{ edus_list.get_absolute_url }}">
+                <a href="{% url 'ResultVideosList' edu_id=edus_list.id%}">
                     {{ edus_list.video_id }} score: {{ edus_list.score }} date: {{ edus_list.edu_days }}
                 </a>
             </p>
@@ -47,7 +47,7 @@
             <form enctype="multipart/form-data" method="POST" action="">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input type="submit" value="Upload"/>
+                <input type="submit" value="Upload" onclick = 'alert("업로드")'/>
             </form>    
 
         </div>

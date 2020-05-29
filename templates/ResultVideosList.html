@@ -21,9 +21,9 @@
     <tbody>
       {% for EdusDB in EdusDB_list %}
         <tr>
-          <td>{{ video_id }}</td>
-          <td>{{ edu_days }}</td>
-          <td><video width='400' controls><source src='{{ MEDIA_URL }}{{ EdusDB.recode_video }}' type='video/mp4'></video></td>
+          <td>{{ EdusDB.video_id }}</td>
+          <td>{{ EdusDB.edu_days }}</td>
+          <td><video width='300' controls><source src='{{ MEDIA_URL }}{{ EdusDB.recode_video }}' type='video/mp4'></video></td>
           <td><button class="Edus-Show btn btn-primary" type="button" name="button" data-dismiss="modal">영상 확인</button></td>
           <td><button id="button_1" class="Edus-Show1 btn btn btn-primary" data-id="{% url 'EdusVideoShow' %}">영상확인</button></td>
         </tr>

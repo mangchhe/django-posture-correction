@@ -6,6 +6,7 @@ from Users.models import UsersDB
 from Videos.models import VideosDB
 from django.core.paginator import Paginator
 import datetime
+import webbrowser
 from PostureCorrectionGameSite import settings
 from mutagen.mp4 import MP4
 from django.db.models import Sum
@@ -145,10 +146,13 @@ def post_list(request):
 	
 	videofile= lastvideo.videofile.url # 비디오 파일 경로를 포함하는 변수 videofile을 생성
 	
-	form= VideoForm(request.POST or None) #ne, request.FILES request.POST 또는 None은 사용자가 양식을 제출 한 후 데이터를 필드에 유지
-	
+	form= VideoForm(request.POST or None, request.FILES or None) #ne, request.FILES request.POST 또는 None은 사용자가 양식을 제출 한 후 데이터를 필드에 유지
+	user = UsersDB.objects.get(id=request.user.id)
 	if form.is_valid():
-		form.save()
+		upload = form.save(commit=False)
+		upload.editor = request.user
+		upload.save()
+		
 	
 	""" 업로드 된 영상 및 나의 점수 """
 	Edus_list = EdusDB.objects.all().filter(user_id=request.user.id) # Edus 테이블의 전체 데이터 가져오기 -> 로그인이랑 회원가입 만들어지면 queryset 다시 작성 예정
@@ -172,17 +176,17 @@ def VideoSelect(request): # 영상 선택 후 화면 view
     return render(request, 'modepage.html', context)
 
 
-def ResultVideosList(request): # 학습한 결과 영상 리스트 화면 view
+def ResultVideosList(request, edu_id): # 학습한 결과 영상 리스트 화면 view
     ResultVideos = EdusDB.objects.all()
-    EdusDB_list = EdusDB.objects.all().order_by('-edu_days') #학습일 최근순으로
+    EdusDB_list = Edus_list = EdusDB.objects.all().filter(user_id=request.user.id).order_by('-edu_days') #학습일 최근순으로
     paginator = Paginator(EdusDB_list, 5) #Paginator를 이용해서 한 페이지에 보여줄 객체 갯수
     page = request.GET.get('page') #현재 페이지를 받아옴
     Edus = paginator.get_page(page)
 
     context = {'EdusDB_list': EdusDB_list,
                'Edus': Edus}
-    return render(request, 'ResultVideosList.html', {'ResultVideos': ResultVideos})
-    # return render(request, 'ResultVideosList.html', context)
+    # return render(request, 'ResultVideosList.html', {'ResultVideos': ResultVideos})
+    return render(request, 'ResultVideosList.html', context)
 
 def video_select(request, video_id):
 	return render(request, 'modepage.html',{'video_id':video_id})
