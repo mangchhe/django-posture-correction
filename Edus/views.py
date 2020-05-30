@@ -67,6 +67,10 @@ def play_after(request, page_no, video_no):
 	# 비디오 정보 (mp4, avi 등)
 
 	# after
+	# 조회수 증가
+	views = VideosDB.objects.get(id=video_no)
+	views.views += 1
+	views.save()
 
 	rankList = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F']
 	zum = 90
@@ -176,9 +180,9 @@ def VideoSelect(request): # 영상 선택 후 화면 view
     return render(request, 'modepage.html', context)
 
 
-def ResultVideosList(request, edu_id): # 학습한 결과 영상 리스트 화면 view
+def ResultVideosList(request): # 학습한 결과 영상 리스트 화면 view
     ResultVideos = EdusDB.objects.all()
-    EdusDB_list = Edus_list = EdusDB.objects.all().filter(user_id=request.user.id).order_by('-edu_days') #학습일 최근순으로
+    EdusDB_list = EdusDB.objects.all().filter(user_id=request.user.id).order_by('-edu_days') #학습일 최근순으로
     paginator = Paginator(EdusDB_list, 5) #Paginator를 이용해서 한 페이지에 보여줄 객체 갯수
     page = request.GET.get('page') #현재 페이지를 받아옴
     Edus = paginator.get_page(page)
@@ -196,3 +200,8 @@ class EdusVideoShow(BSModalUpdateView):
     template_name = 'EdusVideoShowModal.html'
     model = EdusDB
     form_class = EdusDBForms
+
+def resultView(request, edu_id):
+	result = EdusDB.objects.filter(id=edu_id)
+	print(result)
+	return render(request, 'resultView.html',{'result':result})

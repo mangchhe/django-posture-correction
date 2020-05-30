@@ -9,7 +9,8 @@ urlpatterns = [
     path('mypageView', views.post_list, name = 'mypageView'),
 
     path('VideoSelect', views.VideoSelect, name='VideoSelect'),
-    path('ResultVideosList/edu_id=<int:edu_id>', views.ResultVideosList, name='ResultVideosList'),
+    path('ResultVideosList', views.ResultVideosList, name='ResultVideosList'),
     path('select/video=<int:video_id>', views.video_select, name='select'),
     path('EdusVideoShow', views.EdusVideoShow.as_view(), name='EdusVideoShow'),
+    path('resultView/edu_id=<int:edu_id>',views.resultView, name='result'),
 ]

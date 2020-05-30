@@ -1,0 +1,5 @@
+{% load static %}
+{% for edu in result %}
+<video width='600' controls><source src='{{ MEDIA_URL }}{{ edu.recode_video }}' type='video/mp4'></video>
+{% endfor %}
+
