@@ -23,11 +23,11 @@
     <tbody>
       {% for EdusDB in EdusDB_list %}
         <tr>
-          <td>{{ video_id }}</td>
-          <td>{{ edu_days }}</td>
+          <td>{{ EdusDB.id }}</td>
+          <td>{{ EdusDB.edu_days }}</td>
+          {{EdusDB}}
           <td><video width='400' controls><source src='{{ MEDIA_URL }}{{ EdusDB.recode_video }}' type='video/mp4'></video></td>
-          <td><button class="Edus-Show btn btn-primary" type="button" name="button" data-dismiss="modal">영상 확인</button></td>
-          <td><button id="button_1" class="Edus-Show1 btn btn btn-primary" data-id="{% url 'EdusVideoShow' %}">영상확인</button></td>
+          <td><button onclick="window.open('{% url 'result' EdusDB.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
         </tr>
       {% empty %}
         <tr>
@@ -64,14 +64,4 @@
 {% endblock %}
 
 {% block extrascripts %}
-    <script type="text/javascript">
-    $(function () {
-      $(".Edus-Show").modalForm({
-          formURL: "{% url 'EdusVideoShow' %}"
-        });
-      $(".Edus-Show1").each(function () {
-            $(this).modalForm({formURL: $(this).data('id')});
-        });
-    });
-</script>
 {% endblock extrascripts %}

@@ -61,16 +61,16 @@ def main(request):
 
     pop = pop[0:4]
     late = late[0:4]
-    Edus_list = EdusDB.objects.values('user_id__username').annotate(Sum('score')).order_by('score__sum')
-    print(Edus_list)
-    return render(request, 'main.html', {'pop' : pop, 'late' : late,'user':Edus_list,})
+
+     # 이용자 순위 (총 점수 합계순으로 출력)
+    Edus_list = EdusDB.objects.values('user_id__username').annotate(Sum('score')).order_by('-score__sum')
+    # 인기 채널 순위 (영상 조회수가 높은 게시자 순으로 출력)
+    channel = VideosDB.objects.values('editor__username').annotate(Sum('views')).order_by('-views__sum')
+    print(channel)
+    return render(request, 'main.html', {'pop' : pop, 'late' : late,'user':Edus_list,'channel':channel})
 
 
-class VideoShow(BSModalCreateView):
-    template_name = 'VideoShowModal.html'
-    model = VideosDB
-    form_class = VideoDBForm
-
-
-
-  
+def VideoShow(request, video_id):
+    result = VideosDB.objects.filter(id=video_id)
+    print(result)
+    return render(request, 'VideoShowModal.html', {'result':result})
