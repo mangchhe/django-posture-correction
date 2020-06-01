@@ -4,8 +4,6 @@ from .models import VideosDB
 from .forms import VideoForm
 from Users.models import UsersDB
 from Edus.models import EdusDB
-from bootstrap_modal_forms.generic import BSModalCreateView
-from .forms import VideoDBForm
 from django.db.models import Sum, Subquery, OuterRef
 import math
 
