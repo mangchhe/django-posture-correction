@@ -116,11 +116,32 @@ def play_after(request, page_no):
 	return render(request, 'playViewResult.html', context)
 
 def gen(camera): # https://item4.blog/2016-05-08/Generator-and-Yield-Keyword-in-Python/
-# 앨범 이미지
-	while True:
-		
-		frame = camera.get_frame()
+	# 앨범 이미지
 
+	""" 초당 평균 데이터 구하는 부분 """
+	p_list =[]
+	save = [[0 for col in range(2)] for row in range(19)]
+	count = 0
+
+	while True:		
+		frame, points = camera.get_frame()
+
+		for i in range(0,19):
+			save[i][0] += points[i][0]
+			save[i][1] += points[i][1]
+
+		# fps 평균 구하기
+		if(count % 3 == 2):
+			for i in range(0,19):
+				save[i][0] /= 3
+				save[i][1] /= 3
+
+			p_list.append(save) # 초당 평균 데이터 -> 이 데이터와 학습 영상 데이터랑 비교하면 됨
+			
+			save = [[0 for col in range(2)] for row in range(19)]
+		
+		print(p_list)
+		count += 1
 		yield (b'--frame\r\n'
 				b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 

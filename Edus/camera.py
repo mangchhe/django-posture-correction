@@ -97,4 +97,4 @@ class VideoCamera(object):
 		#print(0.333333 - (time.time() - start))
 		print(1 / (time.time() - start))
 		
-		return jpeg.tobytes() # Returns the data in the buffer as a string.
+		return jpeg.tobytes(), points # Returns the data in the buffer as a string.
