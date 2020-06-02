@@ -11,9 +11,6 @@ from mutagen.mp4 import MP4
 from django.db.models import Sum
 from Videos.forms import VideoForm
 # Create your views here.
-from bootstrap_modal_forms.generic import BSModalUpdateView
-from django.http import JsonResponse
-from .forms import EdusDBForms
 from django.urls import reverse_lazy
 # 모드 선택 후 화면
 
@@ -132,9 +129,8 @@ def video_feed(request):
 	return StreamingHttpResponse(gen(VideoCamera()),
 					content_type='multipart/x-mixed-replace; boundary=frame') # 찾아보기
 
+
 # 마이페이지
-
-
 def mypage(request):
 	
 	return render(request, 'mypageView.html')
@@ -189,8 +185,3 @@ def ResultVideosList(request): # 학습한 결과 영상 리스트 화면 view
 def video_select(request, video_id):
 	return render(request, 'modepage.html',{'video_id':video_id})
 
-
-class EdusVideoShow(BSModalUpdateView):
-    template_name = 'EdusVideoShowModal.html'
-    model = EdusDB
-    form_class = EdusDBForms

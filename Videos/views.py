@@ -4,8 +4,6 @@ from .models import VideosDB
 from .forms import VideoForm
 from Users.models import UsersDB
 from Edus.models import EdusDB
-from bootstrap_modal_forms.generic import BSModalCreateView
-from .forms import VideoDBForm
 from django.db.models import Sum, Subquery, OuterRef
 import math
 
@@ -64,13 +62,5 @@ def main(request):
     Edus_list = EdusDB.objects.values('user_id__username').annotate(Sum('score')).order_by('score__sum')
     print(Edus_list)
     return render(request, 'main.html', {'pop' : pop, 'late' : late,'user':Edus_list,})
-
-
-class VideoShow(BSModalCreateView):
-    template_name = 'VideoShowModal.html'
-    model = VideosDB
-    form_class = VideoDBForm
-
-
 
   

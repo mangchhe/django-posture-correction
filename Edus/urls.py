@@ -11,5 +11,4 @@ urlpatterns = [
     path('VideoSelect', views.VideoSelect, name='VideoSelect'),
     path('ResultVideosList', views.ResultVideosList, name='ResultVideosList'),
     path('select/video=<int:video_id>', views.video_select, name='select'),
-    path('EdusVideoShow', views.EdusVideoShow.as_view(), name='EdusVideoShow'),
 ]
