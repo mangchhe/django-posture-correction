@@ -7,17 +7,17 @@
 <div class="content_wrap">
   <table class = "table" id="Edus_video">
     <colgroup>
-      <col width="10%">
       <col width="5%">
-      <col width="40%" span="2">
+      <col width="40%">
+      <col width="10%" span="2">
       <col>
     </colgroup>
 
     <thead>
       <tr>
-        <th width=200>영상</th>
-        <th width=200>학습일</th>
-        <th width=300>영상 확인</th>
+        <th width=50>영상</th>
+        <th width=400>학습일</th>
+        <th width=100>영상 확인</th>
       </tr>
     </thead>
     <tbody>
@@ -25,9 +25,7 @@
         <tr>
           <td>{{ EdusDB.id }}</td>
           <td>{{ EdusDB.edu_days }}</td>
-          {{EdusDB}}
-          <td><video width='400' controls><source src='{{ MEDIA_URL }}{{ EdusDB.recode_video }}' type='video/mp4'></video></td>
-          <td><button onclick="window.open('{% url 'result' EdusDB.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
+          <td><button onclick="window.open('{% url 'resultView' EdusDB.id %}','test','width=700,height=800,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
         </tr>
       {% empty %}
         <tr>

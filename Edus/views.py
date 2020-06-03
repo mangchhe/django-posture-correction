@@ -161,7 +161,7 @@ def post_list(request):
 	return render(request, 'mypageView.html', context)
 
 def VideoSelect(request): # 영상 선택 후 화면 view
-    EdusDB_list = EdusDB.objects.all().order_by('-edu_days') #학습일 최근순으로
+    EdusDB_list = EdusDB.objects.all().order_by('-score') # 점수가 높은순으로
     UsersDB_list = UsersDB.objects.all()
     VideosDB_list = VideosDB.objects.all().order_by('-start_date') #게시일 최근순으로
 
@@ -189,4 +189,4 @@ def video_select(request, video_id):
 def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
 	print(result)
-	return render(request, 'resultView.html',{'result':result})
+	return render(request, 'resutlView.html',{'result':result})
