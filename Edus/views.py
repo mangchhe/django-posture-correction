@@ -6,6 +6,7 @@ from Users.models import UsersDB
 from Videos.models import VideosDB
 from django.core.paginator import Paginator
 import datetime
+import webbrowser
 from PostureCorrectionGameSite import settings
 from mutagen.mp4 import MP4
 from django.db.models import Sum
@@ -14,18 +15,20 @@ from Videos.forms import VideoForm
 from django.urls import reverse_lazy
 # 모드 선택 후 화면
 
+<<<<<<< HEAD
 def play(request, page_no, video_id):
+=======
+def play(request, page_no,video_no):
+>>>>>>> origin/connect
 
 	# 비디오 정보 (mp4, avi 등)
 
-	VIDEO_NAME = 'cat'
+	VIDEO_NAME = VideosDB.objects.get(id=video_no)
+	videoName = str(VIDEO_NAME.videofile)
 
-	videoName = 'videos/' + VIDEO_NAME + '.mp4'
+	videoLength = MP4(settings.MEDIA_ROOT + videoName).info.length + .5
 
-	videoLength = MP4(settings.MEDIA_ROOT + 'videos/' + VIDEO_NAME + '.mp4').info.length + .5
-
-	edu = EdusDB.objects.filter(video_id = 1, user_id = 1).order_by('-edu_days') # 해당 영상과, 사용자 주
-
+	edu = EdusDB.objects.filter(video_id = video_no, user_id = request.user.id).order_by('-edu_days') # 해당 영상과, 사용자 주
 	eduList = Paginator(edu, 4)
 
 	idx = []
@@ -60,11 +63,15 @@ def play(request, page_no, video_id):
 	
 	return render(request, 'playView.html', context)
 
-def play_after(request, page_no):
+def play_after(request, page_no, video_no):
 
 	# 비디오 정보 (mp4, avi 등)
 
 	# after
+	# 조회수 증가
+	views = VideosDB.objects.get(id=video_no)
+	views.views += 1
+	views.save()
 
 	rankList = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F']
 	zum = 90
@@ -80,7 +87,7 @@ def play_after(request, page_no):
 
 	# before
 
-	edu = EdusDB.objects.filter(video_id = 1, user_id = 1).order_by('-edu_days') # 해당 영상과, 사용자 주
+	edu = EdusDB.objects.filter(video_id = video_no, user_id = request.user.id).order_by('-edu_days') # 해당 영상과, 사용자 주
 
 	eduList = Paginator(edu, 4)
 
@@ -144,10 +151,13 @@ def post_list(request):
 	
 	videofile= lastvideo.videofile.url # 비디오 파일 경로를 포함하는 변수 videofile을 생성
 	
-	form= VideoForm(request.POST or None) #ne, request.FILES request.POST 또는 None은 사용자가 양식을 제출 한 후 데이터를 필드에 유지
-	
+	form= VideoForm(request.POST or None, request.FILES or None) #ne, request.FILES request.POST 또는 None은 사용자가 양식을 제출 한 후 데이터를 필드에 유지
+	user = UsersDB.objects.get(id=request.user.id)
 	if form.is_valid():
-		form.save()
+		upload = form.save(commit=False)
+		upload.editor = request.user
+		upload.save()
+		
 	
 	""" 업로드 된 영상 및 나의 점수 """
 	Edus_list = EdusDB.objects.all().filter(user_id=request.user.id) # Edus 테이블의 전체 데이터 가져오기 -> 로그인이랑 회원가입 만들어지면 queryset 다시 작성 예정
@@ -180,13 +190,30 @@ def ResultVideosList(request): # 학습한 결과 영상 리스트 화면 view
 
     context = {'EdusDB_list': EdusDB_list,
                'Edus': Edus}
+<<<<<<< HEAD
     #return render(request, 'ResultVideosList.html', {'ResultVideos': ResultVideos})
+=======
+    # return render(request, 'ResultVideosList.html', {'ResultVideos': ResultVideos})
+>>>>>>> origin/connect
     return render(request, 'ResultVideosList.html', context)
 
 def video_select(request, video_id):
 	return render(request, 'modepage.html',{'video_id':video_id})
 
+<<<<<<< HEAD
 def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
 	print(result)
 	return render(request, 'resutlView.html',{'result':result})
+=======
+
+class EdusVideoShow(BSModalUpdateView):
+    template_name = 'EdusVideoShowModal.html'
+    model = EdusDB
+    form_class = EdusDBForms
+
+def resultView(request, edu_id):
+	result = EdusDB.objects.filter(id=edu_id)
+	print(result)
+	return render(request, 'resultView.html',{'result':result})
+>>>>>>> origin/connect

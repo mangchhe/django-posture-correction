@@ -91,8 +91,9 @@
         </div>
         <div class="right">
             <h1>인기 채널 순위</h1>
-            {% for y in user %}
-            {{y.user_id}}</br>
+            {% for y in channel %}
+            {{y.editor__username}}
+            {{y.views__sum}}</br>
             {% endfor %}
         </div>
 

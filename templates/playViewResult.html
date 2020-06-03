@@ -1,16 +1,8 @@
+{% extends 'base.html' %}
 {% load static %}
-
+{% block content %}
 <head>
     <title>모드 선택 후 화면</title>
-    <form>
-        <input type = 'text' placeholder = "검색할 내용을 입력하세요." />
-        <button type = 'button' onclick = 'alert("로그인을 눌렀습니다.")'>
-            로그인
-        </button>
-        <button type = 'button' onclick = 'alert("회원가입을 눌렀습니다.")'>
-            회원가입
-        </button>
-    </form>
     <link rel ='stylesheet' type='text/css' href='{% static "playView.css" %}'>
 </head>
 
@@ -73,3 +65,4 @@
     </footer>
 
 </body>
+{% endblock content %}

@@ -18,7 +18,7 @@
 <body>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     {% if request.user.is_authenticated %}
-    
+    <input type="button" value="홈으로" onClick="location.href='{% url 'main' %}'"/>
     <form action="{% url 'search'%}" method="GET">
         <!--{% csrf_token %}-->
         <input type="text" name="q" size="50" value="{{ q }}">

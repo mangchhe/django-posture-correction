@@ -47,7 +47,7 @@
             <form enctype="multipart/form-data" method="POST" action="">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input type="submit" value="Upload"/>
+                <input type="submit" value="Upload" onclick = 'alert("업로드")'/>
             </form>    
 
         </div>

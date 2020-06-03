@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
-
 {% load static %}
-
 {% block content %}
   <h1 class="page-header">결과 영상 리스트 화면</h1>
 <div class="content_wrap">
@@ -23,9 +21,19 @@
     <tbody>
       {% for EdusDB in EdusDB_list %}
         <tr>
+<<<<<<< HEAD
           <td>{{ EdusDB.id }}</td>
           <td>{{ EdusDB.edu_days }}</td>
           <td><button onclick="window.open('{% url 'resultView' EdusDB.id %}','test','width=700,height=800,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
+=======
+          <td>{{ EdusDB.video_id }}</td>
+          <td>{{ EdusDB.edu_days }}</td>
+          {{EdusDB}}
+          <td><video width='300' controls><source src='{{ MEDIA_URL }}{{ EdusDB.recode_video }}' type='video/mp4'></video></td>
+          <td><button class="Edus-Show btn btn-primary" type="button" name="button" data-dismiss="modal">?</button></td>
+          <td><button id="button_1" class="Edus-Show1 btn btn btn-primary" data-id="{% url 'EdusVideoShow' %}">?</button></td>
+          <td><button onclick="window.open('{% url 'result' EdusDB.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
+>>>>>>> origin/connect
         </tr>
       {% empty %}
         <tr>
