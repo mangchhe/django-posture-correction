@@ -40,8 +40,6 @@ INSTALLED_APPS = [
     'Edus',
     'Users',
     'Videos',
-    'jquery',
-    'bootstrap_modal_forms',
 ]
 
 MIDDLEWARE = [

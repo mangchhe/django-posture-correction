@@ -11,9 +11,6 @@ from mutagen.mp4 import MP4
 from django.db.models import Sum
 from Videos.forms import VideoForm
 # Create your views here.
-from bootstrap_modal_forms.generic import BSModalUpdateView
-from django.http import JsonResponse
-from .forms import EdusDBForms
 from django.urls import reverse_lazy
 # 모드 선택 후 화면
 
@@ -164,7 +161,7 @@ def post_list(request):
 	return render(request, 'mypageView.html', context)
 
 def VideoSelect(request): # 영상 선택 후 화면 view
-    EdusDB_list = EdusDB.objects.all().order_by('-edu_days') #학습일 최근순으로
+    EdusDB_list = EdusDB.objects.all().order_by('-score') # 점수가 높은순으로
     UsersDB_list = UsersDB.objects.all()
     VideosDB_list = VideosDB.objects.all().order_by('-start_date') #게시일 최근순으로
 
@@ -176,21 +173,20 @@ def VideoSelect(request): # 영상 선택 후 화면 view
 
 def ResultVideosList(request): # 학습한 결과 영상 리스트 화면 view
     ResultVideos = EdusDB.objects.all()
-    EdusDB_list = EdusDB.objects.all().order_by('-edu_days') #학습일 최근순으로
+    EdusDB_list = EdusDB.objects.all().filter(user_id=request.user.id).order_by('-edu_days') #학습일 최근순으로
     paginator = Paginator(EdusDB_list, 5) #Paginator를 이용해서 한 페이지에 보여줄 객체 갯수
     page = request.GET.get('page') #현재 페이지를 받아옴
     Edus = paginator.get_page(page)
 
     context = {'EdusDB_list': EdusDB_list,
                'Edus': Edus}
-    return render(request, 'ResultVideosList.html', {'ResultVideos': ResultVideos})
-    # return render(request, 'ResultVideosList.html', context)
+    #return render(request, 'ResultVideosList.html', {'ResultVideos': ResultVideos})
+    return render(request, 'ResultVideosList.html', context)
 
 def video_select(request, video_id):
 	return render(request, 'modepage.html',{'video_id':video_id})
 
-
-class EdusVideoShow(BSModalUpdateView):
-    template_name = 'EdusVideoShowModal.html'
-    model = EdusDB
-    form_class = EdusDBForms
+def resultView(request, edu_id):
+	result = EdusDB.objects.filter(id=edu_id)
+	print(result)
+	return render(request, 'resutlView.html',{'result':result})

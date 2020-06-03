@@ -7,27 +7,25 @@
 <div class="content_wrap">
   <table class = "table" id="Edus_video">
     <colgroup>
-      <col width="10%">
       <col width="5%">
-      <col width="40%" span="2">
+      <col width="40%">
+      <col width="10%" span="2">
       <col>
     </colgroup>
 
     <thead>
       <tr>
-        <th width=200>영상</th>
-        <th width=200>학습일</th>
-        <th width=300>영상 확인</th>
+        <th width=50>영상</th>
+        <th width=400>학습일</th>
+        <th width=100>영상 확인</th>
       </tr>
     </thead>
     <tbody>
       {% for EdusDB in EdusDB_list %}
         <tr>
-          <td>{{ video_id }}</td>
-          <td>{{ edu_days }}</td>
-          <td><video width='400' controls><source src='{{ MEDIA_URL }}{{ EdusDB.recode_video }}' type='video/mp4'></video></td>
-          <td><button class="Edus-Show btn btn-primary" type="button" name="button" data-dismiss="modal">영상 확인</button></td>
-          <td><button id="button_1" class="Edus-Show1 btn btn btn-primary" data-id="{% url 'EdusVideoShow' %}">영상확인</button></td>
+          <td>{{ EdusDB.id }}</td>
+          <td>{{ EdusDB.edu_days }}</td>
+          <td><button onclick="window.open('{% url 'resultView' EdusDB.id %}','test','width=700,height=800,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
         </tr>
       {% empty %}
         <tr>
@@ -64,14 +62,4 @@
 {% endblock %}
 
 {% block extrascripts %}
-    <script type="text/javascript">
-    $(function () {
-      $(".Edus-Show").modalForm({
-          formURL: "{% url 'EdusVideoShow' %}"
-        });
-      $(".Edus-Show1").each(function () {
-            $(this).modalForm({formURL: $(this).data('id')});
-        });
-    });
-</script>
 {% endblock extrascripts %}
