@@ -15,20 +15,16 @@ from Videos.forms import VideoForm
 from django.urls import reverse_lazy
 # 모드 선택 후 화면
 
-<<<<<<< HEAD
 def play(request, page_no, video_id):
-=======
-def play(request, page_no,video_no):
->>>>>>> origin/connect
 
 	# 비디오 정보 (mp4, avi 등)
 
-	VIDEO_NAME = VideosDB.objects.get(id=video_no)
+	VIDEO_NAME = VideosDB.objects.get(id=video_id)
 	videoName = str(VIDEO_NAME.videofile)
 
 	videoLength = MP4(settings.MEDIA_ROOT + videoName).info.length + .5
 
-	edu = EdusDB.objects.filter(video_id = video_no, user_id = request.user.id).order_by('-edu_days') # 해당 영상과, 사용자 주
+	edu = EdusDB.objects.filter(video_id = video_id, user_id = request.user.id).order_by('-edu_days') # 해당 영상과, 사용자 주
 	eduList = Paginator(edu, 4)
 
 	idx = []
@@ -190,30 +186,25 @@ def ResultVideosList(request): # 학습한 결과 영상 리스트 화면 view
 
     context = {'EdusDB_list': EdusDB_list,
                'Edus': Edus}
-<<<<<<< HEAD
     #return render(request, 'ResultVideosList.html', {'ResultVideos': ResultVideos})
-=======
     # return render(request, 'ResultVideosList.html', {'ResultVideos': ResultVideos})
->>>>>>> origin/connect
     return render(request, 'ResultVideosList.html', context)
 
 def video_select(request, video_id):
 	return render(request, 'modepage.html',{'video_id':video_id})
 
-<<<<<<< HEAD
 def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
 	print(result)
 	return render(request, 'resutlView.html',{'result':result})
-=======
-
+'''
 class EdusVideoShow(BSModalUpdateView):
     template_name = 'EdusVideoShowModal.html'
     model = EdusDB
     form_class = EdusDBForms
-
+'''
 def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
 	print(result)
 	return render(request, 'resultView.html',{'result':result})
->>>>>>> origin/connect
+
