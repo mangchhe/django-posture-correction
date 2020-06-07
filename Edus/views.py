@@ -12,6 +12,8 @@ from django.db.models import Sum
 from Videos.forms import VideoForm
 # Create your views here.
 from django.urls import reverse_lazy
+import json
+
 # 모드 선택 후 화면
 
 def play(request, page_no, video_id):
@@ -166,7 +168,35 @@ def post_list(request):
 	
 	form= VideoForm(request.POST or None) #ne, request.FILES request.POST 또는 None은 사용자가 양식을 제출 한 후 데이터를 필드에 유지
 	
+	skeleton = VideoCamera(videofile)
+	p_list =[]
+	save = [[0 for col in range(2)] for row in range(19)]
+	count = 0
+
+	while True:		
+		frame, points = skeleton.get_frame()
+
+		for i in range(0,19):
+			save[i][0] += points[i][0]
+			save[i][1] += points[i][1]
+
+		# fps 평균 구하기
+		if(count % 3 == 2):
+			for i in range(0,19):
+				save[i][0] /= 3
+				save[i][1] /= 3
+
+			p_list.append(save) # 초당 평균 데이터
+			save = [[0 for col in range(2)] for row in range(19)]
+		
+		count += 1
+	
+	# JSON 인코딩
+	jsonString = json.dumps(p_list)
+	
 	if form.is_valid():
+		post = form.save(commit=False)
+		post.skeleton = jsonString
 		form.save()
 	
 	""" 업로드 된 영상 및 나의 점수 """

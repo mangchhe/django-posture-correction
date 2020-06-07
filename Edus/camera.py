@@ -19,11 +19,12 @@ POSE_PAIRS = [["Neck","RShoulder"], ["Neck","LShoulder"], ["RShoulder","RElbow"]
 
 class VideoCamera(object):
 
-	def __init__(self): # 생성자
+	def __init__(self, url=None): # 생성자
 
-		self.prevTime = 0
-
-		self.video = cv2.VideoCapture(0) # 0 카메라와 연결
+		if(url == None):
+			self.video = cv2.VideoCapture(0) # 0 카메라와 연결
+		else:
+			self.video = cv2.VideoCapture(url) # 0 카메라와 연결
 
 		self.video.set(3, 360)	# 카메라 크기 조절 너비
 		self.video.set(4, 180)	# 카메라 크기 조절 높이
