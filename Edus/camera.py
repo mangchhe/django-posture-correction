@@ -16,14 +16,19 @@ POSE_PAIRS = [["Neck","RShoulder"], ["Neck","LShoulder"], ["RShoulder","RElbow"]
             ["RKnee","RAnkle"], ["Neck","LHip"], ["LHip","LKnee"], ["LKnee","LAnkle"],
             ["Neck","Nose"], ["Nose","REye"], ["REye","REar"], ["Nose","LEye"], ["LEye","LEar"]]
 
+
 class VideoCamera(object):
 
-	def __init__(self): # 생성자
+	def __init__(self, url=None): # 생성자
 
-		self.video = cv2.VideoCapture(0) # 0 카메라와 연결
+		if(url == None):
+			self.video = cv2.VideoCapture(0) # 0 카메라와 연결
+		else:
+			self.video = cv2.VideoCapture(url) # 0 카메라와 연결
 
 		self.video.set(3, 360)	# 카메라 크기 조절 너비
-		self.video.set(4, 180)	# 카메라 크기 조절 높
+		self.video.set(4, 180)	# 카메라 크기 조절 높이
+		#self.video.set(cv2.CAP_PROP_FPS, 2) #CV_CAP_PROP_FPS
 
 		self.net = cv2.dnn.readNet(settings.MODEL_ROOT+'human-pose-estimation-0001.xml', settings.MODEL_ROOT+'human-pose-estimation-0001.bin')  # model, proto
 
@@ -39,7 +44,6 @@ class VideoCamera(object):
 	def __del__(self): # 소멸자
 
 		self.video.release() # 비디오 객체 소멸
-		self.out.release()
 
 	def get_frame(self):
 
@@ -83,12 +87,15 @@ class VideoCamera(object):
 			partB = BODY_PARTS[partB]  #  1
 
 			if points[partA] and points[partB]:
-				cv2.line(imageCopy, points[partA], points[partB], (0, 255, 255), 8)
+				cv2.line(imageCopy, points[partA], points[partB], (0, 255, 255), 4)
 				cv2.circle(image, points[partA], 8, color[partA], thickness=-1, lineType=cv2.LINE_AA)
 				cv2.circle(image, points[partB], 8, color[partB], thickness=-1, lineType=cv2.LINE_AA)
 
 		ret, jpeg = cv2.imencode('.jpg', image) # jpg 형식으로 정보의 형태를 변환시킴(인코딩)
-
+		
+		if 0.333333 - (time.time() - start) > 0:
+			time.sleep(0.333333 - (time.time() - start))
+		#print(0.333333 - (time.time() - start))
 		print(1 / (time.time() - start))
-
-		return jpeg.tobytes() # Returns the data in the buffer as a string.
+		
+		return jpeg.tobytes(), points # Returns the data in the buffer as a string.

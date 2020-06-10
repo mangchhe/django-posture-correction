@@ -2,11 +2,8 @@ from django.urls import path, include
 from Edus import views
 
 urlpatterns = [
-<<<<<<< HEAD
-    path('playView/video=<int:video_id>/page=<int:page_no>', views.play, name = 'playView'),
-=======
+
     path('playView/video=<int:video_no>/page=<int:page_no>', views.play, name = 'playView'),
->>>>>>> origin/connect
     path('playView/video=<int:video_no>/result/page=<int:page_no>', views.play_after, name = 'playViewResult'),
     path('video_feed', views.video_feed, name='video_feed'),
 
@@ -15,10 +12,9 @@ urlpatterns = [
     path('VideoSelect', views.VideoSelect, name='VideoSelect'),
     path('ResultVideosList', views.ResultVideosList, name='ResultVideosList'),
     path('select/video=<int:video_id>', views.video_select, name='select'),
-<<<<<<< HEAD
+
     path('result/edu_id=<int:edu_id>',views.resultView, name='resultView'),
-=======
     path('EdusVideoShow', views.EdusVideoShow.as_view(), name='EdusVideoShow'),
     path('resultView/edu_id=<int:edu_id>',views.resultView, name='result'),
->>>>>>> origin/connect
+
 ]

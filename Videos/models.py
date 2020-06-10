@@ -1,4 +1,7 @@
+import json
 from django.db import models
+#from django.contrib.postgres.fields import ArrayField
+
 
 # Create your models here.
 
@@ -23,6 +26,8 @@ class VideosDB(models.Model):
     level = models.CharField(choices=LEVEL_CHOICES, max_length=5, default=LOW) # 난이도
     start_date = models.DateTimeField(auto_now_add=True) # 개시일
     editor = models.ForeignKey("Users.UsersDB", on_delete=models.CASCADE)
+    #skeleton = ArrayField(models.DateField()) # json field를 이용해서 skeleton데이터 저장
+    skeleton = models.TextField(blank=False)
 
     def __str__(self):
         return self.title + ": " + str(self.videofile)

@@ -5,5 +5,3 @@ class VideoForm(forms.ModelForm):
     class Meta:
         model= VideosDB
         fields= ["title", "videofile", "video_img", "level"]
-
-

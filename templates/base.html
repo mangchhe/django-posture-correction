@@ -42,17 +42,11 @@
     <form action="{% url 'signup'%}" method="GET">
         <input type="submit" value="회원가입">
     </form>
-<<<<<<< HEAD
+    
     {% endif %}
     {% block content %}
     {% endblock %}
 
-    {% block javascript %}
-    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.js' %}"></script>
-    <!-- You can alternatively load the minified version -->
-    <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
-    {% endblock javascript%}
 
     {% block extrascripts %}{% endblock extrascripts %}
 </body>
