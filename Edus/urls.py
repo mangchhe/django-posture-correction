@@ -3,7 +3,7 @@ from Edus import views
 
 urlpatterns = [
 
-    path('playView/video=<int:video_no>/page=<int:page_no>', views.play, name = 'playView'),
+    path('playView/video=<int:video_id>/page=<int:page_no>', views.play, name = 'playView'),
     path('playView/video=<int:video_no>/result/page=<int:page_no>', views.play_after, name = 'playViewResult'),
     path('video_feed', views.video_feed, name='video_feed'),
 
