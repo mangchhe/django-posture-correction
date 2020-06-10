@@ -17,7 +17,6 @@ import json
 
 # 모드 선택 후 화면
 
-<<<<<<< HEAD
 def play(request, page_no, video_id):
 
 	# 비디오 정보 (mp4, avi 등)
@@ -199,12 +198,14 @@ def post_list(request):
 	jsonString = json.dumps(p_list)
 	
 	if form.is_valid():
-		post = form.save(commit=False)
-		post.skeleton = jsonString
-		form.save()
+		upload = form.save(commit=False)
+		upload.skeleton = jsonString
+		upload.editor = request.user
+		upload.save()
 
 	
 	""" 업로드 된 영상 및 나의 점수 """
+
 	Edus_list = EdusDB.objects.all().filter(user_id=request.user.id) # Edus 테이블의 전체 데이터 가져오기 -> 로그인이랑 회원가입 만들어지면 queryset 다시 작성 예정
 	#s_sum = EdusDB.objects.aggregate(Sum('score'))['score__sum'] # Edus 테이블의 전체 score 값 더하기 -> 로그인이랑 회원가입 만들어지면 queryset 다시 작성 예정
 	s_sum = Edus_list.aggregate(Sum('score'))['score__sum'] # Edus 테이블의 전체 score 값 더하기 -> 로그인이랑 회원가입 만들어지면 queryset 다시 작성 예정
@@ -246,11 +247,6 @@ def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
 	print(result)
 	return render(request, 'resutlView.html',{'result':result})
-
-class EdusVideoShow(BSModalUpdateView):
-    template_name = 'EdusVideoShowModal.html'
-    model = EdusDB
-    form_class = EdusDBForms
 
 def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
