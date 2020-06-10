@@ -27,6 +27,7 @@ class VideosDB(models.Model):
     start_date = models.DateTimeField(auto_now_add=True) # 개시일
     editor = models.ForeignKey("Users.UsersDB", on_delete=models.CASCADE)
     #skeleton = ArrayField(models.DateField()) # json field를 이용해서 skeleton데이터 저장
+    skeleton = models.TextField(blank=False)
 
     def __str__(self):
         return self.title + ": " + str(self.videofile)
