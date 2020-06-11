@@ -130,3 +130,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # 폴더의 위치를 Django가 �
 
 MODEL_URL = '/model/'
 MODEL_ROOT = os.path.join(BASE_DIR, 'model/')
+
+VIDEO_URL = '/videos/'
+VIDEO_ROOT = os.path.join(BASE_DIR, 'media/videos/')

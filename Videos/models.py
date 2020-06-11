@@ -17,7 +17,7 @@ class VideosDB(models.Model):
         (LOW, "하"),
     )
 
-    objects = models.Manager()
+    #objects = models.Manager()
     #video_id = models.CharField(max_length=10,primary_key=True) # 비디오 id
     title = models.TextField(blank=False) # 제목
     videofile= models.FileField(upload_to='videos/', null=True, verbose_name="") #video file

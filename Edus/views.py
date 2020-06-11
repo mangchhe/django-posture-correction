@@ -14,6 +14,10 @@ from Videos.forms import VideoForm
 # Create your views here.
 from django.urls import reverse_lazy
 import json
+from pathlib import Path
+import pickle
+import cv2
+import numpy as np
 
 # 모드 선택 후 화면
 
@@ -145,7 +149,7 @@ def gen(camera): # https://item4.blog/2016-05-08/Generator-and-Yield-Keyword-in-
 			
 			save = [[0 for col in range(2)] for row in range(19)]
 		
-		print(p_list)
+		#print(p_list)
 		count += 1
 		yield (b'--frame\r\n'
 				b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
@@ -161,7 +165,13 @@ def mypage(request):
 	
 	return render(request, 'mypageView.html')
 
-	
+def hangulFilePathImageRead(filePath) :
+	stream = open(filePath.encode('utf-8') , "rb")
+	bytes = bytearray(stream.read())
+	numpyArray = np.asarray(bytes, dtype=np.uint8)
+		
+	return cv2.imdecode(numpyArray , cv2.IMREAD_UNCHANGED)
+
 def post_list(request):
 	""" 비디오 업로드 """
 	
@@ -169,41 +179,52 @@ def post_list(request):
 	
 	videofile= lastvideo.videofile.url # 비디오 파일 경로를 포함하는 변수 videofile을 생성
 
-	form= VideoForm(request.POST or None) #ne, request.FILES request.POST 또는 None은 사용자가 양식을 제출 한 후 데이터를 필드에 유지
-	
-	skeleton = VideoCamera(videofile)
-	p_list =[]
-	save = [[0 for col in range(2)] for row in range(19)]
-	count = 0
+	form= VideoForm(request.POST or None, request.FILES or None) #ne, request.FILES request.POST 또는 None은 사용자가 양식을 제출 한 후 데이터를 필드에 유지
 
-	while True:		
-		frame, points = skeleton.get_frame()
-
-		for i in range(0,19):
-			save[i][0] += points[i][0]
-			save[i][1] += points[i][1]
-
-		# fps 평균 구하기
-		if(count % 3 == 2):
-			for i in range(0,19):
-				save[i][0] /= 3
-				save[i][1] /= 3
-
-			p_list.append(save) # 초당 평균 데이터
-			save = [[0 for col in range(2)] for row in range(19)]
+	if request.method == 'POST':
 		
-		count += 1
-	
-	# JSON 인코딩
-	jsonString = json.dumps(p_list)
-	
-	if form.is_valid():
-		upload = form.save(commit=False)
-		upload.skeleton = jsonString
-		upload.editor = request.user
-		upload.save()
+		#print(form.errors)
+		if form.is_valid():
+			print("test")
+			video_form = form.save(commit=False)
+			dir = '\media\\' + 'videos\\' + str(request.FILES['videofile'])
+			#dir = hangulFilePathImageRead(dir)
+			#path = Path(dir)
+			#dir = str(dir, 'utf-8')
+			video_form.editor = request.user
+			video_form.save()
+			print(form.instance.id)
+			item = VideosDB.objects.get(pk=form.instance.id)
+			skeleton = VideoCamera(dir)
+			p_list =[]
+			save_data = [[0 for col in range(2)] for row in range(19)]
+			count = 0
 
-	
+			while True:      
+				frame, points = skeleton.get_frame()
+
+				for i in range(0,19):
+					save_data[i][0] += points[i][0]
+					save_data[i][1] += points[i][1]
+
+				# fps 평균 구하기
+				if(count % 3 == 2):
+					for i in range(0,19):
+						save_data[i][0] /= 3
+						save_data[i][1] /= 3
+
+					p_list.append(save_data) # 초당 평균 데이터
+					save_data = [[0 for col in range(2)] for row in range(19)]
+				
+				count += 1
+			
+			# JSON 인코딩
+			jsonString = json.dumps(p_list)
+			item.skeleton = jsonString
+			item.save()
+		else:
+			print("else_test")
+
 	""" 업로드 된 영상 및 나의 점수 """
 
 	Edus_list = EdusDB.objects.all().filter(user_id=request.user.id) # Edus 테이블의 전체 데이터 가져오기 -> 로그인이랑 회원가입 만들어지면 queryset 다시 작성 예정

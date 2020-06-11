@@ -1,7 +1,12 @@
+#-*- encoding: utf8 -*-
 import cv2
 from django.conf import settings
 import os
 import time
+import numpy as np
+import os
+import sys
+from pathlib import Path
 
 BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
             "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
@@ -24,7 +29,10 @@ class VideoCamera(object):
 		if(url == None):
 			self.video = cv2.VideoCapture(0) # 0 카메라와 연결
 		else:
-			self.video = cv2.VideoCapture(url) # 0 카메라와 연결
+			#path = Path(url)
+			#unicode_data = open(path, "rb").read().decode("utf8")
+			#url = path.decode('utf-8')
+			self.video = cv2.VideoCapture(settings.VIDEO_ROOT+url) # video 연결
 
 		self.video.set(3, 360)	# 카메라 크기 조절 너비
 		self.video.set(4, 180)	# 카메라 크기 조절 높이
@@ -99,3 +107,4 @@ class VideoCamera(object):
 		print(1 / (time.time() - start))
 		
 		return jpeg.tobytes(), points # Returns the data in the buffer as a string.
+
