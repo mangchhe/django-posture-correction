@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http.response import StreamingHttpResponse
 from Edus.camera import VideoCamera
+from Edus.camera2 import VideoCamera2
 from .models import EdusDB
 from Users.models import UsersDB
 from Videos.models import VideosDB
@@ -151,6 +152,7 @@ def gen(camera): # https://item4.blog/2016-05-08/Generator-and-Yield-Keyword-in-
 		
 		#print(p_list)
 		count += 1
+		print(count, p_list, len(p_list))
 		yield (b'--frame\r\n'
 				b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
@@ -195,31 +197,38 @@ def post_list(request):
 			video_form.save()
 			print(form.instance.id)
 			item = VideosDB.objects.get(pk=form.instance.id)
-			skeleton = VideoCamera(dir)
+			skeleton = VideoCamera2(dir)
 			p_list =[]
 			save_data = [[0 for col in range(2)] for row in range(19)]
 			count = 0
 
-			while True:      
+			while True:
 				frame, points = skeleton.get_frame()
-
-				for i in range(0,19):
-					save_data[i][0] += points[i][0]
-					save_data[i][1] += points[i][1]
-
-				# fps 평균 구하기
-				if(count % 3 == 2):
+				if frame == 2:
+					break
+				elif frame == 1:
+					continue
+				else:
 					for i in range(0,19):
-						save_data[i][0] /= 3
-						save_data[i][1] /= 3
+						save_data[i][0] += points[i][0]
+						save_data[i][1] += points[i][1]
 
-					p_list.append(save_data) # 초당 평균 데이터
-					save_data = [[0 for col in range(2)] for row in range(19)]
-				
-				count += 1
+					# fps 평균 구하기
+					if(count % 3 == 2):
+						for i in range(0,19):
+							save_data[i][0] /= 3
+							save_data[i][1] /= 3
+
+						p_list.append(save_data) # 초당 평균 데이터
+						save_data = [[0 for col in range(2)] for row in range(19)]
+					
+					count += 1
 			
 			# JSON 인코딩
+			print(p_list)
+			print(len(p_list))
 			jsonString = json.dumps(p_list)
+
 			item.skeleton = jsonString
 			item.save()
 		else:
