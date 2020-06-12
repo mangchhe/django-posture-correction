@@ -187,7 +187,7 @@ def post_list(request):
 		if form.is_valid():
 			print("test")
 			video_form = form.save(commit=False)
-			dir = '\media\\' + 'videos\\' + str(request.FILES['videofile'])
+			dir = str(request.FILES['videofile'])
 			#dir = hangulFilePathImageRead(dir)
 			#path = Path(dir)
 			#dir = str(dir, 'utf-8')
