@@ -1,60 +1,91 @@
-<html>
-
+<!DOCTYPE html>
 {% load static %}
+<html class="no-js">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Restaurant One Page HTML5 Template</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- CSS
+        ================================================ -->
+        <!-- Owl Carousel -->
+		<link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+        <!-- bootstrap.min css -->
+		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <!-- Font-awesome.min css -->
+		<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+        <!-- Main Stylesheet -->
+        <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
 
-<html lang="ko">
-<head>
-    <style>
-        form {
-            display: inline;
-        }
-    </style>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <!-- Responsive Stylesheet -->
+        <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+		<!-- Js -->
+    <script src="{% static 'js/vendor/modernizr-2.6.2.min.js' %}"></script>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
+    <script>window.jQuery || document.write('<script src="{% static 'js/vendor/jquery-1.10.2.min.js' %}"><\/script>')</script>
+    <script src="{% static 'js/jquery.nav.js' %}"></script>
+    <script src="{% static 'js/jquery.sticky.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/wow.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+	</head>
+	<body>
+        <nav id="navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="block">
+                            <nav class="navbar navbar-default">
+                              <div class="container-fluid">
+                                <!-- Brand and toggle get grouped for better mobile display -->
+                                <div class="navbar-header">
+                                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                  </button>
+                                      <a class="navbar-brand" href="#">
+                                        <img src="{% static 'images/logo.png' %}" alt="Logo">
+                                      </a>
+    
+                                </div>
 
-<body>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    {% if request.user.is_authenticated %}
-    <input type="button" value="홈으로" onClick="location.href='{% url 'main' %}'"/>
-    <form action="{% url 'search'%}" method="GET">
-        <!--{% csrf_token %}-->
-        <input type="text" name="q" size="50" value="{{ q }}">
-        <input type="submit" value="검색">
-    </form>
-    <form action="{% url 'logout'%}" method="GET">
-        <input type="submit" value="로그아웃" onclick = 'alert("로그아웃")'>
-    </form>
-    <form action="{% url 'mypageView'%}" method="GET">
-        <input type="submit" value="마이페이지">
-    </form>
-    {% else %}
-    <form action="{% url 'search'%}" method="GET">
-        <!--{% csrf_token %}-->
-        <input type="text" name="q" size="50" value="{{ q }}">
-        <input type="submit" value="검색">
-    </form>
-    <form action="{% url 'login'%}" method="GET">
-        <input type="submit" value="로그인">
-    </form>
-    <form action="{% url 'signup'%}" method="GET">
-        <input type="submit" value="회원가입">
-    </form>
-<<<<<<< HEAD
-    {% endif %}
+
+                                
+                                <!-- Collect the nav links, forms, and other content for toggling -->
+                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                  <ul class="nav navbar-nav navbar-right">
+                                   
+                                    {% if request.user.is_authenticated %}
+                                    <li><a href="{% url 'logout' %}">로그아웃</a></li>
+                                    <li><a href="{% url 'mypageView' %}">마이페이지</a></li>
+                                    {% else %}
+                                    <li><a href="{% url 'login' %}">로그인</a></li>
+                                    <li><a href="{% url 'signup' %}">회원가입</a></li>
+                                    {% endif %}
+                                  </ul>
+                                </div><!-- /.navbar-collapse -->
+                              </div><!-- /.container-fluid -->
+                            </nav>
+                        </div>
+                    </div><!-- .col-md-12 close -->
+                </div><!-- .row close -->
+            </div><!-- .container close -->
+        </nav><!-- header close -->
+            <!--
+        subscribe start
+        ============================ -->
+	<!--
+	header-img start 
+	============================== -->
+    <section id="hero-area">
+      <img class="img-responsive" src="{% static 'images/header.jpg' %}" alt="">
+    </section>
     {% block content %}
     {% endblock %}
-
-    {% block javascript %}
-    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.js' %}"></script>
-    <!-- You can alternatively load the minified version -->
-    <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
-    {% endblock javascript%}
-
-    {% block extrascripts %}{% endblock extrascripts %}
-</body>
-
+    </body>
 </html>
