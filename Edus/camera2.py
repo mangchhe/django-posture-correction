@@ -34,6 +34,7 @@ class VideoCamera2(object):
 			#unicode_data = open(path, "rb").read().decode("utf8")
 			#url = path.decode('utf-8')
 			self.video = cv2.VideoCapture(settings.VIDEO_ROOT+url) # video 연결
+			#self.video = cv2.VideoCapture("D:/PostureCorrectionGameSite/media/videos/1.mp4") # video 연결
 
 		self.video.set(3, 360)	# 카메라 크기 조절 너비
 		self.video.set(4, 180)	# 카메라 크기 조절 높이
@@ -50,6 +51,7 @@ class VideoCamera2(object):
 		fps = self.video.get(cv2.CAP_PROP_FPS)  # 프레임 수
 		print("Frames per second using video.get(cv2.CAP_PROP_FPS) : {0}".format(fps))
 		self.fps_total = MP4(settings.VIDEO_ROOT+url).info.length * fps
+		#self.fps_total = MP4("D:/PostureCorrectionGameSite/media/videos/1.mp4").info.length * fps
 		print(self.fps_total)
 
 		self.fps_seperate = fps // 3

@@ -201,26 +201,35 @@ def post_list(request):
 			p_list =[]
 			save_data = [[0 for col in range(2)] for row in range(19)]
 			count = 0
+			n_count = [0 for row in range(19)]
 
 			while True:
 				frame, points = skeleton.get_frame()
+
+				print(points)
 				if frame == 2:
 					break
 				elif frame == 1:
 					continue
 				else:
 					for i in range(0,19):
-						save_data[i][0] += points[i][0]
-						save_data[i][1] += points[i][1]
+						if(points[i] == None):
+							save_data[i] = None
+							n_count[i] += 1
+						else:
+							save_data[i][0] += points[i][0]
+							save_data[i][1] += points[i][1]
 
 					# fps 평균 구하기
 					if(count % 3 == 2):
 						for i in range(0,19):
-							save_data[i][0] /= 3
-							save_data[i][1] /= 3
+							if(save_data[i] != None):
+								save_data[i][0] /= 3 - n_count[i]
+								save_data[i][1] /= 3 - n_count[i]
 
 						p_list.append(save_data) # 초당 평균 데이터
 						save_data = [[0 for col in range(2)] for row in range(19)]
+						n_count = [0 for row in range(19)]
 					
 					count += 1
 			
