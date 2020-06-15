@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http.response import StreamingHttpResponse
+from django.http import HttpResponse, JsonResponse
 from Edus.camera import VideoCamera
 from Edus.camera2 import VideoCamera2
 from .models import EdusDB
@@ -291,4 +292,18 @@ def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
 	print(result)
 	return render(request, 'resultView.html',{'result':result})
+
+def calculatePosture(request):
+
+	accuracy = 99
+	rank = 'A'
+	description = '설명'
+
+	content = {
+		'accuracy' : accuracy,
+		'rank' : rank,
+		'description' : description,
+	}
+
+	return JsonResponse(content)
 
