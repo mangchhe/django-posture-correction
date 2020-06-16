@@ -364,7 +364,6 @@ def video_select(request, video_id):  # 영상 선택 후 화면 view
               'video_id': video_id}
     return render(request, 'modepage.html', context)
 
-
 def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
 	print(result)
