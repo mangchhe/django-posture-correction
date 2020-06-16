@@ -1,39 +1,74 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
-  <h1 class="page-header">결과 영상 리스트 화면</h1>
-<div class="content_wrap">
-  <table class = "table" id="Edus_video">
-    <colgroup>
-      <col width="5%">
-      <col width="40%">
-      <col width="10%" span="2">
-      <col>
-    </colgroup>
 
-    <thead>
+{% block content %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type='text/css' href="{% static 'resultvideolist.css' %}">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+<section id="hero-area">
+    <img class="img-responsive" src="{% static "header.png" %}">
+</section>
+
+<nav id="navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block">
+                    <nav class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                              </button>
+                                <a class="navbar-brand" href="#"><img class="img-responsive" src="{% static "logo.png" %}"></a>
+                            </div>
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                              <ul class="nav navbar-nav navbar-right" id="top-nav">
+                                <li><a href="#hero-area">Home</a></li>
+                                <li><a href="#about-us">about us</a></li>
+                                <li><a href="#blog">Blog</a></li>
+                                <li><a href="#price">menu</a></li>
+                                <li><a href="#subscribe">news</a></li>
+                                <li><a href="#contact-us">contacts</a></li>
+                              </ul>
+                            </div><!-- /.navbar-collapse -->
+                        </div><!-- /.container-fluid -->
+                    </nav>
+                </div>
+            </div><!-- .col-md-12 close -->
+        </div><!-- .row close -->
+    </div><!-- .container close -->
+</nav>
+
+<section>
+<div class="container">
+  <div><h3><span>학습 영상 결과 리스트</span></h3></div>
+  <table class = "table" id="Edus_video">
+    <thead class="thead-light" id="tablecol">
       <tr>
         <th width=50>영상</th>
-        <th width=400>학습일</th>
-        <th width=100>영상 확인</th>
+        <th width=300>학습일</th>
+        <th width=100>영상확인</th>
       </tr>
     </thead>
     <tbody>
       {% for EdusDB in EdusDB_list %}
         <tr>
-<<<<<<< HEAD
-          <td>{{ EdusDB.id }}</td>
-          <td>{{ EdusDB.edu_days }}</td>
-          <td><button onclick="window.open('{% url 'resultView' EdusDB.id %}','test','width=700,height=800,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
-=======
           <td>{{ EdusDB.video_id }}</td>
           <td>{{ EdusDB.edu_days }}</td>
-          {{EdusDB}}
-          <td><video width='300' controls><source src='{{ MEDIA_URL }}{{ EdusDB.recode_video }}' type='video/mp4'></video></td>
-          <td><button class="Edus-Show btn btn-primary" type="button" name="button" data-dismiss="modal">?</button></td>
-          <td><button id="button_1" class="Edus-Show1 btn btn btn-primary" data-id="{% url 'EdusVideoShow' %}">?</button></td>
-          <td><button onclick="window.open('{% url 'result' EdusDB.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
->>>>>>> origin/connect
+          <td><button class="btn btn-outline-secondary" onclick="window.open('{% url 'result' EdusDB.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
         </tr>
       {% empty %}
         <tr>
@@ -59,15 +94,6 @@
     </span>
   </div>
 </div>
-
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content"></div>
-  </div>
-</div>
-
+</section>
+</body>
 {% endblock %}
-
-{% block extrascripts %}
-{% endblock extrascripts %}
