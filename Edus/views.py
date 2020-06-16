@@ -20,6 +20,7 @@ from pathlib import Path
 import pickle
 import cv2
 import numpy as np
+import datetime
 
 BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
             "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
@@ -30,6 +31,9 @@ POSE_PAIRS = [["Neck","RShoulder"], ["Neck","LShoulder"], ["RShoulder","RElbow"]
             ["LShoulder","LElbow"], ["LElbow","LWrist"], ["Neck","RHip"], ["RHip","RKnee"],
             ["RKnee","RAnkle"], ["Neck","LHip"], ["LHip","LKnee"], ["LKnee","LAnkle"],
             ["Neck","Nose"], ["Nose","REye"], ["REye","REar"], ["Nose","LEye"], ["LEye","LEar"]]
+
+nowDatetime = ""
+score = 0
 
 def dist(v):
     return np.sqrt(v[0]**2 + v[1]**2)
@@ -100,7 +104,7 @@ def play(request, page_no, video_id):
 		idx.append((page_no-1) * 4 + i+1)
 		video.append(j['recode_video'])
 		days.append(j['edu_days'])
-
+	
 	context = {
 		'videoList' : zip(idx, video, days),
 		'totalPageList' : totalPageList,
@@ -118,7 +122,8 @@ def play(request, page_no, video_id):
 			recode_video='test',
 			score=99
 		)
-	
+		#edu_id = new_video.id
+
 	return render(request, 'playView.html', context)
 
 def play_after(request, page_no, video_no):
@@ -172,16 +177,24 @@ def play_after(request, page_no, video_no):
 	if request.method == 'POST':
 		new_video = EdusDB.objects.create(
 			# edu_days = 현재 시간 자동 저장
-			video_id=VideosDB.objects.all()[0],
-			user_id=UsersDB.objects.all()[0],
-			recode_video='test',
-			score=99
+			video_id=video_no,
+			user_id=request.user,
+			recode_video=settings.EDUS_ROOT+nowDatetime+'.mp4',
+			score=score
 		)
 
 	return render(request, 'playViewResult.html', context)
 
+
 def gen(camera, video_id): # https://item4.blog/2016-05-08/Generator-and-Yield-Keyword-in-Python/
 	# 앨범 이미지
+	
+	now = datetime.datetime.now()
+	nowDatetime = now.strftime('%Y%m%d%H%M%S')
+
+	# video 저장
+	#fourcc = cv2.VideoWriter_fourcc(*'XVID')
+	#out = cv2.VideoWriter(settings.EDUS_ROOT+nowDatetime+'.mp4', fourcc, 3, (int(360),int(180)))
 
 	""" 초당 평균 데이터 구하는 부분 """
 	p_list =[]
@@ -199,7 +212,10 @@ def gen(camera, video_id): # https://item4.blog/2016-05-08/Generator-and-Yield-K
 	print(skel_list)
 
 	while True:		
-		frame, points = camera.get_frame()
+		image, frame, points = camera.get_frame()
+		
+		# image 데이터 받아와서 video 저장
+		#out.write(image)
 
 		for i in range(0,19):
 			if(points[i] == None):
@@ -228,8 +244,11 @@ def gen(camera, video_id): # https://item4.blog/2016-05-08/Generator-and-Yield-K
 		yield (b'--frame\r\n'
 				b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
+	#EdusDB.objects.filter(pk=edu_id).update(recode_video=settings.VIDEO_ROOT+nowDatetime+'.mp4') #edu_id를 가지고 recode_video 업데이트
+
+
 def video_feed(request, video_id):
-# 웹캠 정보
+	# 웹캠 정보
 	return StreamingHttpResponse(gen(VideoCamera(), video_id),
 					content_type='multipart/x-mixed-replace; boundary=frame') # 찾아보기
 

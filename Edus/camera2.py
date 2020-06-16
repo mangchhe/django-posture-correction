@@ -30,9 +30,6 @@ class VideoCamera2(object):
 		if(url == None):
 			self.video = cv2.VideoCapture(0) # 0 카메라와 연결
 		else:
-			#path = Path(url)
-			#unicode_data = open(path, "rb").read().decode("utf8")
-			#url = path.decode('utf-8')
 			self.video = cv2.VideoCapture(settings.VIDEO_ROOT+url) # video 연결
 			#self.video = cv2.VideoCapture("D:/PostureCorrectionGameSite/media/videos/1.mp4") # video 연결
 

@@ -8,6 +8,7 @@ import os
 import sys
 from pathlib import Path
 
+
 BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
             "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
             "RAnkle": 10, "LHip": 11, "LKnee": 12, "LAnkle": 13, "REye": 14,
@@ -24,15 +25,9 @@ POSE_PAIRS = [["Neck","RShoulder"], ["Neck","LShoulder"], ["RShoulder","RElbow"]
 
 class VideoCamera(object):
 
-	def __init__(self, url=None): # 생성자
+	def __init__(self): # 생성자
 
-		if(url == None):
-			self.video = cv2.VideoCapture(0) # 0 카메라와 연결
-		else:
-			#path = Path(url)
-			#unicode_data = open(path, "rb").read().decode("utf8")
-			#url = path.decode('utf-8')
-			self.video = cv2.VideoCapture(settings.VIDEO_ROOT+url) # video 연결
+		self.video = cv2.VideoCapture(0) # 0 카메라와 연결
 
 		self.video.set(3, 360)	# 카메라 크기 조절 너비
 		self.video.set(4, 180)	# 카메라 크기 조절 높이
@@ -48,6 +43,7 @@ class VideoCamera(object):
 
 		fps = self.video.get(cv2.CAP_PROP_FPS)  # 프레임 수
 		print("Frames per second using video.get(cv2.CAP_PROP_FPS) : {0}".format(fps))
+
 
 	def __del__(self): # 소멸자
 
@@ -106,5 +102,5 @@ class VideoCamera(object):
 		#print(0.333333 - (time.time() - start))
 		print(1 / (time.time() - start))
 		
-		return jpeg.tobytes(), points # Returns the data in the buffer as a string.
+		return image, jpeg.tobytes(), points # Returns the data in the buffer as a string.
 

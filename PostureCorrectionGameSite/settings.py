@@ -133,3 +133,6 @@ MODEL_ROOT = os.path.join(BASE_DIR, 'model/')
 
 VIDEO_URL = '/videos/'
 VIDEO_ROOT = os.path.join(BASE_DIR, 'media/videos/')
+
+EDUS_URL = '/edus/'
+EDUS_ROOT = os.path.join(BASE_DIR, 'media/edus/')
