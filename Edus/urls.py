@@ -8,7 +8,6 @@ urlpatterns = [
     path('video_feed/video=<int:video_id>', views.video_feed, name='video_feed'),
 
     path('mypageView', views.post_list, name = 'mypageView'),
-
     path('VideoSelect', views.VideoSelect, name='VideoSelect'),
     path('ResultVideosList', views.ResultVideosList, name='ResultVideosList'),
     path('select/video=<int:video_id>', views.video_select, name='select'),
@@ -19,3 +18,4 @@ urlpatterns = [
     path('calculatePosture', views.calculatePosture, name='calculatePosture'),
 
 ]
+

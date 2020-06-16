@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block content %}
+	<!--
+    Header start 
+	============================== -->
+    <section id="subscribe">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block">
+                        <form class="form-inline" action="{% url 'search'%}" method="GET">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="exampleInputAmount" name="q" value="{{ q }}" placeholder="검색할꺼 입력해라">
+                                    <div class="input-group-addon">
+                                        <button class="btn btn-default" type="submit">검 색</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div><!-- .col-md-12 close -->
+            </div><!-- .row close -->
+        </div><!-- .containe close -->
+    </section><!-- #subscribe close -->
+    <!--
+    Slider start
+    ============================== -->
+    <section id="slider">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
+                        <div class="title">
+                            <h3><span>인기</span>영상</h3>
+                        </div>
+                        <div id="owl-example1" class="owl-carousel">
+
+                            {% for x in pop %}
+                            <div>
+                                <img class="img-responsive" src="{{MEDIA_URL}}{{x.video_img}}" alt=""><br>
+                                <a href="{% url 'select' video_id=x.id %}">{{ x.title }}</a>
+                            </div>
+                            {% endfor %}
+                            <div>
+                                <img class="img-responsive" src="{{MEDIA_URL}}header.jpg" alt="">
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div><!-- .col-md-12 close -->
+            </div><!-- .row close -->
+        </div><!-- .container close -->
+    </section><!-- slider close -->
+
+    <section id="slider">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
+                        <div class="title">
+                            <h3><span>최신</span>영상</h3>
+                        </div>
+                        <div id="owl-example2" class="owl-carousel">
+                            {% for x in late %}
+                            <div>
+                                <img class="img-responsive" src="{{MEDIA_URL}}{{x.video_img}}" alt=""><br>
+                                <a href="{% url 'select' video_id=x.id %}">{{ x.title }}</a>
+                            </div>
+                            {% endfor %}
+                            <div>
+                                <img class="img-responsive" src="{{MEDIA_URL}}header.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .col-md-12 close -->
+            </div><!-- .row close -->
+        </div><!-- .container close -->
+    </section><!-- slider close -->
+
+    <section id="slider">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12" style="width: 50%; height: 110px; float: left;">
+                    <div class="block wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
+                        <div class="title">
+                            <h3><span>이용자</span>순위</h3>
+                        </div>
+                        <br>
+                        <br>
+                        <div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>아이디</th>
+                                        <th>점수</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for x in user %}
+                                <tr>
+                                    <td>{{x.user_id__username}}</td>
+                                    <td>{{x.score__sum}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div><!-- .col-md-12 close -->
+                <div class="col-md-12" style="width: 50%; height: 110px; float: left;">
+                    <div class="block wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
+                        <div class="title">
+                            <h3><span>인기채널</span>순위</h3>
+                        </div>
+                        <br>
+                        <br>
+                        <div>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>채널</th>
+                                        <th>누적 조회수</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for y in channel %}
+                                    <tr>
+                                        <td>{{y.editor__username}}</td>
+                                        <td>{{y.views__sum}}</td>
+                                    </tr>
+                                    {% endfor %} 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div><!-- .col-md-12 close -->
+            </div><!-- .row close -->
+        </div><!-- .container close -->
+    </section><!-- slider close -->
+{% endblock %}

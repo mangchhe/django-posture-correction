@@ -354,7 +354,7 @@ def ResultVideosList(request): # 학습한 결과 영상 리스트 화면 view
     ResultVideos = EdusDB.objects.all()
     EdusDB_list = EdusDB.objects.all().filter(user_id=request.user.id).order_by('-edu_days') #학습일 최근순으로
     paginator = Paginator(EdusDB_list, 5) #Paginator를 이용해서 한 페이지에 보여줄 객체 갯수
-    page = request.GET.get('page') #현재 페이지를 받아옴
+    page = request.GET.get('  page') #현재 페이지를 받아옴
     Edus = paginator.get_page(page)
 
     context = {'EdusDB_list': EdusDB_list,
@@ -363,13 +363,14 @@ def ResultVideosList(request): # 학습한 결과 영상 리스트 화면 view
     return render(request, 'ResultVideosList.html', context)
 
 def video_select(request, video_id):
-	return render(request, 'modepage.html',{'video_id':video_id})
+	video_list = VideosDB.objects.exclude(editor__id=request.user.id)
+	return render(request, 'modepage.html',{'video_id':video_id, 'video_list':video_list})
 
 
 def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
 	print(result)
-	return render(request, 'resultView.html',{'result':result})
+	return render(request, 'resutlView.html',{'result':result})
 
 def calculatePosture(request):
 
@@ -384,3 +385,4 @@ def calculatePosture(request):
 	}
 
 	return JsonResponse(content)
+

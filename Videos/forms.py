@@ -7,5 +7,9 @@ import json
 class VideoForm(forms.ModelForm):
     class Meta:
         model= VideosDB
-        fields= ["title", "editor", "videofile", "video_img", "level", "skeleton"]
-    
+
+        widgets = {
+            'title': forms.Textarea(attrs={'rows':1}),
+        }
+        fields= ["title", "videofile", "video_img", "level"]
+
