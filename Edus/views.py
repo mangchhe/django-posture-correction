@@ -20,6 +20,59 @@ import pickle
 import cv2
 import numpy as np
 
+BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
+            "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
+            "RAnkle": 10, "LHip": 11, "LKnee": 12, "LAnkle": 13, "REye": 14,
+            "LEye": 15, "REar": 16, "LEar": 17, "Background": 18}
+
+POSE_PAIRS = [["Neck","RShoulder"], ["Neck","LShoulder"], ["RShoulder","RElbow"], ["RElbow","RWrist"],
+            ["LShoulder","LElbow"], ["LElbow","LWrist"], ["Neck","RHip"], ["RHip","RKnee"],
+            ["RKnee","RAnkle"], ["Neck","LHip"], ["LHip","LKnee"], ["LKnee","LAnkle"],
+            ["Neck","Nose"], ["Nose","REye"], ["REye","REar"], ["Nose","LEye"], ["LEye","LEar"]]
+
+def dist(v):
+    return np.sqrt(v[0]**2 + v[1]**2)
+	
+def innerProduct(v1, v2):
+	# 벡터 v1, v2의 크기 구하기
+	distA = dist(v1)
+	distB = dist(v2)
+	
+	# 내적 1 (x1x2 + y1y2)
+	ip = v1[0] * v2[0] + v1[1] * v2[1]
+
+	# 내적 2 (|v1|*|v2|*cos x)
+	ip2 = distA * distB
+	
+	# cos x값 구하기
+	cost = ip / ip2
+	print("cos x: %10.3f" % cost)
+	
+	# x값(라디안) 구하기 (cos 역함수)
+	x = np.arccos(cost)
+	print("x (radians): %10.3f" % x)
+
+	# x값을 x도로 변환하기
+	degX = np.rad2deg(x)
+	print("x (degrees): %10.3f" % degX)
+	return degX
+	
+def score_skeleton(train, result):
+	for pair in POSE_PAIRS:
+		partA = pair[0]  # Head
+		partA = BODY_PARTS[partA]  # 1
+		partB = pair[1]  # Neck
+		partB = BODY_PARTS[partB]  # 1
+		
+		if train[partA] and result[partB]:
+			t_vector = (train[partA][0]-train[partB][0], train[partA][1]-train[partB][1]) #
+			r_vector = (result[partA][0]-result[partB][0], result[partA][1]-result[partB][1])
+			print(train[partA], train[partB])
+			
+			# t_vector백터, r_vector -> train, result 각각 백터 값 구해서 넣기
+			degree = innerProduct(t_vector, r_vector)
+			print(degree)
+
 # 모드 선택 후 화면
 
 def play(request, page_no, video_id):
@@ -53,6 +106,7 @@ def play(request, page_no, video_id):
 		'currentPage' : currentPage,
 		'videoLength' : videoLength,
 		'videoName' : videoName,
+		'videoNo' : video_id,
 	}
 
 	if request.method == 'POST':
@@ -125,30 +179,47 @@ def play_after(request, page_no, video_no):
 
 	return render(request, 'playViewResult.html', context)
 
-def gen(camera): # https://item4.blog/2016-05-08/Generator-and-Yield-Keyword-in-Python/
+def gen(camera, video_id): # https://item4.blog/2016-05-08/Generator-and-Yield-Keyword-in-Python/
 	# 앨범 이미지
 
 	""" 초당 평균 데이터 구하는 부분 """
 	p_list =[]
 	save = [[0 for col in range(2)] for row in range(19)]
 	count = 0
+	n_count = [0 for row in range(19)]
+
+	print(video_id)
+	qVideo = VideosDB.objects.get(id=video_id)
+
+	print(qVideo.skeleton)
+
+	skel_list = json.loads(qVideo.skeleton)
+	#print(type(skel_list))
+	print(skel_list)
 
 	while True:		
 		frame, points = camera.get_frame()
 
 		for i in range(0,19):
-			save[i][0] += points[i][0]
-			save[i][1] += points[i][1]
+			if(points[i] == None):
+				n_count[i] += 1
+			else:
+				save[i][0] += points[i][0]
+				save[i][1] += points[i][1]
 
 		# fps 평균 구하기
 		if(count % 3 == 2):
 			for i in range(0,19):
-				save[i][0] /= 3
-				save[i][1] /= 3
-
+				if(save[i][0] != 0):
+					save[i][0] /= 3 - n_count[i]
+				if(save[i][1] != 0):
+					save[i][1] /= 3 - n_count[i]
+			
+			score_skeleton(skel_list[count],save)
 			p_list.append(save) # 초당 평균 데이터 -> 이 데이터와 학습 영상 데이터랑 비교하면 됨
 			
 			save = [[0 for col in range(2)] for row in range(19)]
+			n_count = [0 for row in range(19)]
 		
 		#print(p_list)
 		count += 1
@@ -156,9 +227,9 @@ def gen(camera): # https://item4.blog/2016-05-08/Generator-and-Yield-Keyword-in-
 		yield (b'--frame\r\n'
 				b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-def video_feed(request):
+def video_feed(request, video_id):
 # 웹캠 정보
-	return StreamingHttpResponse(gen(VideoCamera()),
+	return StreamingHttpResponse(gen(VideoCamera(), video_id),
 					content_type='multipart/x-mixed-replace; boundary=frame') # 찾아보기
 
 
@@ -167,12 +238,6 @@ def mypage(request):
 	
 	return render(request, 'mypageView.html')
 
-def hangulFilePathImageRead(filePath) :
-	stream = open(filePath.encode('utf-8') , "rb")
-	bytes = bytearray(stream.read())
-	numpyArray = np.asarray(bytes, dtype=np.uint8)
-		
-	return cv2.imdecode(numpyArray , cv2.IMREAD_UNCHANGED)
 
 def post_list(request):
 	""" 비디오 업로드 """
@@ -190,14 +255,13 @@ def post_list(request):
 			print("test")
 			video_form = form.save(commit=False)
 			dir = str(request.FILES['videofile'])
-			#dir = hangulFilePathImageRead(dir)
-			#path = Path(dir)
-			#dir = str(dir, 'utf-8')
 			video_form.editor = request.user
 			video_form.save()
-			print(form.instance.id)
+
+			#print(form.instance.id)
 			item = VideosDB.objects.get(pk=form.instance.id)
 			skeleton = VideoCamera2(dir)
+
 			p_list =[]
 			save_data = [[0 for col in range(2)] for row in range(19)]
 			count = 0
@@ -214,7 +278,6 @@ def post_list(request):
 				else:
 					for i in range(0,19):
 						if(points[i] == None):
-							save_data[i] = None
 							n_count[i] += 1
 						else:
 							save_data[i][0] += points[i][0]
@@ -223,8 +286,9 @@ def post_list(request):
 					# fps 평균 구하기
 					if(count % 3 == 2):
 						for i in range(0,19):
-							if(save_data[i] != None):
+							if(save_data[i][0] != 0):
 								save_data[i][0] /= 3 - n_count[i]
+							if(save_data[i][1] != 0):
 								save_data[i][1] /= 3 - n_count[i]
 
 						p_list.append(save_data) # 초당 평균 데이터
@@ -286,9 +350,4 @@ def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
 	print(result)
 	return render(request, 'resutlView.html',{'result':result})
-
-def resultView(request, edu_id):
-	result = EdusDB.objects.filter(id=edu_id)
-	print(result)
-	return render(request, 'resultView.html',{'result':result})
 
