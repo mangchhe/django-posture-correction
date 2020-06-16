@@ -22,6 +22,10 @@ import cv2
 import numpy as np
 import datetime
 
+accuracy = 99
+rank = 'A'
+description = '설명'
+
 BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
             "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
             "RAnkle": 10, "LHip": 11, "LKnee": 12, "LAnkle": 13, "REye": 14,
@@ -40,26 +44,28 @@ def dist(v):
 	
 def innerProduct(v1, v2):
 	# 벡터 v1, v2의 크기 구하기
+	
 	distA = dist(v1)
 	distB = dist(v2)
 	
 	# 내적 1 (x1x2 + y1y2)
+	if v1[0] + v1[1] == 0 or v2[0] + v2[1] == 0:
+		return None
+
 	ip = v1[0] * v2[0] + v1[1] * v2[1]
 
 	# 내적 2 (|v1|*|v2|*cos x)
 	ip2 = distA * distB
 	
-	# cos x값 구하기
+	# cos x값 구하기s
 	cost = ip / ip2
-	print("cos x: %10.3f" % cost)
 	
 	# x값(라디안) 구하기 (cos 역함수)
 	x = np.arccos(cost)
-	print("x (radians): %10.3f" % x)
 
 	# x값을 x도로 변환하기
 	degX = np.rad2deg(x)
-	print("x (degrees): %10.3f" % degX)
+	
 	return degX
 	
 def score_skeleton(train, result):
@@ -72,11 +78,9 @@ def score_skeleton(train, result):
 		if train[partA] and result[partB]:
 			t_vector = (train[partA][0]-train[partB][0], train[partA][1]-train[partB][1]) #
 			r_vector = (result[partA][0]-result[partB][0], result[partA][1]-result[partB][1])
-			print(train[partA], train[partB])
 			
 			# t_vector백터, r_vector -> train, result 각각 백터 값 구해서 넣기
 			degree = innerProduct(t_vector, r_vector)
-			print(degree)
 
 # 모드 선택 후 화면
 
@@ -203,14 +207,21 @@ def gen(camera, video_id): # https://item4.blog/2016-05-08/Generator-and-Yield-K
 	save = [[0 for col in range(2)] for row in range(19)]
 	count = 0
 	n_count = [0 for row in range(19)]
+	s_count = 0
 
-	#print(video_id)
 	qVideo = VideosDB.objects.get(id=video_id)
 
-	skel_list = json.loads(qVideo.skeleton)
-	#print(skel_list)
 
-	while True:		
+	skel_list = json.loads(qVideo.skeleton)
+
+	s_len = len(skel_list)
+
+	while True:
+
+		if s_count == s_len:
+			del camera
+			break
+
 		image, frame, points = camera.get_frame()
 		
 		# image 데이터 받아와서 video 저장
@@ -231,15 +242,14 @@ def gen(camera, video_id): # https://item4.blog/2016-05-08/Generator-and-Yield-K
 				if(save[i][1] != 0):
 					save[i][1] /= 3 - n_count[i]
 			
-			score_skeleton(skel_list[count],save)
+			score_skeleton(skel_list[s_count],save)
 			p_list.append(save) # 초당 평균 데이터 -> 이 데이터와 학습 영상 데이터랑 비교하면 됨
 			
 			save = [[0 for col in range(2)] for row in range(19)]
 			n_count = [0 for row in range(19)]
-		
+			s_count += 1
 		#print(p_list)
 		count += 1
-		print(count, p_list, len(p_list))
 		yield (b'--frame\r\n'
 				b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
@@ -271,7 +281,6 @@ def post_list(request):
 		
 		#print(form.errors)
 		if form.is_valid():
-			print("test")
 			video_form = form.save(commit=False)
 			dir = str(request.FILES['videofile'])
 			video_form.editor = request.user
@@ -289,7 +298,6 @@ def post_list(request):
 			while True:
 				frame, points = skeleton.get_frame()
 
-				print(points)
 				if frame == 2:
 					break
 				elif frame == 1:
@@ -317,8 +325,6 @@ def post_list(request):
 					count += 1
 			
 			# JSON 인코딩
-			print(p_list)
-			print(len(p_list))
 			jsonString = json.dumps(p_list)
 
 			item.skeleton = jsonString
@@ -364,15 +370,10 @@ def video_select(request, video_id):  # 영상 선택 후 화면 view
 
 def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
-	print(result)
 
 	return render(request, 'resutlView.html',{'result':result})
 
 def calculatePosture(request):
-
-	accuracy = 99
-	rank = 'A'
-	description = '설명'
 
 	content = {
 		'accuracy' : accuracy,
@@ -387,6 +388,4 @@ def calculatePosture(request):
 
 def playResultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
-	print(result)
 	return render(request, 'playviewshowmodal.html',{'result':result})
-

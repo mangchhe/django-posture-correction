@@ -39,10 +39,8 @@ class VideoCamera(object):
 
 		width = self.video.get(cv2.CAP_PROP_FRAME_WIDTH)
 		height = self.video.get(cv2.CAP_PROP_FRAME_HEIGHT)
-		print("size: {0} x {1}".format(width, height))
 
 		fps = self.video.get(cv2.CAP_PROP_FPS)  # 프레임 수
-		print("Frames per second using video.get(cv2.CAP_PROP_FPS) : {0}".format(fps))
 
 
 	def __del__(self): # 소멸자
@@ -100,7 +98,6 @@ class VideoCamera(object):
 		if 0.333333 - (time.time() - start) > 0:
 			time.sleep(0.333333 - (time.time() - start))
 		#print(0.333333 - (time.time() - start))
-		print(1 / (time.time() - start))
 		
 		return image, jpeg.tobytes(), points # Returns the data in the buffer as a string.
 

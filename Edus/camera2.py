@@ -43,17 +43,13 @@ class VideoCamera2(object):
 
 		width = self.video.get(cv2.CAP_PROP_FRAME_WIDTH)
 		height = self.video.get(cv2.CAP_PROP_FRAME_HEIGHT)
-		print("size: {0} x {1}".format(width, height))
 
 		fps = self.video.get(cv2.CAP_PROP_FPS)  # 프레임 수
-		print("Frames per second using video.get(cv2.CAP_PROP_FPS) : {0}".format(fps))
 		self.fps_total = MP4(settings.VIDEO_ROOT+url).info.length * fps
 		#self.fps_total = MP4("D:/PostureCorrectionGameSite/media/videos/1.mp4").info.length * fps
-		print(self.fps_total)
 
 		self.fps_seperate = fps // 3
 
-		print(self.fps_seperate)
 
 		self.fps_count = 0
 
@@ -111,7 +107,6 @@ class VideoCamera2(object):
 					cv2.circle(image, points[partA], 8, color[partA], thickness=-1, lineType=cv2.LINE_AA)
 					cv2.circle(image, points[partB], 8, color[partB], thickness=-1, lineType=cv2.LINE_AA)
 
-			print(time.time() - start, self.fps_count)
 			ret, jpeg = cv2.imencode('.jpg', image) # jpg 형식으로 정보의 형태를 변환시킴(인코딩)
 			return jpeg.tobytes(), points # Returns the data in the buffer as a string.
 		#print(0.333333 - (time.time() - start))
