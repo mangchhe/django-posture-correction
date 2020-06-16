@@ -173,6 +173,7 @@ def play_after(request, page_no, video_no):
 		'totalPageList' : totalPageList,
 		'currentPage' : currentPage,
 		'result' : str(zum)+' , '+str(rank)+' , '+str(nowDate),
+		'videoNo' : video_no,
 	}
 
 	if request.method == 'POST':
@@ -203,14 +204,11 @@ def gen(camera, video_id): # https://item4.blog/2016-05-08/Generator-and-Yield-K
 	count = 0
 	n_count = [0 for row in range(19)]
 
-	print(video_id)
+	#print(video_id)
 	qVideo = VideosDB.objects.get(id=video_id)
 
-	print(qVideo.skeleton)
-
 	skel_list = json.loads(qVideo.skeleton)
-	#print(type(skel_list))
-	print(skel_list)
+	#print(skel_list)
 
 	while True:		
 		image, frame, points = camera.get_frame()
