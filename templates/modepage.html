@@ -139,6 +139,13 @@
       </tr>
     </thead>
     <tbody>
+      {% for x in video_list %}
+      <td><img src="{{MEDIA_URL}}{{x.video_img}}" width="200" height="100"></p></td>
+      <td>{{ x.editor }}</td>
+      <td>{{ x.start_date }}</td>
+        <td><button onclick="window.open('{% url 'VideoShow' x.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
+      {% endfor %}
+
       {% for VideosDB in VideosDB_list %}
       {% for UsersDB in UsersDB_list %}
         <tr>

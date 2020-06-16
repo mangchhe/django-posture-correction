@@ -325,9 +325,6 @@ nav .block .navbar-default .navbar-nav > .active > a:hover:before {
   color: #959595;
   transform: 1s;
 }
-#blog .block ul li:hover img {
-  transform: scale(1.2) rotate(10deg);
-}
 #blog .block ul li h3 {
   color: #323232;
   padding: 0px 40px 20px;
@@ -340,18 +337,21 @@ nav .block .navbar-default .navbar-nav > .active > a:hover:before {
   left: 50%;
   bottom: 0;
   width: 90px;
-  height: 1px;
+  
   background: #CBC4B5;
   margin-left: -45px;
 }
 #blog .block ul li p {
   padding-top: 25px;
 }
+#blog .block table form{
+  width: 80%;
+}
 #blog .block ul li .blog-img {
   float: left;
   width: 50%;
   height: 100%;
-  background: black;
+  background: white;
   overflow: hidden;
 }
 #blog .block ul li .blog-img img {

@@ -4,6 +4,9 @@ from .models import VideosDB
 class VideoForm(forms.ModelForm):
     class Meta:
         model= VideosDB
+        widgets = {
+            'title': forms.Textarea(attrs={'rows':1}),
+        }
         fields= ["title", "videofile", "video_img", "level"]
 
 

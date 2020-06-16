@@ -24,7 +24,6 @@
                             </li>
                             {% endfor %}
                         </ul>
-                        <a class="btn btn-default btn-more-info wow bounceIn" data-wow-duration="500ms" data-wow-delay="1200ms" href="#" role="button">More Info</a>
                     </div>
                 </div><!-- .col-md-12 close -->
             </div><!-- .row close -->
@@ -33,3 +32,10 @@
 
 
 {% endblock %}
+<form action="{% url 'search'%}" method="GET">
+    <input type="hidden" name="q" value="{{ q }}">
+    <label><input type="checkbox" name="le" value="상" /> 상 </label>
+    <label><input type="checkbox" name="le" value="중" /> 중 </label>
+    <label><input type="checkbox" name="le" value="하" /> 하 </label>
+    <input type="submit" value="설정">
+</form>
