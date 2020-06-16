@@ -14,6 +14,7 @@ urlpatterns = [
 
     path('result/edu_id=<int:edu_id>',views.resultView, name='resultView'),
     path('resultView/edu_id=<int:edu_id>',views.resultView, name='result'),
+    path('playresult/edu_id=<int:edu_id>',views.playResultView, name='playResultView'),
 
     path('calculatePosture', views.calculatePosture, name='calculatePosture'),
 

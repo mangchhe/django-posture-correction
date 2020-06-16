@@ -1,0 +1,82 @@
+.title {
+    text-align: left;
+}
+
+nav .block {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 20px;
+}
+
+nav .block .navbar-brand img {
+    padding-left: 25px;
+}
+
+h3, h1 {
+    color: #F29661;
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+    font-size: 200px;
+}
+
+
+#card {
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+}
+
+#user_rank {
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+}
+
+#user_video{
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+}
+
+th {
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+h5 {
+  font-family: 'Spoqa Han Sans', 'Sans-serif';
+  font-weight: lighter;
+}
+
+p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0px;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+a,
+a:active,
+a:focus,
+a:active {
+  text-decoration: none !important;
+  font-size: 15px;
+}
+

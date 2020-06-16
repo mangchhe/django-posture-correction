@@ -1,42 +1,37 @@
+#sec_1{
+    margin: 0px auto;
+    padding: 100px, 50px;
+    text-align: center;
+}
 #s_left{
-    width:400px;
-    height:240px;
-    background-color:yellow;
-    float:left;
-    margin-left:120;
-    margin-right:20;
-    margin-top:20;
+    display: inline-block;
     text-align:center;
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+    font-size: 20px;
+    margin: 10px;
+}
+h3{
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+    font-size: 20px;
 }
 #s_right{
-    width:400px;
-    height:240px;
-    background-color:red;
-    float:left;
-    margin-left:20;
-    margin-right:120;
-    margin-top:20;
+    display: inline-block;
     text-align:center;
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+    font-size: 20px;
+    margin: 10px;
 }
 #s_bottom{
-    width:840px;
-    height:240px;
-    background-color:orange;
-    float:left;
-    margin-left:120;
-    margin-right:120;
-    margin-top:20;
-    margin-bottom:0;
     text-align:center;
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
 }
 #s_bbottom{
-    width:840px;
-    height:240px;
-    background-color:red;
-    float:left;
-    margin-left:120;
-    margin-right:120;
-    margin-top:20;
-    margin-bottom:0;
     text-align:center;
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+    margin: 100px;
 }

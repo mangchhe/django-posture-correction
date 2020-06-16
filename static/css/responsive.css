@@ -66,9 +66,11 @@ px      68    160    252    344    436    528    620    712    */
   #blog .block ul li .content-right {
     padding: 40px 20px 0;
   }
+
   #blog .block ul li .content-rightmy {
 
   }
+
   #blog .block .btn-more-info {
     float: none;
     margin-top: 30px;
@@ -76,9 +78,11 @@ px      68    160    252    344    436    528    620    712    */
   #blog .block .btn-more-info:hover {
     border-radius: 10px;
   }
+
   #blog .block table{
     width: 50%;
   }
+
   /*--
     price Start
 --*/
@@ -232,9 +236,11 @@ px      68    160    252    */
   #blog .block ul {
     padding-bottom: 30px;
   }
+
   #blog .block a {
     font-size: 20px;
   }
+
   #blog .block ul li {
     float: none;
     width: 100%;

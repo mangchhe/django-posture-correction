@@ -80,6 +80,7 @@ def score_skeleton(train, result):
 
 # 모드 선택 후 화면
 
+
 def play(request, page_no, video_id):
 
 	# 비디오 정보 (mp4, avi 등)
@@ -339,16 +340,6 @@ def post_list(request):
               'Edus_list' : Edus_list}
 	return render(request, 'mypageView.html', context)
 
-def VideoSelect(request): # 영상 선택 후 화면 view
-    EdusDB_list = EdusDB.objects.all().order_by('-score') # 점수가 높은순으로
-    UsersDB_list = UsersDB.objects.all()
-    VideosDB_list = VideosDB.objects.all().order_by('-start_date') #게시일 최근순으로
-
-    context = {'EdusDB_list': EdusDB_list,
-               'UsersDB_list': UsersDB_list,
-               'VideosDB_list': VideosDB_list}
-    return render(request, 'modepage.html', context)
-
 
 def ResultVideosList(request): # 학습한 결과 영상 리스트 화면 view
     ResultVideos = EdusDB.objects.all()
@@ -362,14 +353,22 @@ def ResultVideosList(request): # 학습한 결과 영상 리스트 화면 view
 
     return render(request, 'ResultVideosList.html', context)
 
-def video_select(request, video_id):
-	video_list = VideosDB.objects.exclude(editor__id=request.user.id)
-	return render(request, 'modepage.html',{'video_id':video_id, 'video_list':video_list})
+def video_select(request, video_id):  # 영상 선택 후 화면 view
+    EdusDB_list = EdusDB.objects.all().order_by('-score') # 점수가 높은순으로 쿼리문 수정
+    UsersDB_list = UsersDB.objects.all()
+    VideosDB_list = VideosDB.objects.all().exclude(editor__id=request.user.id) #게시일 최근순으로
+
+    context= {'EdusDB_list': EdusDB_list,
+              'UsersDB_list': UsersDB_list,
+              'VideosDB_list': VideosDB_list,
+              'video_id': video_id}
+    return render(request, 'modepage.html', context)
 
 
 def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
 	print(result)
+
 	return render(request, 'resutlView.html',{'result':result})
 
 def calculatePosture(request):
@@ -385,4 +384,12 @@ def calculatePosture(request):
 	}
 
 	return JsonResponse(content)
+
+
+	return render(request, 'resultView.html',{'result':result})
+
+def playResultView(request, edu_id):
+	result = EdusDB.objects.filter(id=edu_id)
+	print(result)
+	return render(request, 'playviewshowmodal.html',{'result':result})
 
