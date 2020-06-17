@@ -292,7 +292,6 @@ def gen(camera, video_id):  # https://item4.blog/2016-05-08/Generator-and-Yield-
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-
 def video_feed(request, video_id):
     # 웹캠 정보
     now = datetime.datetime.now()
@@ -419,6 +418,7 @@ def resultView(request, edu_id):
     result = EdusDB.objects.filter(id=edu_id)
 
     return render(request, 'resutlView.html', {'result': result})
+
 
 
 def calculatePosture(request):

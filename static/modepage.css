@@ -12,13 +12,18 @@ nav .block .navbar-brand img {
     padding-left: 25px;
 }
 
+
 h3, h1 {
     color: #F29661;
     font-family: 'Spoqa Han Sans', 'Sans-serif';
     font-weight: lighter;
-    font-size: 200px;
+    font-size: 25px;
 }
 
+#container {
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+}
 
 #card {
     font-family: 'Spoqa Han Sans', 'Sans-serif';

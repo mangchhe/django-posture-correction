@@ -4,53 +4,9 @@
 <head>
     <title>모드 선택 후 화면</title>
     <link rel ='stylesheet' type='text/css' href='{% static "playView.css" %}'>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body>
-<section id="hero-area">
-    <img class="img-responsive" src="{% static "header.png" %}" alt="">
-</section>
-
-<nav id="navigation">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="block">
-                        <nav class="navbar navbar-default">
-                          <div class="container-fluid">
-                            <!-- Brand and toggle get grouped for better mobile display -->
-                            <div class="navbar-header">
-                              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                              </button>
-                                  <a class="navbar-brand" href="#"><img class="img-responsive" src="{% static "logo.png" %}"></a>
-                            </div>
-                            <!-- Collect the nav links, forms, and other content for toggling -->
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                              <ul class="nav navbar-nav navbar-right" id="top-nav">
-                                <li><a>Home</a></li>
-                                <li><a href="#about-us">about us</a></li>
-                                <li><a href="#blog">Blog</a></li>
-                                <li><a href="#price">menu</a></li>
-                                <li><a href="#subscribe">news</a></li>
-                                <li><a href="#contact-us">contacts</a></li>
-                              </ul>
-                            </div><!-- /.navbar-collapse -->
-                          </div><!-- /.container-fluid -->
-                        </nav>
-                    </div>
-                </div><!-- .col-md-12 close -->
-            </div><!-- .row close -->
-        </div><!-- .container close -->
-</nav>
 
     <br><br>
 
@@ -62,14 +18,16 @@
                 </video>
             </div>
             <div id = 's_right'>나의 실시간 영상<br><br>
+
                 <img src="">
+
             </div>
         </div>
     </section>
 
     <footer>
         <div id = 's_bottom'>
-            <h3>실전 / 연습 결과</h3>
+            <h4>실전 / 연습 결과</h4>
             <br><br>
             등급 | 점수 | 날짜
             <input type = 'checkbox'> 공유
@@ -112,7 +70,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
 
             {% for page in totalPageList %}
                 <a href="page={{page}}">
@@ -127,7 +84,7 @@
                 {% endifequal %}
                 ]
             {% endfor %}
-        </div>
+            </div>
     </footer>
 
 </body>
