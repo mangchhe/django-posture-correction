@@ -10,21 +10,6 @@
 
     <br><br>
 
-    <section>
-        <div id="sec_1">
-            <div id = 's_left'>따라할 영상<br><br>
-                <video src = ''
-                       height = 180 width = 360 controls autoplay oncontextmenu="return false" type = 'video/mp4'>
-                </video>
-            </div>
-            <div id = 's_right'>나의 실시간 영상<br><br>
-
-                <img src="">
-
-            </div>
-        </div>
-    </section>
-
     <footer>
         <div id = 's_bottom'>
             <h4>실전 / 연습 결과</h4>
@@ -61,17 +46,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for i,j,k in videoList %}
-                    <tr>
-                        <td>{{ j }}</td>
-                        <td class="text-center">{{ k }}</td>
-                        <td><button class="btn btn btn-outline-secondary" onclick="window.open('{% url 'playResultView' i %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button></td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="7" class="text-center bg-warning">데이터가 없습니다.</td>
-                    </tr>
-                    {% endfor %}
+                        {% for a,i,j,b,k in videoList %}
+                        <tr>
+                            <td>{{ b }}</td>
+                            <td class="text-center">{{ k }}</td>
+                            <td><button class="btn btn btn-outline-secondary" onclick="window.open('{% url 'playResultView' a %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center bg-warning">데이터가 없습니다.</td>
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

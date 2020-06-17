@@ -1,6 +1,5 @@
 #sec_1{
-    margin: 0px auto;
-    padding: 100px, 50px;
+    margin: 100px;
     text-align: center;
 }
 #s_left{
@@ -19,6 +18,9 @@ h3{
 }
 
 h4{
+    margin: 10px 110px 10px 110px;
+    display: inline-block;
+    font-size: 30px;
     font-family: 'Spoqa Han Sans', 'Sans-serif';
     font-weight: lighter;
 }

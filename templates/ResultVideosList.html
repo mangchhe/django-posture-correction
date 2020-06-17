@@ -24,7 +24,7 @@
     <tbody>
       {% for EdusDB in EdusDB_list %}
         <tr>
-          <td>{{ EdusDB.video_id }}</td>
+          <td>{{ EdusDB.video_description }}</td>
           <td>{{ EdusDB.edu_days }}</td>
           <td><button class="btn btn-outline-secondary" onclick="window.open('{% url 'result' EdusDB.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
         </tr>

@@ -128,8 +128,10 @@ def play(request, page_no, video_id):
     eduList = Paginator(edu, 4)
 
     idx = []
+    eid = []
     days = []
     video = []
+    desc = []
 
     totalPageList = [i for i in range(1, eduList.num_pages + 1)]
     currentPage = page_no
@@ -137,11 +139,13 @@ def play(request, page_no, video_id):
     for i, j in enumerate(eduList.get_page(page_no).object_list.values()):
 
         idx.append((page_no-1) * 4 + i+1)
+        eid.append(j['id'])
         video.append(j['recode_video'])
+        desc.append(j['video_description'])
         days.append(j['edu_days'])
 
     context = {
-        'videoList': zip(idx, video, days),
+        'videoList': zip(eid, idx, video, desc, days),
         'totalPageList': totalPageList,
         'currentPage': currentPage,
         'videoLength': videoLength,
@@ -184,8 +188,10 @@ def play_after(request, page_no, video_no):
             break
 
     idx = []
+    eid = []
     days = []
     video = []
+    desc = []
 
     totalPageList = [i for i in range(1, eduList.num_pages + 1)]
     currentPage = page_no
@@ -193,7 +199,9 @@ def play_after(request, page_no, video_no):
     for i, j in enumerate(eduList.get_page(page_no).object_list.values()):
 
         idx.append((page_no-1) * 4 + i+1)
+        eid.append(j['id'])
         video.append(j['recode_video'])
+        desc.append(j['video_description'])
         days.append(j['edu_days'])
         
     
@@ -217,7 +225,7 @@ def play_after(request, page_no, video_no):
     total_rank= str(total_rank)
     total_accuracy = str(total_accuracy)
     context = {
-        'videoList': zip(idx, video, days),
+        'videoList': zip(eid, idx, video, desc, days),
         'totalPageList': totalPageList,
         'currentPage': currentPage,
         'total_zum': total_zum, 
@@ -450,6 +458,7 @@ def calculatePosture(request):
 
 
 def playResultView(request, edu_id):
+    print(edu_id,'------------------------------')
     result = EdusDB.objects.filter(id=edu_id)
     return render(request, 'playviewshowmodal.html', {'result': result})
 
