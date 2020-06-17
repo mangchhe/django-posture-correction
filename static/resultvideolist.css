@@ -11,6 +11,8 @@ a, th, td {
   font-family: 'Spoqa Han Sans', 'Sans-serif';
   font-weight: lighter;
 }
+
+
 h2,
 h3,
 h4,
@@ -29,6 +31,7 @@ h3 {
     font-family: 'Spoqa Han Sans', 'Sans-serif';
     font-weight: lighter;
     color: #F29661;
+    font-size: 30px;
 }
 
 p {

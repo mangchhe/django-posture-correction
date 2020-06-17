@@ -11,47 +11,6 @@
 </head>
 
 <body>
-<section id="hero-area">
-    <img class="img-responsive" src="{% static "header.png" %}" alt="">
-</section>
-
-<nav id="navigation">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="block">
-                        <nav class="navbar navbar-default">
-                          <div class="container-fluid">
-                            <!-- Brand and toggle get grouped for better mobile display -->
-                            <div class="navbar-header">
-                              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                              </button>
-                                  <a class="navbar-brand" href="#"><img class="img-responsive" src="{% static "logo.png" %}"></a>
-                            </div>
-                            <!-- Collect the nav links, forms, and other content for toggling -->
-                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                              <ul class="nav navbar-nav navbar-right" id="top-nav">
-                                <li><a>Home</a></li>
-                                <li><a href="#about-us">about us</a></li>
-                                <li><a href="#blog">Blog</a></li>
-                                <li><a href="#price">menu</a></li>
-                                <li><a href="#subscribe">news</a></li>
-                                <li><a href="#contact-us">contacts</a></li>
-                              </ul>
-                            </div><!-- /.navbar-collapse -->
-                          </div><!-- /.container-fluid -->
-                        </nav>
-                    </div>
-                </div><!-- .col-md-12 close -->
-            </div><!-- .row close -->
-        </div><!-- .container close -->
-</nav>
-
-<body>
     <br><br>
     <div id="sec_1">
             <div id = 's_left'>따라할 영상<br><br>
@@ -60,23 +19,21 @@
                 </video>
             </div>
             <div id = 's_right'>나의 실시간 영상<br><br>
-                <img src="{% url 'video_feed' %}">
+                <img src="{% url 'video_feed' video_id=videoNo %}">
             </div>
     </div>
 
 
     <footer>
         <div id = 's_bottom'>
-            <h3>실전 / 연습 결과</h3>
+            <h4>실전 / 연습 결과</h4>
             <br><br>
             점수 | 등급 | 날짜
             <input type = 'checkbox'> 공유
             <button class="btn btn-secondary" type = "button" onclick = 'alert("영상 보기를 눌렀습니다.")'>영상 보기</button>
             <form action = '' method="POST">
                 {% csrf_token %}
-                <button class="btn btn-secondary" type = "submit" onclick = 'alert("업로드를 눌렀습니다.")' name ='upload_btn'>
-                업로드
-                </button>
+                <button class="btn btn-secondary" type = "submit" onclick = 'alert("업로드를 눌렀습니다.")' name ='upload_btn'>업로드</button>
             </form>
         </div>
 
@@ -107,7 +64,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
 
             {% for page in totalPageList %}
                 <a href="page={{page}}">
@@ -124,7 +80,6 @@
             {% endfor %}
         </div>
     </footer>
-
     <meta http-equiv="refresh" content="{{videoLength}}; url=result/page={{currentPage}}">
 
 </body>

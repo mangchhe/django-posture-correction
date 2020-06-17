@@ -173,6 +173,7 @@ def play_after(request, page_no, video_no):
 		'totalPageList' : totalPageList,
 		'currentPage' : currentPage,
 		'result' : str(zum)+' , '+str(rank)+' , '+str(nowDate),
+		'videoNo' : video_no,
 	}
 
 	if request.method == 'POST':
@@ -368,8 +369,7 @@ def video_select(request, video_id):  # 영상 선택 후 화면 view
 def resultView(request, edu_id):
 	result = EdusDB.objects.filter(id=edu_id)
 	print(result)
-
-	return render(request, 'resutlView.html',{'result':result})
+	return render(request, 'resultView.html',{'result':result})
 
 def calculatePosture(request):
 

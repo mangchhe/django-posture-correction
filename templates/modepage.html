@@ -1,111 +1,44 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}modepage.html{% endblock %}
-{% block extra-style %}
-<style type="text/css">
-  .title {
-    color: #c80;
-    font-weight: bold;
-  }
-
-  .powered {
-    position: relative;
-    top: 77%;
-    color: #cc0;
-    font-style: italic;
-  }
-</style>
-{% endblock %}
 
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-6">
-      <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="images/1.png">
-        <div class="card-body">
-          <button type="button" class="btn btn-success btn-lg">연습모드</button>
-        </div>
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="images/2.png">
-        <div class="card-body">
-          <button type="button" class="btn btn-danger btn-lg">실전모드</button>
-        </div>
-      </div>
+<head>
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type='text/css' href="{% static 'modepage.css' %}">
+</head>
+
+<body>
+<section id="card_section">
+<div class="card-deck">
+  <div class="card" style="display: inline-block; margin: 100px 20px 100px 250px;">
+    <img class="card-img-top"  src="{% static "1.png" %}" alt="Card image cap" width="500" height="200">
+    <div class="card-body">
+      <h5 class="card-title" style="display: inline-block; font-size: 30px;">연습모드</h5>
+      <a class="btn btn-lg btn-success" style="display: inline-block; float:right;" href="{% url 'playView' video_id 1 %}">이동</a>
     </div>
   </div>
-
+  <div class="card" style="display: inline-block; margin: 100px 20px 10px 1px;">
+    <img class="card-img-top" src="{% static "2.png" %}" alt="Card image cap" width="500" height="200">
+    <div class="card-body">
+      <h5 class="card-title" style="display: inline-block; font-size: 30px;">실전모드</h5>
+      <a class="btn btn-lg btn-danger" style="display: inline-block; float:right;" href="{% url 'playView' video_id 1 %}">이동</a>
+    </div>
+  </div>
 </div>
-<hr style="margin: 100px 0;">
-<div class="col-8">
-  <a class="btn btn-lg btn-primary" href="{% url 'playView' video_id 1 %}">연습모드</a>
-  <a class="btn btn-lg btn-primary" href="{% url 'ResultVideosList' %}">실전모드</a>
-</div>
-<div>
-  <h3>이용자 순위</h3>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 순위 </ font>
-              </ font>
-              </ th>
-        <th scope="col">
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 사용자 이름 </ font>
-              </ font>
-              </ th>
-        <th scope="col">
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;">
-              </ font>
-              </ font>
-              </ th>
-        <th scope="col">
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 열 제목 </ font>
-              </ font>
-              </ th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 기본 </ font>
-              </ font>
-              </ th>
-        <td>
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 열 내용 </ font>
-              </ font>
-              </ td>
-        <td>
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 열 내용 </ font>
-              </ font>
-              </ td>
-        <td>
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 열 내용 </ font>
-              </ font>
-              </ td>
-      </tr>
-    </tbody>
+</section>
 
 
-
-<div>
-    <table class="table table-hover" id="user_rank">
-    <thead>
+<section>
+<div class="container">
+    <div><h3>이용자 순위</h3></div>
+    <div>
+    <table class="table table-hover table-sm" id="user_rank">
+    <thead class="thead-light">
       <tr>
-        <th width=300>사용자 이름</th>
-        <th width=200>점수</th>
-        <th width=200>학습일</th>
+        <th class="text-center">사용자 이름</th>
+        <th class="text-center">점수</th>
+        <th class="text-center">학습일</th>
       </tr>
     </thead>
     <tbody>
@@ -113,10 +46,9 @@
       {% for UsersDB in UsersDB_list %}
 
         <tr>
-            <td>{{ UsersDB.username }}</td>
-          <td>{{ EdusDB.score }}</td>
-          <td>{{ EdusDB.edu_days }}</td>
-
+          <td class="text-center">{{ UsersDB.username }}</td>
+          <td class="text-center">{{ EdusDB.score }}</td>
+          <td class="text-center">{{ EdusDB.edu_days }}</td>
         </tr>
       {% empty %}
         <tr>
@@ -126,33 +58,29 @@
     </tbody>
     {% endfor %}
   </table>
-</div>
+    </div>
+    </div>
+</section>
 
-<div>
+<div class="container">
+    <div><h3>다른 이용자가 올린 영상</h3></div>
     <table class="table table-hover" id="user_video">
-    <thead>
+    <thead class="thead-light">
       <tr>
-        <th width=300>영상</th>
-        <th width=300>이용자 이름</th>
-        <th width=300>게시일</th>
-          <th width=300>영상보기</th>
+        <th class="text-center">영상</th>
+        <th class="text-center">이용자 이름</th>
+        <th class="text-center">게시일</th>
+        <th class="text-center">영상보기</th>
       </tr>
     </thead>
     <tbody>
-      {% for x in video_list %}
-      <td><img src="{{MEDIA_URL}}{{x.video_img}}" width="200" height="100"></p></td>
-      <td>{{ x.editor }}</td>
-      <td>{{ x.start_date }}</td>
-        <td><button onclick="window.open('{% url 'VideoShow' x.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
-      {% endfor %}
-
       {% for VideosDB in VideosDB_list %}
       {% for UsersDB in UsersDB_list %}
         <tr>
-          <td><img src="{{MEDIA_URL}}{{VideosDB.video_img}}" width="200" height="100"></p></td>
-          <td>{{ UsersDB.username }}</td>
-          <td>{{ VideosDB.start_date }}</td>
-            <td><button onclick="window.open('{% url 'VideoShow' VideosDB.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
+          <td class="text-center"><img src="{{MEDIA_URL}}{{VideosDB.video_img}}" width="200" height="100"></p></td>
+          <td class="text-center">{{ UsersDB.username }}</td>
+          <td class="text-center">{{ VideosDB.start_date }}</td>
+          <td class="text-center"><button class="btn btn btn-outline-secondary" onclick="window.open('{% url 'VideoShow' VideosDB.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
         </tr>
       {% empty %}
         <tr>
@@ -161,75 +89,8 @@
       {% endfor %}
     </tbody>
       {% endfor %}
-
-<div>
-  <h3>다른 이용자가 올린 영상</h3>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 순위 </ font>
-              </ font>
-              </ th>
-        <th scope="col">
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 사용자 이름 </ font>
-              </ font>
-              </ th>
-        <th scope="col">
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;">
-              </ font>
-              </ font>
-              </ th>
-        <th scope="col">
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 열 제목 </ font>
-              </ font>
-              </ th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 기본 </ font>
-              </ font>
-              </ th>
-        <td>
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 열 내용 </ font>
-              </ font>
-              </ td>
-        <td>
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 열 내용 </ font>
-              </ font>
-              </ td>
-        <td>
-          <font style="vertical-align : inherit;">
-            <font style="vertical-align : inherit;"> 열 내용 </ font>
-              </ font>
-              </ td>
-      </tr>
-    </tbody>
-  </table>
-
+    </table>
 </div>
-  </table>
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content"></div>
-  </div>
-</div>
-
+</body>
 {% endblock content %}
-
-{% block footer %}
-{% endblock %}
-
-{% block extrascripts %}
-{% endblock extrascripts %}
 
