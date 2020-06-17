@@ -8,6 +8,11 @@
     <link rel ='stylesheet' type='text/css' href='{% static "playView.css" %}'>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"
+    ></script>
 </head>
 
 <body>
@@ -61,6 +66,22 @@
             </div>
             <div id = 's_right'>나의 실시간 영상<br><br>
                 <img src="{% url 'video_feed' video_id=videoNo %}">
+                <div id = 'description'>Hello</div>
+
+                <script>
+                timer = setInterval(function () {
+                    $.ajax({
+                        url: "{% url 'calculatePosture' %}",
+                        dataType: "Json",
+                        success: function (data) {
+                            $("#description").html('정확도 : ' + data.accuracy + '    '+ '등급 : ' + data.rank);
+                        },
+                        error: function (request, status, error) {
+                            alert("ajax 통신 실패...");
+                        },
+                    });
+                }, 1000);
+                </script>
             </div>
     </div>
 
@@ -97,7 +118,7 @@
                     <tr>
                         <td>{{ j }}</td>
                         <td class="text-center">{{ k }}</td>
-                        <td><button class="btn btn btn-outline-secondary" onclick="window.open('{% url 'playresultView' i %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button></td>
+                        <td><button class="btn btn btn-outline-secondary" onclick="window.open('{% url 'playResultView' i %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button></td>
                     </tr>
                     {% empty %}
                     <tr>
