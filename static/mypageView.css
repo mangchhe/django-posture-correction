@@ -35,3 +35,17 @@
     margin-top:20;
     text-align:center;
 }
+
+th {
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+    font-weight: bolder;
+}
+
+h5{
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+    display: inline-block;
+    padding: 10px;
+    font-size: 20px;
+  }

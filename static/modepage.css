@@ -43,6 +43,7 @@ h3, h1 {
 th {
     font-family: 'Spoqa Han Sans', 'Sans-serif';
     font-weight: lighter;
+    font-weight: bolder;
 }
 
 h1,
@@ -84,4 +85,3 @@ a:active {
   text-decoration: none !important;
   font-size: 15px;
 }
-

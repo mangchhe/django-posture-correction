@@ -9,7 +9,7 @@
 
 
     <br><br>
-
+    <br><br>
     <footer>
         <div id = 's_bottom'>
             <h4>실전 / 연습 결과</h4>
@@ -17,7 +17,7 @@
             <div id = 'box'>
                 <h5>점수:  {{total_zum}}</h5>
                 <h5>등급:  {{total_rank}}</h5>
-                <h5>정확도:  {{total_accuracy}}</h5>
+                <h5>정확도:  {{total_accuracy}}  </h5>
                 <button class="btn btn-secondary" type = 'button' onclick="window.open('{% url 'UploadPreView' %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">
                     영상 보기
                 </button>
@@ -25,9 +25,12 @@
             <div id = 'box'>
                 <form enctype="multipart/form-data"  method="POST" action="">
                     {% csrf_token %}
-                    영상 설명 : {{form.video_description}}
+                    <h5>영상 설명 : </h5>
+                     {{form.video_description}}
                 </br>
-                    공유 여부 : {{form.is_shared}}
+                    <h5>공유 여부 : </h5>
+                    {{form.is_shared}}
+                    <h5>   </h5>
                     <input class="btn btn-secondary" type="submit" value="Upload" onclick = 'alert("업로드")'/>
                 </form>
             </div>

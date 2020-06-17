@@ -3,6 +3,7 @@
 {% load static %}
 
 <head>
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
     <link rel ='stylesheet' type='text/css' href='{% static "mypageView.css" %}'>
     <title>마이페이지</title>
 
@@ -45,7 +46,7 @@
                                     <tbody>
                                         {% for edus_list in Edus_list %}
                                         <tr>
-                                            <td>{{edus_list.video_id}}</td>
+                                            <td>{{edus_list.video_description}}</td>
                                             <td>{{ edus_list.score }}</td>
                                             <td>{{ edus_list.edu_days }}</td>
                                         </tr>
@@ -67,7 +68,7 @@
                                         {% for edus_list in Edus_list %}
                                         <tr>
                                             <td><a href="{% url 'ResultVideosList' %}">
-                                                {{edus_list.video_id}}
+                                                {{edus_list.video_description}}
                                             </a>
                                             </td>
                                             <td>{{ edus_list.score }}</td>
@@ -83,13 +84,17 @@
                                 </div>
                                 <form enctype="multipart/form-data"  method="POST" action="">
                                     {% csrf_token %}
-                                    title : {{form.title}}
-                                </br>
-                                    video : {{form.videofile}}
-                                </br>
-                                    image : {{form.video_img}}
-                                </br>
-                                    level : {{form.level}}
+                                    <h5>title : </h5>
+                                    {{form.title}}
+                                </br><br>
+                                    <h5>video : </h5>
+                                    {{form.videofile}}
+                                </br><br>
+                                    <h5>image : </h5>
+                                    {{form.video_img}}
+                                </br><br>
+                                    <h5>level : </h5>
+                                    {{form.level}}
                                     <input type="submit" value="Upload" onclick = 'alert("업로드")'/>
                                 </form>  
                             </div>

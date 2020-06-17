@@ -30,12 +30,13 @@ h5{
     font-weight: lighter;
     display: inline-block;
     padding: 10px;
+    font-size: 20px;
 }
 
 tr{
     font-family: 'Spoqa Han Sans', 'Sans-serif';
     font-weight: lighter;
-    font-size: 15px;
+    font-size: 18px;
 }
 #s_right{
     display: inline-block;
@@ -54,7 +55,7 @@ tr{
     text-align:center;
     font-family: 'Spoqa Han Sans', 'Sans-serif';
     font-weight: lighter;
-    margin: 100px;
+    margin: 200px;
 }
 
 #box{
@@ -62,4 +63,11 @@ tr{
     margin: 10px 300px 10px 300px;
     padding: 15px;
     border-radius: 10px;
+}
+
+th {
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+    font-weight: bolder;
+    font-size: 21px;
 }
