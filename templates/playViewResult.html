@@ -5,44 +5,194 @@
     <title>모드 선택 후 화면</title>
     <link rel ='stylesheet' type='text/css' href='{% static "playView.css" %}'>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
-</head>
+    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+    <style>
+        body { padding: 50px;}
+        .graph{height: 40px; margin: 0 0 20px; background:#ccc; border-radius: 40px;}
+        .graph span {display: block; height: 40px; line-height: 40px; text-align: right;
+         border-radius: 40px; color: white; font-size: 13px; padding: 0 10px;}
+        .graph.stack span {background:violet; animation: stack 2s 1;}
+        .graph.stack2 span {background:skyblue; animation: stack2 2s 1;}
+        .graph.stack3 span {background:orange; animation: stack3 2s 1;}
 
+        @keyframes stack{
+            0% {width: 0; color: rgba(255,255,255,0);}
+            40% {color: rgba(255,255,255,1);}
+            100% {width: {{total_zum}}%; }
+        }
+        @keyframes stack2{
+            0% {width: 0; color: rgba(255,255,255,0);}
+            40% {color: rgba(255,255,255,1);}
+            100% {width: {{rank_trans}}%; }
+        }
+        @keyframes stack3{
+            0% {width: 0; color: rgba(255,255,255,0);}
+            40% {color: rgba(255,255,255,1);}
+            100% {width: {{total_accuracy}}%; }
+        }
+        #zum {
+            font-size: 40px;
+            color: violet;
+        }
+        #rank {
+            font-size: 40px;
+            color: skyblue;
+        }
+        #accuracy {
+            font-size: 40px;
+            color: orange;
+        }
+        .icon__text {
+            font-size: 30px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
+    <!-- 차트 링크 --> 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+    <br><br>
+    <div id = 's_bottom'>
+        <h4 style="font-size: 40px;">실전 / 연습 결과</h4>
+        <br>
+    </div>
 
     <br><br>
 
-    <section>
-        <div id="sec_1">
-            <div id = 's_left'>따라할 영상<br><br>
-                <video src = ''
-                       height = 180 width = 360 controls autoplay oncontextmenu="return false" type = 'video/mp4'>
-                </video>
-            </div>
-            <div id = 's_right'>나의 실시간 영상<br><br>
+    <span id = "zum">
+        <i class = "fas fa-balance-scale"></i>
+    </span>
+    <span class = 'icon__text'>점수</span>
+    <div class="graph stack">
+        <span style="width:{{total_zum}}%">{{total_zum}}</span>
+    </div>
+    <span id = "rank" >
+        <i class = "fas fa-balance-scale"></i>
+    </span>
+    <span class = 'icon__text'>랭크</span>
+    <div class="graph stack2">
+        <span style="width:{{rank_trans}}%">{{total_rank}}</span>
+    </div>
+    <span id = "accuracy">
+        <i class = "fas fa-balance-scale"></i>
+    </span>
+    <span class = 'icon__text'>정확도</span>
+    <div class="graph stack3">
+        <span style="width:{{total_accuracy}}%">{{total_accuracy}}%</span>
+    </div>
+    <br><br>
+    <div class="container"> 
+        <canvas id="myChart"></canvas>
+        <canvas id="myChart2"></canvas> 
+        <canvas id="myChart3"></canvas> 
+    </div>
+     <!-- 부트스트랩 --> 
+     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> 
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> 
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> 
+     
+     <!-- 차트 -->
+   
+    <script> var ctx = document.getElementById('myChart');
 
-                <img src="">
+        String.prototype.replaceAll = function(org, dest) {
+            return this.split(org).join(dest);
+        }
 
-            </div>
-        </div>
-    </section>
+        var test = "{{text_len}}".replaceAll("&#x27;", "").replaceAll('[',"").replaceAll(']',"").split(",");
+        
+        var myChart = new Chart(ctx, { 
+            type: 'line', 
+            data: { labels: test, 
+            datasets: [{ 
+                label: '시간 별 점수', 
+                data: {{total_zum_list}},
+                backgroundColor: 'rgba(255, 99, 132, 0.2)', 
+                borderColor: 'rgba(255, 99, 132, 1)', 
+                borderWidth: 1
+                }] 
+            }, 
+            options: { 
+                scales: { 
+                    yAxes: [{ 
+                        ticks: { 
+                            beginAtZero: true 
+                        } 
+                    }] 
+                } 
+            } 
+        }); 
+    </script>
+
+    <script> var ctx = document.getElementById('myChart2'); 
+
+        var test = "{{text_len}}".replaceAll("&#x27;", "").replaceAll('[',"").replaceAll(']',"").split(",");
+
+        var myChart = new Chart(ctx, { 
+            type: 'line', 
+            data: { labels: test, 
+            datasets: [{ 
+                label: '시간 별 랭크', 
+                data: {{total_rank_list}},
+                backgroundColor: 'rgba(163, 202, 225, 0.2)', 
+                borderColor: 'rgba(163, 202, 225, 1)', 
+                borderWidth: 1 
+                }] 
+            }, 
+            options: { 
+                scales: { 
+                    yAxes: [{ 
+                        ticks: { 
+                            beginAtZero: true 
+                        } 
+                    }] 
+                } 
+            } 
+        }); 
+    </script>
+
+    <script> var ctx = document.getElementById('myChart3');
+
+        var test = "{{text_len}}".replaceAll("&#x27;", "").replaceAll('[',"").replaceAll(']',"").split(",");
+
+        var myChart = new Chart(ctx, { 
+            type: 'line', 
+            data: { labels: test, 
+            datasets: [{ 
+                label: '시간 별 정확도', 
+                data: {{total_accuracy_list}},
+                backgroundColor: 'rgba(192, 107, 94, 0.2)', 
+                borderColor: 'rgba(192, 107, 94, 1)', 
+                borderWidth: 1 
+                }] 
+            }, 
+            options: { 
+                scales: { 
+                    yAxes: [{ 
+                        ticks: { 
+                            beginAtZero: true 
+                        } 
+                    }] 
+                } 
+            } 
+        }); 
+    </script>
+
+    <br><br>
 
     <footer>
-        <div id = 's_bottom'>
-            <h4>실전 / 연습 결과</h4>
-            <br><br>
-            등급 | 점수 | 날짜
+        <div id = 's_bottom2'>
             <input type = 'checkbox'> 공유
             <button class="btn btn-secondary" type = 'button' onclick = 'alert("영상 보기를 눌렀습니다.")'>
                 영상 보기
             </button>
+            <br><br>
             <form action = '' method="POST">
                 {% csrf_token %}
                 <button class="btn btn-secondary" type = 'submit' onclick = 'alert("업로드를 눌렀습니다.")' name ='upload_btn'>
                 업로드
                 </button>
             </form>
-            {{ result }}
         </div>
-
         <div id = 's_bbottom'>
             <div><h3>결과 리스트</h3></div>
             <br><br>

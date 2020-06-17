@@ -1,49 +1,54 @@
-#sec_1{
-    margin: 0px auto;
-    padding: 100px, 50px;
-    text-align: center;
+#sec_1 {
+  margin: 0px auto;
+  padding: 100px, 50px;
+  text-align: center;
 }
-#s_left{
-    display: inline-block;
-    text-align:center;
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
-    font-weight: lighter;
-    font-size: 30px;
-    margin: 10px;
+#s_left {
+  display: inline-block;
+  text-align: center;
+  font-family: "Spoqa Han Sans", "Sans-serif";
+  font-weight: lighter;
+  font-size: 30px;
+  margin: 10px;
 }
-h3{
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
-    font-weight: lighter;
-    font-size: 30px;
-    text-align: left;
-}
-
-h4{
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
-    font-weight: lighter;
+h3 {
+  font-family: "Spoqa Han Sans", "Sans-serif";
+  font-weight: lighter;
+  font-size: 30px;
+  text-align: left;
 }
 
-tr{
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
-    font-weight: lighter;
-    font-size: 15px;
+h4 {
+  font-family: "Spoqa Han Sans", "Sans-serif";
+  font-weight: lighter;
 }
-#s_right{
-    display: inline-block;
-    text-align:center;
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
-    font-weight: lighter;
-    font-size: 30px;
-    margin: 10px;
+
+tr {
+  font-family: "Spoqa Han Sans", "Sans-serif";
+  font-weight: lighter;
+  font-size: 15px;
 }
-#s_bottom{
-    text-align:center;
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
-    font-weight: lighter;
+#s_right {
+  display: inline-block;
+  text-align: center;
+  font-family: "Spoqa Han Sans", "Sans-serif";
+  font-weight: lighter;
+  font-size: 30px;
+  margin: 10px;
 }
-#s_bbottom{
-    text-align:center;
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
-    font-weight: lighter;
-    margin: 100px;
+#s_bottom {
+  text-align: center;
+  font-family: "Spoqa Han Sans", "Sans-serif";
+  font-weight: lighter;
+}
+#s_bottom2 {
+  text-align: center;
+  font-family: "Spoqa Han Sans", "Sans-serif";
+  font-weight: lighter;
+}
+#s_bbottom {
+  text-align: center;
+  font-family: "Spoqa Han Sans", "Sans-serif";
+  font-weight: lighter;
+  margin: 100px;
 }

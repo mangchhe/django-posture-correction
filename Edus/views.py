@@ -24,6 +24,7 @@ import datetime
 
 accuracy = 0
 rank = ''
+rank_trans = 0
 rankList = []
 total_accuracy_list = []
 total_rank_list = []
@@ -115,6 +116,14 @@ def score_skeleton(train, result):
 
 def play(request, page_no, video_id):
 
+    global total_accuracy_list
+    global total_rank_list
+    global total_zum_list
+
+    del total_accuracy_list[:]
+    del total_rank_list[:]
+    del total_zum_list[:]
+
     # 비디오 정보 (mp4, avi 등)
 
     VIDEO_NAME = VideosDB.objects.get(id=video_id)
@@ -169,9 +178,16 @@ def play_after(request, page_no, video_no):
 
     eduList = Paginator(edu, 4)
 
-    total_accuracy = round(sum(total_accuracy_list) //
+    text_len = []
+
+    for i in range(len(total_accuracy_list)):
+
+        text_len.append(str(i + 1) + '초')
+
+    total_accuracy = round(sum(total_accuracy_list) /
                            len(total_accuracy_list), 2)
-    total_zum = round(sum(total_zum_list) // len(total_zum_list), 2)
+
+    total_zum = round(sum(total_zum_list) / len(total_zum_list), 2)
 
     zumList = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F']
 
@@ -180,6 +196,8 @@ def play_after(request, page_no, video_no):
         if total_zum > 4.5 - .5 * i:
 
             total_rank = zumList[i - 1]
+            rank_trans = ((4.5 - .5 * (i - 1)) / 4.5) * 100
+            total_zum = round(100 * (total_zum / 4.5))
             break
 
     idx = []
@@ -199,8 +217,15 @@ def play_after(request, page_no, video_no):
         'videoList': zip(idx, video, days),
         'totalPageList': totalPageList,
         'currentPage': currentPage,
-        'result': str(total_zum)+' , '+str(total_rank)+' , '+str(total_accuracy),
         'videoNo': video_no,
+        'total_zum': total_zum,
+        'total_rank': total_rank,
+        'total_accuracy': total_accuracy,
+        'rank_trans': rank_trans,
+        'total_zum_list': total_zum_list,
+        'total_accuracy_list': total_accuracy_list,
+        'total_rank_list': total_rank_list,
+        'text_len': text_len,
     }
 
     video_get = VideosDB.objects.get(id=video_no)
@@ -275,13 +300,12 @@ def gen(camera, video_id):  # https://item4.blog/2016-05-08/Generator-and-Yield-
             for i in range(1, 10):
 
                 if zum > 4.5 - .5 * i:
-
+                    total_rank_list.append(4.5 - .5 * (i - 1))
                     rank = zumList[i - 1]
                     break
 
             del rankList[:]
 
-            print('점수 :', zum, '랭크 : ', rank, '정확도 : ', accuracy)
             # p_list.append(save) # 초당 평균 데이터 -> 이 데이터와 학습 영상 데이터랑 비교하면 됨
 
             save = [[0 for col in range(2)] for row in range(19)]
@@ -291,6 +315,7 @@ def gen(camera, video_id):  # https://item4.blog/2016-05-08/Generator-and-Yield-
         count += 1
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
 
 def video_feed(request, video_id):
     # 웹캠 정보
@@ -418,7 +443,6 @@ def resultView(request, edu_id):
     result = EdusDB.objects.filter(id=edu_id)
 
     return render(request, 'resutlView.html', {'result': result})
-
 
 
 def calculatePosture(request):
