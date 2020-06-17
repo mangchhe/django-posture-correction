@@ -37,7 +37,7 @@ POSE_PAIRS = [["Neck","RShoulder"], ["Neck","LShoulder"], ["RShoulder","RElbow"]
             ["Neck","Nose"], ["Nose","REye"], ["REye","REar"], ["Nose","LEye"], ["LEye","LEar"]]
 
 nowDatetime = ""
-score = 0
+r_score = 0
 
 def dist(v):
     return np.sqrt(v[0]**2 + v[1]**2)
@@ -137,7 +137,7 @@ def play(request, page_no, video_id):
 	return render(request, 'playView.html', context)
 
 def play_after(request, page_no, video_no):
-
+	global r_score, nowDatetime
 	# 비디오 정보 (mp4, avi 등)
 
 	# after
@@ -185,13 +185,13 @@ def play_after(request, page_no, video_no):
 		'videoNo' : video_no,
 	}
 
-	if request.method == 'POST':
+	video_get = VideosDB.objects.get(id=video_no)
+	if request.method == 'GET':
 		new_video = EdusDB.objects.create(
-			# edu_days = 현재 시간 자동 저장
-			video_id=video_no,
+			video_id=video_get,
 			user_id=request.user,
 			recode_video=settings.EDUS_ROOT+nowDatetime+'.mp4',
-			score=score
+			score=r_score
 		)
 
 	return render(request, 'playViewResult.html', context)
@@ -199,13 +199,7 @@ def play_after(request, page_no, video_no):
 
 def gen(camera, video_id): # https://item4.blog/2016-05-08/Generator-and-Yield-Keyword-in-Python/
 	# 앨범 이미지
-	
-	now = datetime.datetime.now()
-	nowDatetime = now.strftime('%Y%m%d%H%M%S')
-
-	# video 저장
-	#fourcc = cv2.VideoWriter_fourcc(*'XVID')
-	#out = cv2.VideoWriter(settings.EDUS_ROOT+nowDatetime+'.mp4', fourcc, 3, (int(360),int(180)))
+	global nowDatetime
 
 	""" 초당 평균 데이터 구하는 부분 """
 	p_list =[]
@@ -224,16 +218,15 @@ def gen(camera, video_id): # https://item4.blog/2016-05-08/Generator-and-Yield-K
 
 	s_len = len(skel_list)
 
+	nowDatetime = camera.nowDatetime
+
 	while True:
 
 		if s_count == s_len:
 			del camera
 			break
 
-		image, frame, points = camera.get_frame()
-		
-		# image 데이터 받아와서 video 저장
-		#out.write(image)
+		frame, points = camera.get_frame()
 
 		for i in range(0,19):
 			if(points[i] == None):
@@ -268,22 +261,22 @@ def gen(camera, video_id): # https://item4.blog/2016-05-08/Generator-and-Yield-K
 			del rankList[:]
 
 			print('점수 :', zum,'랭크 : ', rank,'정확도 : ', accuracy)
-			p_list.append(save) # 초당 평균 데이터 -> 이 데이터와 학습 영상 데이터랑 비교하면 됨
+			#p_list.append(save) # 초당 평균 데이터 -> 이 데이터와 학습 영상 데이터랑 비교하면 됨
 			
 			save = [[0 for col in range(2)] for row in range(19)]
 			n_count = [0 for row in range(19)]
 			s_count += 1
-		#print(p_list)
+
 		count += 1
 		yield (b'--frame\r\n'
 				b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-	#EdusDB.objects.filter(pk=edu_id).update(recode_video=settings.VIDEO_ROOT+nowDatetime+'.mp4') #edu_id를 가지고 recode_video 업데이트
-
 
 def video_feed(request, video_id):
 	# 웹캠 정보
-	return StreamingHttpResponse(gen(VideoCamera(), video_id),
+	now = datetime.datetime.now()
+	nowDatetime = now.strftime('%Y%m%d%H%M%S')
+	return StreamingHttpResponse(gen(VideoCamera(nowDatetime), video_id),
 					content_type='multipart/x-mixed-replace; boundary=frame') # 찾아보기
 
 
