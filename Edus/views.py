@@ -22,9 +22,9 @@ import cv2
 import numpy as np
 import datetime
 
-accuracy = 99
-rank = 'A'
-description = '설명'
+accuracy = 0
+rank = ''
+rankList = []
 
 BODY_PARTS = { "Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
             "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
@@ -69,6 +69,9 @@ def innerProduct(v1, v2):
 	return degX
 	
 def score_skeleton(train, result):
+
+	global rankList
+
 	for pair in POSE_PAIRS:
 		partA = pair[0]  # Head
 		partA = BODY_PARTS[partA]  # 1
@@ -82,6 +85,18 @@ def score_skeleton(train, result):
 			# t_vector백터, r_vector -> train, result 각각 백터 값 구해서 넣기
 			degree = innerProduct(t_vector, r_vector)
 
+			for i in range(1, 10):
+
+				if degree:
+
+					if degree < 20 * i:
+
+						rankList.append(4.5 - .5 * (i - 1))
+						break
+
+				else:
+					
+					break
 # 모드 선택 후 화면
 
 
@@ -118,16 +133,6 @@ def play(request, page_no, video_id):
 		'videoName' : videoName,
 		'videoNo' : video_id,
 	}
-
-	if request.method == 'POST':
-		new_video = EdusDB.objects.create(
-			# edu_days = 현재 시간 자동 저장
-			video_id=VideosDB.objects.all()[0],
-			user_id=UsersDB.objects.all()[0],
-			recode_video='test',
-			score=99
-		)
-		#edu_id = new_video.id
 
 	return render(request, 'playView.html', context)
 
@@ -209,8 +214,11 @@ def gen(camera, video_id): # https://item4.blog/2016-05-08/Generator-and-Yield-K
 	n_count = [0 for row in range(19)]
 	s_count = 0
 
-	qVideo = VideosDB.objects.get(id=video_id)
+	global accuracy
+	global rank
+	global rankList
 
+	qVideo = VideosDB.objects.get(id=video_id)
 
 	skel_list = json.loads(qVideo.skeleton)
 
@@ -243,6 +251,23 @@ def gen(camera, video_id): # https://item4.blog/2016-05-08/Generator-and-Yield-K
 					save[i][1] /= 3 - n_count[i]
 			
 			score_skeleton(skel_list[s_count],save)
+
+			zum = round(sum(rankList) / len(rankList), 2)
+
+			accuracy = round(zum / 4.5 * 100, 2)
+
+			zumList = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F']
+
+			for i in range(1, 10):
+
+				if zum > 4.5 - .5 * i:
+					
+					rank = zumList[i - 1]
+					break
+
+			del rankList[:]
+
+			print('점수 :', zum,'랭크 : ', rank,'정확도 : ', accuracy)
 			p_list.append(save) # 초당 평균 데이터 -> 이 데이터와 학습 영상 데이터랑 비교하면 됨
 			
 			save = [[0 for col in range(2)] for row in range(19)]
@@ -375,10 +400,12 @@ def resultView(request, edu_id):
 
 def calculatePosture(request):
 
+	global accuracy
+	global rank
+
 	content = {
 		'accuracy' : accuracy,
 		'rank' : rank,
-		'description' : description,
 	}
 
 	return JsonResponse(content)
