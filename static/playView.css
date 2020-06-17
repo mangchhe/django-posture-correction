@@ -23,6 +23,13 @@ h4{
     font-weight: lighter;
 }
 
+h5{
+    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-weight: lighter;
+    display: inline-block;
+    padding: 10px;
+}
+
 tr{
     font-family: 'Spoqa Han Sans', 'Sans-serif';
     font-weight: lighter;
@@ -46,4 +53,11 @@ tr{
     font-family: 'Spoqa Han Sans', 'Sans-serif';
     font-weight: lighter;
     margin: 100px;
+}
+
+#box{
+    background-color: #FFFFE4;
+    margin: 10px 300px 10px 300px;
+    padding: 15px;
+    border-radius: 10px;
 }

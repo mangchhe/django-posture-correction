@@ -13,6 +13,7 @@ from PostureCorrectionGameSite import settings
 from mutagen.mp4 import MP4
 from django.db.models import Sum
 from Videos.forms import VideoForm
+from .forms import EdusDBForm
 # Create your views here.
 from django.urls import reverse_lazy
 import json
@@ -194,23 +195,37 @@ def play_after(request, page_no, video_no):
         idx.append((page_no-1) * 4 + i+1)
         video.append(j['recode_video'])
         days.append(j['edu_days'])
+        
+    
+    video_get = VideosDB.objects.get(id=video_no)
 
+    if request.method == 'POST':
+        form = EdusDBForm(request.POST)
+        if form.is_valid():
+            edus_form = form.save(commit=False)
+            edus_form.video_id=video_get
+            edus_form.user_id=request.user
+            edus_form.recode_video = settings.EDUS_ROOT+nowDatetime+'.mp4'
+            edus_form.score = r_score
+            edus_form.save()
+    elif request.method == 'GET':
+        form = EdusDBForm()
+    else:
+        pass
+
+    total_zum = str(total_zum)
+    total_rank= str(total_rank)
+    total_accuracy = str(total_accuracy)
     context = {
         'videoList': zip(idx, video, days),
         'totalPageList': totalPageList,
         'currentPage': currentPage,
-        'result': str(total_zum)+' , '+str(total_rank)+' , '+str(total_accuracy),
+        'total_zum': total_zum, 
+        'total_rank' : total_rank, 
+        'total_accuracy' : total_accuracy,
         'videoNo': video_no,
+        'form': form,
     }
-
-    video_get = VideosDB.objects.get(id=video_no)
-    if request.method == 'GET':
-        new_video = EdusDB.objects.create(
-            video_id=video_get,
-            user_id=request.user,
-            recode_video=settings.EDUS_ROOT+nowDatetime+'.mp4',
-            score=r_score
-        )
 
     return render(request, 'playViewResult.html', context)
 
@@ -417,7 +432,7 @@ def video_select(request, video_id):  # 영상 선택 후 화면 view
 def resultView(request, edu_id):
     result = EdusDB.objects.filter(id=edu_id)
 
-    return render(request, 'resutlView.html', {'result': result})
+    return render(request, 'resultView.html', {'result': result})
 
 
 
@@ -437,3 +452,8 @@ def calculatePosture(request):
 def playResultView(request, edu_id):
     result = EdusDB.objects.filter(id=edu_id)
     return render(request, 'playviewshowmodal.html', {'result': result})
+
+
+def UploadPreView(request):
+    result = settings.EDUS_ROOT+nowDatetime+'.mp4'
+    return render(request, 'uploadpreview.html', {'result': result})

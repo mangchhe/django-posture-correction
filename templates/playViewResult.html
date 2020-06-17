@@ -29,18 +29,23 @@
         <div id = 's_bottom'>
             <h4>실전 / 연습 결과</h4>
             <br><br>
-            등급 | 점수 | 날짜
-            <input type = 'checkbox'> 공유
-            <button class="btn btn-secondary" type = 'button' onclick = 'alert("영상 보기를 눌렀습니다.")'>
-                영상 보기
-            </button>
-            <form action = '' method="POST">
-                {% csrf_token %}
-                <button class="btn btn-secondary" type = 'submit' onclick = 'alert("업로드를 눌렀습니다.")' name ='upload_btn'>
-                업로드
+            <div id = 'box'>
+                <h5>점수:  {{total_zum}}</h5>
+                <h5>등급:  {{total_rank}}</h5>
+                <h5>정확도:  {{total_accuracy}}</h5>
+                <button class="btn btn-secondary" type = 'button' onclick="window.open('{% url 'UploadPreView' %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">
+                    영상 보기
                 </button>
-            </form>
-            {{ result }}
+            </div>
+            <div id = 'box'>
+                <form enctype="multipart/form-data"  method="POST" action="">
+                    {% csrf_token %}
+                    영상 설명 : {{form.video_description}}
+                </br>
+                    공유 여부 : {{form.is_shared}}
+                    <input class="btn btn-secondary" type="submit" value="Upload" onclick = 'alert("업로드")'/>
+                </form>
+            </div>
         </div>
 
         <div id = 's_bbottom'>
