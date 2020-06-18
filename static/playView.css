@@ -1,73 +1,77 @@
-#sec_1{
-    margin: 100px;
-    text-align: center;
+#sec_1 {
+    display: flex;
+    margin: 30px 200px;
 }
-#s_left{
-    display: inline-block;
-    text-align:center;
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
+#s_left {
+    text-align: center;
+    font-family: "Spoqa Han Sans", "Sans-serif";
     font-weight: lighter;
     font-size: 30px;
     margin: 10px;
 }
-h3{
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
+h3 {
+    font-family: "Spoqa Han Sans", "Sans-serif";
     font-weight: lighter;
     font-size: 30px;
     text-align: left;
 }
 
-h4{
+h4 {
     margin: 10px 110px 10px 110px;
     display: inline-block;
     font-size: 30px;
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-family: "Spoqa Han Sans", "Sans-serif";
     font-weight: lighter;
 }
 
-h5{
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
+h5 {
+    font-family: "Spoqa Han Sans", "Sans-serif";
     font-weight: lighter;
     display: inline-block;
     padding: 10px;
     font-size: 20px;
 }
 
-tr{
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
+tr {
+    font-family: "Spoqa Han Sans", "Sans-serif";
     font-weight: lighter;
     font-size: 18px;
 }
-#s_right{
+#s_right {
     display: inline-block;
-    text-align:center;
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    text-align: center;
+    font-family: "Spoqa Han Sans", "Sans-serif";
     font-weight: lighter;
     font-size: 30px;
     margin: 10px;
 }
-#s_bottom{
-    text-align:center;
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
+#s_bottom {
+    text-align: center;
+    font-family: "Spoqa Han Sans", "Sans-serif";
     font-weight: lighter;
 }
-#s_bbottom{
-    text-align:center;
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
+#s_bbottom {
+    text-align: center;
+    font-family: "Spoqa Han Sans", "Sans-serif";
     font-weight: lighter;
     margin: 200px;
 }
 
-#box{
-    background-color: #FFFFE4;
+#box {
+    background-color: #ffffe4;
     margin: 10px 300px 10px 300px;
     padding: 15px;
     border-radius: 10px;
 }
 
 th {
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
+    font-family: "Spoqa Han Sans", "Sans-serif";
     font-weight: lighter;
     font-weight: bolder;
     font-size: 21px;
+}
+
+#description {
+    text-align: center;
+    font-size: 40px;
 }

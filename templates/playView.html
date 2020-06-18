@@ -1,13 +1,15 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
-    <link rel ='stylesheet' type='text/css' href='{% static "playView.css" %}'>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link
+        href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css"
+        rel="stylesheet"
+        type="text/css"
+    />
+    <link rel="stylesheet" type="text/css" href='{% static "playView.css" %}' />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script
         src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
@@ -16,65 +18,84 @@
 </head>
 
 <body>
-    <br><br>
+    <br /><br />
     <div id="sec_1">
-        <h4>따라할 영상</h4>
-        <h4>나의 실시간 영상</h4>
-        <br><br>
-            <div id = 's_left'>
-                <video src = '{{ MEDIA_URL }}{{ videoName }}' autoplay muted="'muted"
-                       height = 180 width = 360 controls oncontextmenu="return false" type = 'video/mp4'>
-                </video>
-                <br><br><br>
-            </div>
-            <div id = 's_right'>
-                <img src="{% url 'video_feed' video_id=videoNo %}">
+        <br /><br />
+        <div id="s_left">
+            <h4>따라할 영상</h4>
+            <video
+                src="{{ MEDIA_URL }}{{ videoName }}"
+                autoplay
+                muted="'muted"
+                height="480"
+                width="640"
+                controls
+                oncontextmenu="return false"
+                type="video/mp4"
+            ></video>
+            <br /><br /><br />
+        </div>
+        <div id="s_right">
+            <h4>나의 실시간 영상</h4>
+            <img src="{% url 'video_feed' video_id=videoNo %}" />
 
-                <div id = 'description'>Hello</div>
-
-                <script>
+            <script>
                 timer = setInterval(function () {
                     $.ajax({
                         url: "{% url 'calculatePosture' %}",
                         dataType: "Json",
                         success: function (data) {
-                            $("#description").html('정확도 : ' + data.accuracy + '    '+ '등급 : ' + data.rank);
+                            $("#description").html(
+                                "등급 : " +
+                                    data.rank +
+                                    "    " +
+                                    "정확도 : " +
+                                    data.accuracy
+                            );
                         },
                         error: function (request, status, error) {
                             alert("ajax 통신 실패...");
                         },
                     });
                 }, 1000);
-                </script>
-
-            </div>
+            </script>
+        </div>
     </div>
 
+    <div id="description"></div>
 
     <footer>
-
-        <div id = 's_bbottom'>
+        <div id="s_bbottom">
             <div><h3>결과 리스트</h3></div>
-            <br><br>
+            <br /><br />
             <div>
                 <table class="table table-hover table-sm" id="user_rank">
                     <thead class="thead-light">
-                    <tr>
-                        <th class="text-center">나의 영상</th>
-                        <th class="text-center">날짜</th>
-                        <th class="text-center">영상확인</th>
-                    </tr>
+                        <tr>
+                            <th class="text-center">나의 영상</th>
+                            <th class="text-center">날짜</th>
+                            <th class="text-center">영상확인</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {% for a,i,j,b,k in videoList %}
                         <tr>
                             <td>{{ b }}</td>
                             <td class="text-center">{{ k }}</td>
-                            <td><button class="btn btn btn-outline-secondary" onclick="window.open('{% url 'playResultView' a %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button></td>
+                            <td>
+                                <button
+                                    class="btn btn btn-outline-secondary"
+                                    onclick="window.open('{% url 'playResultView' a %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')"
+                                >
+                                    영상확인
+                                </button>
+                            </td>
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="7" class="text-center bg-warning">데이터가 없습니다.</td>
+                            <td colspan="7" class="text-center bg-warning">
+                                데이터가 없습니다.
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -82,21 +103,18 @@
             </div>
 
             {% for page in totalPageList %}
-                <a href="page={{page}}">
-                [
-                {% ifequal page currentPage %}
-                    <b>
-                {% endifequal %}
-                {{page}}
-                {% ifequal page currentPage %}
-                    </b>
-                </a>
-                {% endifequal %}
-                ]
-            {% endfor %}
+            <a href="page={{page}}">
+                [ {% ifequal page currentPage %}
+                <b>
+                    {% endifequal %} {{page}} {% ifequal page currentPage %}
+                </b>
+            </a>
+            {% endifequal %} ] {% endfor %}
         </div>
     </footer>
-    <meta http-equiv="refresh" content="{{videoLength}}; url=result/page={{currentPage}}">
-
+    <meta
+        http-equiv="refresh"
+        content="{{videoLength}}; url=result/page={{currentPage}}"
+    />
 </body>
 {% endblock content %}
