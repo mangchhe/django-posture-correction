@@ -420,7 +420,7 @@ def post_list(request):
     """ 업로드 된 영상 및 나의 점수 """
 
     # Edus 테이블의 전체 데이터 가져오기 -> 로그인이랑 회원가입 만들어지면 queryset 다시 작성 예정
-    Edus_list = EdusDB.objects.all().filter(user_id=request.user.id)
+    Edus_list = EdusDB.objects.all().filter(user_id=request.user.id).order_by('-edu_days')
     # s_sum = EdusDB.objects.aggregate(Sum('score'))['score__sum'] # Edus 테이블의 전체 score 값 더하기 -> 로그인이랑 회원가입 만들어지면 queryset 다시 작성 예정
     # Edus 테이블의 전체 score 값 더하기 -> 로그인이랑 회원가입 만들어지면 queryset 다시 작성 예정
     s_sum = Edus_list.aggregate(Sum('score'))['score__sum']
@@ -447,14 +447,11 @@ def ResultVideosList(request):  # 학습한 결과 영상 리스트 화면 view
 
 
 def video_select(request, video_id):  # 영상 선택 후 화면 view
-    EdusDB_list = EdusDB.objects.all().order_by('-score')  # 점수가 높은순으로 쿼리문 수정
-    UsersDB_list = UsersDB.objects.all()
-    VideosDB_list = VideosDB.objects.all().exclude(
-        editor__id=request.user.id)  # 게시일 최근순으로
-
-    context = {'EdusDB_list': EdusDB_list,
-               'UsersDB_list': UsersDB_list,
-               'VideosDB_list': VideosDB_list,
+    Edus_list = EdusDB.objects.values('user_id__username', 'score', 'edu_days').order_by('-score')
+    print(Edus_list)
+    another_list = EdusDB.objects.values('user_id__username', 'edu_days','id').exclude(user_id=request.user.id)
+    context = {'Edus_list' : Edus_list,
+                'another_list' : another_list,
                'video_id': video_id}
     return render(request, 'modepage.html', context)
 
