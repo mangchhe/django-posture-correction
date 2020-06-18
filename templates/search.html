@@ -12,17 +12,94 @@
                     <div class="block">
                         <h1 class="heading"><span>영상</span>리스트</h1>
                         <ul>
-                            {% for Video in search %}
-                            <li class="wow fadeInLeft" data-wow-duration="300ms" data-wow-delay="300ms">
-                                <div class="blog-img">
-                                    <img src="{{MEDIA_URL}}{{Video.video_img}}" width="100%" height="100%">
-                                </div>
-                                <div class="content-right">
-                                    <h3><a href="{% url 'select' video_id=Video.id%}">{{ Video.title }}</a></h3></h3><br />
-                                    <p><a href="{% url 'select' video_id=Video.id%}">난이도 : {{ Video.level }}</a></p>
-                                </div>
-                            </li>
-                            {% endfor %}
+                            <label><input type="checkbox" name="le[]" value="상" class="checkSelect" /> 상 </label>
+                            <label><input type="checkbox" name="le[]" value="중" class="checkSelect" /> 중 </label>
+                            <label><input type="checkbox" name="le[]" value="하" class="checkSelect" /> 하 </label>
+                            <div id="level1">
+                                {% for Video in search %}
+                                <li class="wow fadeInLeft" data-wow-duration="300ms" data-wow-delay="300ms">
+                                    <div class="blog-img">
+                                        <img src="{{MEDIA_URL}}{{Video.video_img}}" width="100%" height="100%">
+                                    </div>
+                                    <div class="content-right">
+                                        <h3><a href="{% url 'select' video_id=Video.id%}">{{ Video.title }}</a></h3></h3><br />
+                                        <p><a href="{% url 'select' video_id=Video.id%}">난이도 : {{ Video.level }}</a></p>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </div>
+                            
+                            <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+                            <script>
+                                $("input[name*=le]").change(function(){
+                                    var send_array = Array();
+                                    var send_cnt = 0;
+                                    var chkbox = $(".checkSelect");
+                                    for(i=0;i<chkbox.length;i++) {
+                                        if (chkbox[i].checked == true){
+                                            send_array[send_cnt] = chkbox[i].value;
+                                            send_cnt++;
+                                        }
+                                    }
+                                    alert(send_array);
+                                    if($(this).is(":checked")){
+                                        pk = $(this).attr("value");
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "{% url 'level' %}",
+                                            data: {'data':send_array, 'q':'{{q}}', 'cnt':send_cnt, 'csrfmiddlewaretoken': '{{csrf_token}}'},
+                                            dataType: "json",
+                                            success: function(data){
+                                                alert(data.length)
+                                                var div = document.getElementById('level1');
+                                                var html = "";
+                                                for(var i=0; i<data.length; i++){
+                                                    var title = data.search[i]['title'];
+                                                    var img = data.search[i]['video_img'];
+                                                    var id = data.search[i]['id'];
+                                                    var level = data.search[i]['level'];
+                                                    var str = '<li class="wow fadeInLeft" data-wow-duration="300ms" data-wow-delay="300ms"><div class="blog-img"><img src="{{MEDIA_URL}}'+img+'" width="100%" height="100%"></div><div class="content-right"><h3><a href="/select/video_id'+id+'">'+title+'</a></h3><br /><p><a href="/select/video_id'+id+'"">난이도 : '+level+'</a></p></div></li>';
+                                                    html = html + str;
+                                                }
+                                                div.innerHTML = html;
+                                                console.log(data.search);
+                                            },
+                                            error: function(request, status, error){
+                                                console.log("실패.");
+                                                alert('ajax 통신 실패');
+                                            },
+                                        });
+                                    }
+                                    else{
+                                        pk = $(this).attr("value");
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "{% url 'level' %}",
+                                            data: {'data':send_array, 'q':'{{q}}', 'cnt':send_cnt, 'csrfmiddlewaretoken': '{{csrf_token}}'},
+                                            dataType: "json",
+                                            success: function(data){
+                                                alert(data.length)
+                                                var div = document.getElementById('level1');
+                                                var html = "";
+                                                for(var i=0; i<data.length; i++){
+                                                    var title = data.search[i]['title'];
+                                                    var img = data.search[i]['video_img'];
+                                                    var id = data.search[i]['id'];
+                                                    var level = data.search[i]['level'];
+                                                    var str = '<li class="wow fadeInLeft" data-wow-duration="300ms" data-wow-delay="300ms"><div class="blog-img"><img src="{{MEDIA_URL}}{{'+img+'}}" width="100%" height="100%"></div><div class="content-right"><h3><a href="/select/video_id'+id+'">'+title+'</a></h3><br /><p><a href="/select/video_id'+id+'"">난이도 : '+level+'</a></p></div></li>';
+                                                    html = html + str;
+                                                }
+                                                div.innerHTML = html;
+                                                console.log(data.search);
+                                            },
+                                            error: function(request, status, error){
+                                                console.log("실패.");
+                                                alert('ajax 통신 실패');
+                                            },
+                                        });
+                                    }
+                                })  
+                            </script>
                         </ul>
                     </div>
                 </div><!-- .col-md-12 close -->
@@ -32,10 +109,3 @@
 
 
 {% endblock %}
-<form action="{% url 'search'%}" method="GET">
-    <input type="hidden" name="q" value="{{ q }}">
-    <label><input type="checkbox" name="le" value="상" /> 상 </label>
-    <label><input type="checkbox" name="le" value="중" /> 중 </label>
-    <label><input type="checkbox" name="le" value="하" /> 하 </label>
-    <input type="submit" value="설정">
-</form>

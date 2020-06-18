@@ -1,10 +1,12 @@
 #-*- coding: utf-8 -*-
 from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
 from .models import VideosDB
 from .forms import VideoForm
 from Users.models import UsersDB
 from Edus.models import EdusDB
 from django.db.models import Sum, Subquery, OuterRef
+import simplejson as json 
 import math
 
 # Create your views here.
@@ -68,6 +70,35 @@ def main(request):
     print(channel)
 
     return render(request, 'index.html', {'pop' : pop, 'late' : late,'user':Edus_list,'channel':channel})
+
+def level(request):
+    qs = VideosDB.objects.all()
+
+    le = request.POST.getlist('data[]','')
+    q = request.POST.get('q','')
+
+    llist = ['상', '중', '하']
+    nole = []
+
+    if le:
+        for x in llist:
+            if str(x) not in le:
+                nole.append(x)
+
+        for x in nole:
+            qs = qs.exclude(level=x)
+    if q: # q가 있으면
+        qs = qs.filter(title__icontains=q) # 제목에 q가 포함되어 있는 레코드만 필터링
+
+    qs = list(qs.values())
+    length = len(qs)
+
+    content = {
+        'q' : q,
+        'search' : qs,
+        'length' : length
+    }
+    return JsonResponse(content)
 
 def VideoShow(request, video_id):
     result = VideosDB.objects.filter(id=video_id)

@@ -34,18 +34,20 @@
                         <div class="title">
                             <h3><span>인기</span>영상</h3>
                         </div>
-                        <div id="owl-example1" class="owl-carousel">
 
+                        <div id="owl-example1" class="owl-carousel">
                             {% for x in pop %}
                             <div>
                                 <img class="img-responsive" src="{{MEDIA_URL}}{{x.video_img}}" alt=""><br>
                                 <a href="{% url 'select' video_id=x.id %}">{{ x.title }}</a>
                             </div>
                             {% endfor %}
-                            <div>
-                                <img class="img-responsive" src="{{MEDIA_URL}}header.jpg" alt="">
-                            </div>
-                        
+                        </div>
+                        <div class="button">
+                            <form action="{% url 'search'%}" method="GET">
+                                <input type="hidden" name="where" value="pop">
+                                <input type="submit" value="더보기">
+                            </form>
                         </div>
                     </div>
                 </div><!-- .col-md-12 close -->
@@ -68,9 +70,12 @@
                                 <a href="{% url 'select' video_id=x.id %}">{{ x.title }}</a>
                             </div>
                             {% endfor %}
-                            <div>
-                                <img class="img-responsive" src="{{MEDIA_URL}}header.jpg" alt="">
-                            </div>
+                        </div>
+                        <div class="button">
+                            <form action="{% url 'search'%}" method="GET">
+                                <input type="hidden" name="where" value="late">
+                                <input type="submit" value="더보기">
+                            </form>
                         </div>
                     </div>
                 </div><!-- .col-md-12 close -->

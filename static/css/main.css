@@ -239,8 +239,27 @@ nav .block .navbar-default .navbar-nav > .active > a:hover:before {
 #slider .block {
   padding: 0px 40px;
 }
+#slider input{
+  width:70px;
+  height: 30px;
+  float: right;
+  background-color: #FF5333;
+  border: none;
+  color:#fff;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 20px;
+  cursor: pointer;
+  border-radius:5px;
+}
+#slider table{
+  height: 30px;
+}
 #slider .block .title {
   padding: 0px ;
+  float: left;
 }
 #slider .block .owl-carousel {
   padding-top: 30px;
@@ -345,7 +364,7 @@ nav .block .navbar-default .navbar-nav > .active > a:hover:before {
   padding-top: 25px;
 }
 #blog .block table form{
-  width: 80%;
+  width: 100%;
 }
 #blog .block ul li .blog-img {
   float: left;
