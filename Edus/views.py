@@ -47,7 +47,6 @@ POSE_PAIRS = [["Neck", "RShoulder"], ["Neck", "LShoulder"], ["RShoulder", "RElbo
               ["Neck", "Nose"], ["Nose", "REye"], ["REye", "REar"], ["Nose", "LEye"], ["LEye", "LEar"]]
 
 nowDatetime = ""
-r_score = 0
 
 
 def dist(v):
@@ -166,7 +165,7 @@ def play(request, page_no, video_id):
 
 
 def play_after(request, page_no, video_no):
-    global r_score, nowDatetime
+    global total_zum, nowDatetime
     # 비디오 정보 (mp4, avi 등)
 
     # after
@@ -224,6 +223,9 @@ def play_after(request, page_no, video_no):
         
     
     video_get = VideosDB.objects.get(id=video_no)
+    total_zum = str(total_zum)
+    total_rank= str(total_rank)
+    total_accuracy = str(total_accuracy)
 
     if request.method == 'POST':
         form = EdusDBForm(request.POST)
@@ -232,16 +234,13 @@ def play_after(request, page_no, video_no):
             edus_form.video_id=video_get
             edus_form.user_id=request.user
             edus_form.recode_video = settings.EDUS_ROOT+nowDatetime+'.mp4'
-            edus_form.score = r_score
+            edus_form.score = total_zum
             edus_form.save()
     elif request.method == 'GET':
         form = EdusDBForm()
     else:
         pass
 
-    total_zum = str(total_zum)
-    total_rank= str(total_rank)
-    total_accuracy = str(total_accuracy)
     context = {
         'videoList': zip(eid, idx, video, desc, days),
         'totalPageList': totalPageList,

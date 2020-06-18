@@ -34,8 +34,6 @@ class VideoCamera(object):
 
         cv2.resizeWindow("video", 640, 480)
 
-        # self.video.set(cv2.CAP_PROP_FPS, 2) #CV_CAP_PROP_FPS
-
         self.net = cv2.dnn.readNet(settings.MODEL_ROOT+'human-pose-estimation-0001.xml',
                                    settings.MODEL_ROOT+'human-pose-estimation-0001.bin')  # model, proto
 
@@ -44,7 +42,6 @@ class VideoCamera(object):
         width = self.video.get(cv2.CAP_PROP_FRAME_WIDTH)
         height = self.video.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
-        print('2', width, height)
 
         fps = self.video.get(cv2.CAP_PROP_FPS)  # 프레임 수
 
@@ -85,12 +82,13 @@ class VideoCamera(object):
             x = (imageWidth * point[0]) / W
             y = (imageHeight * point[1]) / H
 
+
             #  키포인트 검출한 결과가 0.1보다 크면(검출한곳이 위 BODY_PARTS랑 맞는 부위면) points에 추가, 검출했는데 부위가 없으면 None으로    
             if prob > 0.001:
                 points.append((int(x), int(y)))
             else:
                 points.append(None)
-
+                
         imageCopy = image
 
         for pair in POSE_PAIRS:
@@ -116,3 +114,4 @@ class VideoCamera(object):
 
         # Returns the data in the buffer as a string.
         return jpeg.tobytes(), points
+
