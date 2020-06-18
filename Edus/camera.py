@@ -34,14 +34,14 @@ class VideoCamera(object):
 		self.video.set(4, 180)	# 카메라 크기 조절 높이
 		#self.video.set(cv2.CAP_PROP_FPS, 2) #CV_CAP_PROP_FPS
 
-		self.net = cv2.dnn.readNet(settings.MODEL_ROOT+'human-pose-estimation-0001.xml', settings.MODEL_ROOT+'human-pose-estimation-0001.bin')  # model, proto
+		self.net = cv2.dnn.readNet(settings.MODEL_ROOT+'human-pose-estimation-0001.xml', settings.MODEL_ROOT+'human-pose-estimation-0001.bin')  # model, proto
 
 		self.net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
 
 		width = self.video.get(cv2.CAP_PROP_FRAME_WIDTH)
 		height = self.video.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
-		fps = self.video.get(cv2.CAP_PROP_FPS)  # 프레임 수
+		fps = self.video.get(cv2.CAP_PROP_FPS)  # 프레임 수
 
 		fourcc = cv2.VideoWriter_fourcc(*'XVID')
 		self.out = cv2.VideoWriter(settings.EDUS_ROOT+nowDatetime+'.mp4', fourcc, 3, (int(width),int(height)))
@@ -69,17 +69,17 @@ class VideoCamera(object):
 
 		points = []
 		for i in range(0, 19):
-			#  해당 신체부위 신뢰도 얻음.
+			#  해당 신체부위 신뢰도 얻음.
 			probMap = output[0, i, :, :]
 
-			#  global 최대값 찾기
+			#  global 최대값 찾기
 			minVal, prob, minLoc, point = cv2.minMaxLoc(probMap)
 
-			#  원래 이미지에 맞게 점 위치 변경
+			#  원래 이미지에 맞게 점 위치 변경
 			x = (imageWidth * point[0]) / W
 			y = (imageHeight * point[1]) / H
 
-			#  키포인트 검출한 결과가 0.1보다 크면(검출한곳이 위 BODY_PARTS랑 맞는 부위면) points에 추가, 검출했는데 부위가 없으면 None으로    
+			#  키포인트 검출한 결과가 0.1보다 크면(검출한곳이 위 BODY_PARTS랑 맞는 부위면) points에 추가, 검출했는데 부위가 없으면 None으로    
 			if prob > 0.001:
 				points.append((int(x), int(y)))
 			else:
@@ -88,10 +88,10 @@ class VideoCamera(object):
 		imageCopy = image
 
 		for pair in POSE_PAIRS:
-			partA = pair[0]  #  Head
-			partA = BODY_PARTS[partA]  #  0
-			partB = pair[1]  #  Neck
-			partB = BODY_PARTS[partB]  #  1
+			partA = pair[0]  #  Head
+			partA = BODY_PARTS[partA]  #  0
+			partB = pair[1]  #  Neck
+			partB = BODY_PARTS[partB]  #  1
 
 			if points[partA] and points[partB]:
 				cv2.line(imageCopy, points[partA], points[partB], (0, 255, 255), 4)
@@ -106,4 +106,3 @@ class VideoCamera(object):
 		#print(0.333333 - (time.time() - start))
 		
 		return jpeg.tobytes(), points # Returns the data in the buffer as a string.
-
