@@ -59,7 +59,7 @@ def main(request):
     # 인기 채널 순위 (영상 조회수가 높은 게시자 순으로 출력)
     channel = VideosDB.objects.values('editor__username').annotate(
         Sum('views')).order_by('-views__sum')
-    print(channel)
+
 
     return render(request, 'index.html', {'pop': pop, 'late': late, 'user': Edus_list, 'channel': channel})
 
