@@ -28,7 +28,7 @@ def search(request):
         qs = qs.filter(title__icontains=q)  # 제목에 q가 포함되어 있는 레코드만 필터링
 
     page = int(request.GET.get('page', 1))
-    paginated_by = 5
+    paginated_by = 2
 
     total_count = len(qs)
     total_page = math.ceil(total_count/paginated_by)
@@ -84,12 +84,28 @@ def level(request):
         qs = qs.filter(title__icontains=q)  # 제목에 q가 포함되어 있는 레코드만 필터링
 
     qs = list(qs.values())
-    length = len(qs)
+    
 
+    page = int(request.POST.get('page', 1))
+    paginated_by = 2
+
+    total_count = len(qs)
+    total_page = math.ceil(total_count/paginated_by)
+
+    if total_page > 1:
+        page_range = range(1, total_page+1)
+    else:
+        page_range = None
+    start_index = paginated_by * (page-1)
+    end_index = paginated_by * page
+
+    qs = qs[start_index:end_index]
+    length = len(qs)
     content = {
         'q': q,
         'search': qs,
-        'length': length
+        'length': length,
+        'page_range' : total_page
     }
     return JsonResponse(content)
 
