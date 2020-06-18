@@ -58,7 +58,7 @@ def search(request):
 def main(request):
 
     pop = VideosDB.objects.all().order_by('-views')
-    late = VideosDB.objects.all().order_by('start_date')
+    late = VideosDB.objects.all().order_by('-start_date')
 
     pop = pop[0:4]
     late = late[0:4]

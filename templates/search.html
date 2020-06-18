@@ -5,6 +5,30 @@
     <!--
     blog start
     ============================ -->
+    	<!--
+    Header start 
+	============================== -->
+    <section id="subscribe">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block">
+                        <form class="form-inline" action="{% url 'search'%}" method="GET">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="exampleInputAmount" name="q" value="{{ q }}" placeholder="검색할 내용을 입력하세요.">
+                                    <div class="input-group-addon">
+                                        <button class="btn btn-default" type="submit">검 색</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div><!-- .col-md-12 close -->
+            </div><!-- .row close -->
+        </div><!-- .containe close -->
+    </section><!-- #subscribe close -->
+    
     <section id="blog">
         <div class="container">
             <div class="row">
@@ -41,7 +65,6 @@
                                             send_cnt++;
                                         }
                                     }
-                                    alert(send_array);
                                     if($(this).is(":checked")){
                                         pk = $(this).attr("value");
                                         $.ajax({
@@ -50,7 +73,6 @@
                                             data: {'data':send_array, 'q':'{{q}}', 'cnt':send_cnt, 'csrfmiddlewaretoken': '{{csrf_token}}'},
                                             dataType: "json",
                                             success: function(data){
-                                                alert(data.length)
                                                 var div = document.getElementById('level1');
                                                 var html = "";
                                                 for(var i=0; i<data.length; i++){
@@ -78,7 +100,6 @@
                                             data: {'data':send_array, 'q':'{{q}}', 'cnt':send_cnt, 'csrfmiddlewaretoken': '{{csrf_token}}'},
                                             dataType: "json",
                                             success: function(data){
-                                                alert(data.length)
                                                 var div = document.getElementById('level1');
                                                 var html = "";
                                                 for(var i=0; i<data.length; i++){
