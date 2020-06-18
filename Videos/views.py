@@ -106,5 +106,5 @@ def level(request):
 
 
 def VideoShow(request, video_id):
-    result = VideosDB.objects.filter(id=video_id)
+    result = EdusDB.objects.filter(id=video_id)
     return render(request, 'VideoShowModal.html', {'result': result})

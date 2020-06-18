@@ -44,11 +44,9 @@
           </tr>
         </thead>
         <tbody>
-          {% for EdusDB in EdusDB_list %}
-            {% for UsersDB in UsersDB_list %}
-
+          {% for EdusDB in Edus_list %}
               <tr>
-                <td>{{ UsersDB.username }}</td>
+                <td>{{ EdusDB.user_id__username }}</td>
                 <td>{{ EdusDB.score }}</td>
                 <td>{{ EdusDB.edu_days }}</td>
               </tr>
@@ -56,7 +54,6 @@
               <tr>
                 <td>데이터가 없습니다.</td>
               </tr>
-            {% endfor %}
           {% endfor %}
         </tbody>
       </table>
@@ -77,19 +74,16 @@
       </tr>
     </thead>
     <tbody>
-      {% for VideosDB in VideosDB_list %}
-      {% for UsersDB in UsersDB_list %}
+      {% for another in another_list %}
         <tr>
-          <td class="text-center"><img src="{{MEDIA_URL}}{{VideosDB.video_img}}" width="200" height="100"></p></td>
-          <td class="text-center">{{ UsersDB.username }}</td>
-          <td class="text-center">{{ VideosDB.start_date }}</td>
-          <td class="text-center"><button class="btn btn btn-outline-secondary" onclick="window.open('{% url 'VideoShow' VideosDB.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
+          <td class="text-center">{{ another.user_id__username }}</td>
+          <td class="text-center">{{ another.edu_days }}</td>
+          <td class="text-center"><button class="btn btn btn-outline-secondary" onclick="window.open('{% url 'VideoShow' another.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
         </tr>
       {% empty %}
         <tr>
           <td colspan="7" class="text-center bg-warning">데이터가 없습니다.</td>
         </tr>
-      {% endfor %}
     </tbody>
       {% endfor %}
     </table>
