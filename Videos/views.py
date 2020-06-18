@@ -41,7 +41,7 @@ def search(request):
 
     qs = qs[start_index:end_index]
 
-    return render(request, 'search.html', {'search': qs, 'q': q, 'where': where, 'page_range': page_range,})
+    return render(request, 'search.html', {'search': qs, 'q': q, 'where': where, 'page_range': page_range, })
 
 
 def main(request):
@@ -84,7 +84,6 @@ def level(request):
         qs = qs.filter(title__icontains=q)  # 제목에 q가 포함되어 있는 레코드만 필터링
 
     qs = list(qs.values())
-    
 
     page = int(request.POST.get('page', 1))
     paginated_by = 2
@@ -105,7 +104,7 @@ def level(request):
         'q': q,
         'search': qs,
         'length': length,
-        'page_range' : total_page
+        'page_range': total_page
     }
     return JsonResponse(content)
 

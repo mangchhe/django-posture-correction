@@ -46,7 +46,7 @@
                                     <tbody>
                                         {% for edus_list in Edus_list %}
                                         <tr>
-                                            <td>{{edus_list.video_description}}</td>
+                                            <td>{{edus_list.video_id__title}}</td>
                                             <td>{{ edus_list.score }}</td>
                                             <td>{{ edus_list.edu_days }}</td>
                                         </tr>
@@ -60,19 +60,17 @@
                                     <thead>
                                         <tr>
                                             <th>video</th>
-                                            <th>score</th>
                                             <th>date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for edus_list in Edus_list %}
+                                        {% for video in Video_list %}
                                         <tr>
                                             <td><a href="{% url 'ResultVideosList' %}">
-                                                {{edus_list.video_description}}
+                                                {{video.title}}
                                             </a>
                                             </td>
-                                            <td>{{ edus_list.score }}</td>
-                                            <td>{{ edus_list.edu_days }}</td>
+                                            <td>{{ video.start_date }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

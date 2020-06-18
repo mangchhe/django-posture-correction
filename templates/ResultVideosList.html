@@ -1,58 +1,79 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <head>
-    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type='text/css' href="{% static 'resultvideolist.css' %}">
+    <link
+        href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css"
+        rel="stylesheet"
+        type="text/css"
+    />
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="{% static 'resultvideolist.css' %}"
+    />
 </head>
 
 <body>
+    <section>
+        <div class="container">
+            <br /><br />
+            <div>
+                <h3><span>학습 영상 결과 리스트</span></h3>
+            </div>
+            <br /><br />
+            <div>
+                <table class="table" id="Edus_video">
+                    <thead class="thead-light" id="tablecol">
+                        <tr>
+                            <th width="50">영상</th>
+                            <th width="300">학습일</th>
+                            <th width="100">영상확인</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for EdusDB in EdusDB_list %}
+                        <tr>
+                            <td>{{ EdusDB.video_description }}</td>
+                            <td>{{ EdusDB.edu_days }}</td>
+                            <td>
+                                <button
+                                    class="btn btn-outline-secondary"
+                                    onclick="window.open('{% url 'result' EdusDB.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')"
+                                >
+                                    영상확인
+                                </button>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center bg-warning">
+                                데이터가 없습니다.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if Edus.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ Edus.previous_page_number }}">previous</a>
+                    {% endif %}
 
-<section>
-<div class="container">
-  <div><h3><span>학습 영상 결과 리스트</span></h3></div>
-  <div>
-  <table class = "table" id="Edus_video">
-    <thead class="thead-light" id="tablecol">
-      <tr>
-        <th width=50>영상</th>
-        <th width=300>학습일</th>
-        <th width=100>영상확인</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for EdusDB in EdusDB_list %}
-        <tr>
-          <td>{{ EdusDB.video_description }}</td>
-          <td>{{ EdusDB.edu_days }}</td>
-          <td><button class="btn btn-outline-secondary" onclick="window.open('{% url 'result' EdusDB.id %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')">영상확인</button> </td>
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="7" class="text-center bg-warning">데이터가 없습니다.</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  </div>
-  <div class="pagination">
-    <span class="step-links">
-      {% if Edus.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ Edus.previous_page_number }}">previous</a>
-      {% endif %}
+                    <span class="current">
+                        Page {{ Edus.number }} of {{ Edus.paginator.num_pages
+                        }}.
+                    </span>
 
-      <span class="current"> Page {{ Edus.number }} of {{ Edus.paginator.num_pages }}.
-      </span>
-
-      {% if Edus.has_next %}
-        <a href="?page={{ Edus.next_page_number }}">next</a>
-        <a href="?page={{ Edus.paginator.num_pages }}">last &raquo;</a>
-      {% endif %}
-    </span>
-  </div>
-</div>
-</section>
+                    {% if Edus.has_next %}
+                    <a href="?page={{ Edus.next_page_number }}">next</a>
+                    <a href="?page={{ Edus.paginator.num_pages }}"
+                        >last &raquo;</a
+                    >
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </section>
 </body>
 {% endblock %}

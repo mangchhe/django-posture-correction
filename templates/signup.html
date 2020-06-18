@@ -1,31 +1,78 @@
+{% extends 'base.html' %} {% block content %}
 
-{% extends 'base.html' %}
-{% block content %}
-
-    <section id="contact-us">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="block">
-                        <h1 class="heading wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms"><span>Sign Up</span></h1>
-                        <form method="POST" id="authForm" action="{%url 'signup'%}">
-                            {% csrf_token %}
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
-                                <input type="text" class="form-control" id="loginId" name="username" placeholder="ID">
-                            </div>
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
-                                <input type="password" class="form-control" id="loginPw1" name="password1" placeholder="Password">
-                            </div>
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
-                                <input type="password" class="form-control" id="loginPw2" name="password2" placeholder="Password Check">
-                            </div>
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
-                                <input type="submit" class="btn btn-default wow bounceIn" value="login" style="background-color: #FF4F02; color: #fff;">
-                            </div>
-                        </form>
-                    </div>
-                </div><!-- .col-md-12 close -->
-            </div><!-- .row close -->
-        </div><!-- .container close -->
-    </section><!-- #contact-us close -->
+<section id="contact-us">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block">
+                    <h1
+                        class="heading wow fadeInUp"
+                        data-wow-duration="500ms"
+                        data-wow-delay="300ms"
+                    >
+                        <span>Sign Up</span>
+                    </h1>
+                    <form method="POST" id="authForm" action="{%url 'signup'%}">
+                        {% csrf_token %}
+                        <div
+                            class="form-group wow fadeInDown"
+                            data-wow-duration="500ms"
+                            data-wow-delay="600ms"
+                        >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="loginId"
+                                name="username"
+                                placeholder="ID"
+                            />
+                        </div>
+                        <div
+                            class="form-group wow fadeInDown"
+                            data-wow-duration="500ms"
+                            data-wow-delay="800ms"
+                        >
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="loginPw1"
+                                name="password1"
+                                placeholder="Password"
+                            />
+                        </div>
+                        <div
+                            class="form-group wow fadeInDown"
+                            data-wow-duration="500ms"
+                            data-wow-delay="800ms"
+                        >
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="loginPw2"
+                                name="password2"
+                                placeholder="Password Check"
+                            />
+                        </div>
+                        <div
+                            class="form-group wow fadeInDown"
+                            data-wow-duration="500ms"
+                            data-wow-delay="800ms"
+                        >
+                            <input
+                                type="submit"
+                                class="btn btn-default wow bounceIn"
+                                value="sign up"
+                                style="background-color: #ff4f02; color: #fff;"
+                            />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- .col-md-12 close -->
+        </div>
+        <!-- .row close -->
+    </div>
+    <!-- .container close -->
+</section>
+<!-- #contact-us close -->
 {% endblock %}
