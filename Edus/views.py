@@ -33,6 +33,7 @@ total_zum_list = []
 total_accuracy = 0
 total_rank = ''
 total_zum = 0
+com_movie = False
 
 BODY_PARTS = {"Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
               "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
@@ -274,6 +275,7 @@ def gen(camera, video_id):  # https://item4.blog/2016-05-08/Generator-and-Yield-
     global accuracy
     global rank
     global rankList
+    global com_movie
 
     qVideo = VideosDB.objects.get(id=video_id)
 
@@ -288,9 +290,9 @@ def gen(camera, video_id):  # https://item4.blog/2016-05-08/Generator-and-Yield-
         if s_count == s_len:
             del camera
             break
-        print('gd')
+
         frame, points = camera.get_frame()
-        print('gd2')
+        com_movie = True
         for i in range(0, 19):
             if(points[i] == None):
                 n_count[i] += 1
@@ -472,10 +474,12 @@ def calculatePosture(request):
 
     global accuracy
     global rank
+    global com_movie
 
     content = {
         'accuracy': accuracy,
         'rank': rank,
+        'com_movie': com_movie,
     }
 
     return JsonResponse(content)

@@ -24,8 +24,8 @@
         <div id="s_left">
             <h4>따라할 영상</h4>
             <video
+                id = "movie"
                 src="{{ MEDIA_URL }}{{ videoName }}"
-                autoplay
                 muted="'muted"
                 height="480"
                 width="640"
@@ -40,7 +40,10 @@
             <img src="{% url 'video_feed' video_id=videoNo %}" />
 
             <script>
+                var a = 1
+                var videooo = document.getElementById("movie");
                 timer = setInterval(function () {
+                    
                     $.ajax({
                         url: "{% url 'calculatePosture' %}",
                         dataType: "Json",
@@ -52,6 +55,11 @@
                                     "정확도 : " +
                                     data.accuracy
                             );
+                            if(data.com_movie && a == 1){
+                                videooo.play();
+                                a = 2;
+                            }
+                            
                         },
                         error: function (request, status, error) {
                             alert("ajax 통신 실패...");
