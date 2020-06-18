@@ -17,8 +17,8 @@ def search(request):
 
     if where == 'pop':
         qs = VideosDB.objects.all().order_by('-views')
-    elif where == 'last':
-        qs = VideosDB.objects.all().order_by('start_date')
+    elif where == 'late':
+        qs = VideosDB.objects.all().order_by('-start_date')
     else:
         qs = VideosDB.objects.all()
 

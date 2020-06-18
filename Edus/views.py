@@ -11,7 +11,7 @@ import datetime
 import webbrowser
 from PostureCorrectionGameSite import settings
 from mutagen.mp4 import MP4
-from django.db.models import Sum, Max
+from django.db.models import Sum, Max, Subquery, OuterRef
 from Videos.forms import VideoForm
 from .forms import EdusDBForm
 # Create your views here.
@@ -288,9 +288,9 @@ def gen(camera, video_id):  # https://item4.blog/2016-05-08/Generator-and-Yield-
         if s_count == s_len:
             del camera
             break
-
+        print('gd')
         frame, points = camera.get_frame()
-
+        print('gd2')
         for i in range(0, 19):
             if(points[i] == None):
                 n_count[i] += 1
@@ -449,7 +449,12 @@ def ResultVideosList(request):  # 학습한 결과 영상 리스트 화면 view
 
 
 def video_select(request, video_id):  # 영상 선택 후 화면 view
-    Edus_list = EdusDB.objects.values('user_id__username', 'score', 'edu_days').annotate(Max('score')).order_by('-score').filter(video_id=video_id)
+    Edus_list = EdusDB.objects.filter(
+    id=Subquery(
+        EdusDB.objects.filter(user_id=OuterRef('user_id'))
+            .order_by('-score')
+            .values('id')[:1])
+    ).values('user_id__username', 'edu_days', 'score')
     another_list = EdusDB.objects.values('user_id__username', 'edu_days','id').exclude(user_id=request.user.id)
     context = {'Edus_list' : Edus_list,
                 'another_list' : another_list,
