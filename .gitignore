@@ -13,5 +13,4 @@ tests/.coverage
 build/
 tests/report/
 myvenv
-media
 *.sqlite3
