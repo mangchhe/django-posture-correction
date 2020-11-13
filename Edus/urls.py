@@ -12,6 +12,7 @@ urlpatterns = [
     path('resultView/edu_id=<int:edu_id>',views.resultView, name='result'),
     path('playresult/edu_id=<int:edu_id>',views.playResultView, name='playResultView'),
     path('calculatePosture', views.calculatePosture, name='calculatePosture'),
+    path('sendImg', views.sendImg, name='sendImg'),
     path('uploadpreview', views.UploadPreView, name='UploadPreView'),
 ]
 

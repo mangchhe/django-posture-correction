@@ -37,13 +37,18 @@
         </div>
         <div id="s_right">
             <h4>나의 실시간 영상</h4>
-            <img src="{% url 'video_feed' video_id=videoNo %}" />
-
+            <!-- <img src="{% url 'video_feed' video_id=videoNo %}" /> -->
+            <!-- 11/13 수정 -->
+            <div id="container">
+                <video autoplay="true" id="videoElement" height="480" width="640">
+                
+                </video>
+            </div>
+            <canvas id="canv" width="640" height="480"></canvas>
             <script>
                 var a = 1
                 var videooo = document.getElementById("movie");
                 timer = setInterval(function () {
-                    
                     $.ajax({
                         url: "{% url 'calculatePosture' %}",
                         dataType: "Json",
@@ -66,6 +71,33 @@
                         },
                     });
                 }, 1000);
+        
+                // 11/13 추가
+
+                navigator.getUserMedia({video: true}, function(stream) {
+                    var video = document.getElementById("videoElement");
+                    var canvas = document.getElementById("canv");
+
+                    video.srcObject = stream;
+                    video.play();
+
+                    timer2 = setInterval(function () {
+                        canvas.getContext("2d").drawImage(video, 0, 0, 640, 480);
+                        var img = canvas.toDataURL("image/png");
+                        $.ajax({
+                            url: "{% url 'sendImg' %}",
+                            dataType: "Json",
+                            data: {"url" : img},
+                            type: "POST",
+                            success: function (data) {
+                            },
+                            error: function (request, status, error) {
+                                alert("ajax 통신 실패...");
+                            },
+                        });
+                    }, 1000);
+                }, function(err) { alert("there was an error " + err)});
+
             </script>
         </div>
     </div>

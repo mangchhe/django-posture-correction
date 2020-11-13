@@ -22,6 +22,10 @@ import pickle
 import cv2
 import numpy as np
 import datetime
+# 11/13 추가
+from django.views.decorators.csrf import csrf_exempt
+import re
+import base64
 
 accuracy = 0
 rank = ''
@@ -357,7 +361,6 @@ def post_list(request):
     """ 비디오 업로드 """
 
     lastvideo = VideosDB.objects.last()  # 데이터베이스 테이블에서 마지막 비디오(객체)인 변수 lastvideo를 생성
-
     videofile = lastvideo.videofile.url  # 비디오 파일 경로를 포함하는 변수 videofile을 생성
 
     # ne, request.FILES request.POST 또는 None은 사용자가 양식을 제출 한 후 데이터를 필드에 유지
@@ -469,6 +472,17 @@ def resultView(request, edu_id):
 
     return render(request, 'resultView.html', {'result': result})
 
+# 11/13 추가
+@csrf_exempt
+def sendImg(request):
+    url = request.POST['url']
+    imgstr=re.search(r'data:image/png;base64,(.*)',url).group(1)
+    output=open('output.png', 'wb')
+    decoded=base64.b64decode(imgstr)
+    decoded = np.fromstring(decoded, dtype=np.int8)
+    decoded = cv2.imdecode(decoded, cv2.IMREAD_COLOR)
+
+    return JsonResponse({'':''})
 
 def calculatePosture(request):
 
