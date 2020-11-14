@@ -26,6 +26,7 @@ import datetime
 from django.views.decorators.csrf import csrf_exempt
 import re
 import base64
+from PIL import Image
 
 accuracy = 0
 rank = ''
@@ -38,6 +39,19 @@ total_accuracy = 0
 total_rank = ''
 total_zum = 0
 com_movie = False
+# 추가 11/14
+video_no = 0
+flag = True
+""" 초당 평균 데이터 구하는 부분 """
+p_list = []
+save = [[0 for col in range(2)] for row in range(19)]
+count = 0
+n_count = [0 for row in range(19)]
+s_count = 0
+skel_list = 0
+s_len = 0
+videoCamera = 0
+
 
 BODY_PARTS = {"Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
               "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
@@ -124,10 +138,12 @@ def play(request, page_no, video_id):
     global total_accuracy_list
     global total_rank_list
     global total_zum_list
+    global video_no
 
     del total_accuracy_list[:]
     del total_rank_list[:]
     del total_zum_list[:]
+    video_no = video_id
 
     # 비디오 정보 (mp4, avi 등)
 
@@ -170,8 +186,10 @@ def play(request, page_no, video_id):
 
 
 def play_after(request, page_no, video_no):
-    global total_zum, nowDatetime
+
+    global total_zum, nowDatetime, videoCamera
     # 비디오 정보 (mp4, avi 등)
+    del videoCamera
 
     # after
     # 조회수 증가
@@ -265,91 +283,70 @@ def play_after(request, page_no, video_no):
     return render(request, 'playViewResult.html', context)
 
 
-def gen(camera, video_id):  # https://item4.blog/2016-05-08/Generator-and-Yield-Keyword-in-Python/
+def getSkelImg(img):  # https://item4.blog/2016-05-08/Generator-and-Yield-Keyword-in-Python/
     # 앨범 이미지
-    global nowDatetime
-
-    """ 초당 평균 데이터 구하는 부분 """
-    p_list = []
-    save = [[0 for col in range(2)] for row in range(19)]
-    count = 0
-    n_count = [0 for row in range(19)]
-    s_count = 0
-
     global accuracy
     global rank
     global rankList
     global com_movie
+    global p_list
+    global save
+    global count
+    global n_count
+    global s_count
+    global skel_list
 
-    qVideo = VideosDB.objects.get(id=video_id)
+    # while True:
+    #if s_count == s_len:
 
-    skel_list = json.loads(qVideo.skeleton)
+    points = img
+    
+    com_movie = True
+    for i in range(0, 19):
+        if(points[i] == None):
+            n_count[i] += 1
+        else:
+            save[i][0] += points[i][0]
+            save[i][1] += points[i][1]
 
-    s_len = len(skel_list)
-
-    nowDatetime = camera.nowDatetime
-
-    while True:
-
-        if s_count == s_len:
-            del camera
-            break
-
-        frame, points = camera.get_frame()
-        com_movie = True
+    # fps 평균 구하기
+    if(count % 3 == 2):
         for i in range(0, 19):
-            if(points[i] == None):
-                n_count[i] += 1
-            else:
-                save[i][0] += points[i][0]
-                save[i][1] += points[i][1]
+            if(save[i][0] != 0):
+                save[i][0] /= 3 - n_count[i]
+            if(save[i][1] != 0):
+                save[i][1] /= 3 - n_count[i]
 
-        # fps 평균 구하기
-        if(count % 3 == 2):
-            for i in range(0, 19):
-                if(save[i][0] != 0):
-                    save[i][0] /= 3 - n_count[i]
-                if(save[i][1] != 0):
-                    save[i][1] /= 3 - n_count[i]
+        score_skeleton(skel_list[s_count], save)
 
-            score_skeleton(skel_list[s_count], save)
+        zum = round(sum(rankList) / len(rankList), 2)
 
-            zum = round(sum(rankList) / len(rankList), 2)
+        accuracy = round(zum / 4.5 * 100, 2)
 
-            accuracy = round(zum / 4.5 * 100, 2)
+        total_zum_list.append(zum)
+        total_accuracy_list.append(accuracy)
 
-            total_zum_list.append(zum)
-            total_accuracy_list.append(accuracy)
+        zumList = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F']
 
-            zumList = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F']
+        for i in range(1, 10):
 
-            for i in range(1, 10):
+            if zum > 4.5 - .5 * i:
+                total_rank_list.append(4.5 - .5 * (i - 1))
+                rank = zumList[i - 1]
+                break
 
-                if zum > 4.5 - .5 * i:
-                    total_rank_list.append(4.5 - .5 * (i - 1))
-                    rank = zumList[i - 1]
-                    break
+        del rankList[:]
 
-            del rankList[:]
+                # p_list.append(save) # 초당 평균 데이터 -> 이 데이터와 학습 영상 데이터랑 비교하면 됨
 
-            # p_list.append(save) # 초당 평균 데이터 -> 이 데이터와 학습 영상 데이터랑 비교하면 됨
+        save = [[0 for col in range(2)] for row in range(19)]
+        n_count = [0 for row in range(19)]
+        s_count += 1
 
-            save = [[0 for col in range(2)] for row in range(19)]
-            n_count = [0 for row in range(19)]
-            s_count += 1
+    count += 1
 
-        count += 1
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-
-
-def video_feed(request, video_id):
-    # 웹캠 정보
-    now = datetime.datetime.now()
-    nowDatetime = now.strftime('%Y%m%d%H%M%S')
-    return StreamingHttpResponse(gen(VideoCamera(nowDatetime), video_id),
-                                 content_type='multipart/x-mixed-replace; boundary=frame')  # 찾아보기
-
+    # yield (b'--frame\r\n'
+    #         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 # 마이페이지
 def mypage(request):
@@ -475,12 +472,39 @@ def resultView(request, edu_id):
 # 11/13 추가
 @csrf_exempt
 def sendImg(request):
+
+    global flag
+    global s_len
+
+    if flag:
+        global nowDatetime
+        global skel_list
+        global videoCamera
+        now = datetime.datetime.now()
+        nowDatetime = now.strftime('%Y%m%d%H%M%S')
+        videoCamera = VideoCamera(nowDatetime)
+
+        qVideo = VideosDB.objects.get(id=video_no)
+
+        skel_list = json.loads(qVideo.skeleton)
+
+        s_len = len(skel_list)
+
+        nowDatetime = videoCamera.nowDatetime
+        
+        flag = False
+
     url = request.POST['url']
     imgstr=re.search(r'data:image/png;base64,(.*)',url).group(1)
-    output=open('output.png', 'wb')
     decoded=base64.b64decode(imgstr)
     decoded = np.fromstring(decoded, dtype=np.int8)
     decoded = cv2.imdecode(decoded, cv2.IMREAD_COLOR)
+
+    # img = Image.fromarray(decoded)
+
+    frame, image = videoCamera.get_frame(decoded)
+    
+    getSkelImg(image)
 
     return JsonResponse({'':''})
 
