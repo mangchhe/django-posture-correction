@@ -1,95 +1,101 @@
 <!DOCTYPE html>
-
 {% load static %}
-<html class="no-js">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type='text/css' href="{% static 'modepage.css' %}">
+    <link rel="stylesheet" type='text/css' href="{% static 'indexpage.css' %}">
+    <link rel="stylesheet" type='text/css' href="{% static 'searchpage.css' %}">
+
+      <meta name="viewport" content="width=device-width, height=device-height,minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0">
+
     <title>PostureCorrectionGameSite</title>
     <link rel="shortcut icon" type="image⁄x-icon" href="{% static 'images/pcgs.png' %}">
-		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<!-- CSS
-        ================================================ -->
-        <!-- Owl Carousel -->
-		<link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
-        <!-- bootstrap.min css -->
-		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-        <!-- Font-awesome.min css -->
-		<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-        <!-- Main Stylesheet -->
-        <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+    <style>
+
+        /*search.html*/
+
+        /*index.html*/
 
 
-        <link rel="stylesheet" href="{% static 'css/main.css' %}">
-        <!-- Responsive Stylesheet -->
-        <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
-		<!-- Js -->
-    <script src="{% static 'js/vendor/modernizr-2.6.2.min.js' %}"></script>
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
-    <script>window.jQuery || document.write('<script src="{% static 'js/vendor/jquery-1.10.2.min.js' %}"><\/script>')</script>
-    <script src="{% static 'js/jquery.nav.js' %}"></script>
-    <script src="{% static 'js/jquery.sticky.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/plugins.js' %}"></script>
-    <script src="{% static 'js/wow.min.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
-    </head>
-	<body>
-        <nav id="navigation">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="block">
-                            <nav class="navbar navbar-default">
-                              <div class="container-fluid">
-                                <!-- Brand and toggle get grouped for better mobile display -->
-                                <div class="navbar-header">
-                                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                  </button>
-                                      <a class="navbar-brand" href="{%url 'main'%}">
-                                        <img src="{% static 'images/logo.png' %}" alt="Logo">
-                                      </a>
-    
-                                </div>
+        /*base.html*/
+        div#header {
+            background-color: white;
+            position: fixed;
+            z-index: 1;
+            width: 100%;
+            top: 0;
+            left: 0;
 
-                                
-                                <!-- Collect the nav links, forms, and other content for toggling -->
-                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                  <ul class="nav navbar-nav navbar-right">
-                                   
+        }
 
-                                    {% if request.user.is_authenticated %}
-                                    <li><a href="{% url 'logout' %}">로그아웃</a></li>
-                                    <li><a href="{% url 'mypageView' %}">마이페이지</a></li>
-                                    {% else %}
-                                    <li><a href="{% url 'login' %}">로그인</a></li>
-                                    <li><a href="{% url 'signup' %}">회원가입</a></li>
-                                    {% endif %}
-                                  </ul>
-                                </div><!-- /.navbar-collapse -->
-                              </div><!-- /.container-fluid -->
-                            </nav>
-                        </div>
-                    </div><!-- .col-md-12 close -->
-                </div><!-- .row close -->
-            </div><!-- .container close -->
-        </nav><!-- header close -->
-            <!--
-        subscribe start
-        ============================ -->
-	<!--
-	header-img start 
-	============================== -->
-    <section id="hero-area">
-      <img class="img-responsive" src="{% static 'background.png' %}" alt="">
-    </section>
+        a#logo {
+            float: left;
+            padding: 29px 0 0 29px;
+        }
+
+        ul.nav {
+            float: right;
+            list-style: none;
+            margin-right: 5%;
+        }
+
+        ul.nav li {
+            float: left;
+            margin-top: 30px;
+        }
+
+        ul.nav a {
+            line-height: 40px;
+            color: black;
+            font-size: 20px;
+            padding: 0 15px;
+            text-decoration: none;
+        }
+
+        #hero-area {
+            position: relative;
+        }
+
+        #hero-area:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            width: 100%;
+            height: 99%;
+            background: url("../static/overlay-pattern.png") #000000;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body style="overflow: auto;">
+    <div id="header">
+        <a id="logo" href="{%url 'main'%}">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+        </a>
+        <div>
+            <ul class="nav">
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">로그아웃</a></li>
+                <li><a href="{% url 'mypageView' %}">마이페이지</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">로그인</a></li>
+                <li><a href="{% url 'signup' %}">회원가입</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
     {% block content %}
     {% endblock %}
-    </body>
+
+</body>
 
 </html>

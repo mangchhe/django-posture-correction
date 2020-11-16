@@ -4,21 +4,113 @@
 
 <head>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
-    <link rel ='stylesheet' type='text/css' href='{% static "mypageView.css" %}'>
+    <link rel='stylesheet' type='text/css' href='{% static "mypageView.css" %}'>
     <title>마이페이지</title>
 
     <style>
-        #score{
-            padding:10px;
+        #score {
+            padding: 10px;
             border: 2px solid black;
             text-align: left;
         }
     </style>
 </head>
 
+<div style="padding-bottom: 10%;">
+
+</div>
+<div class="pagename">
+    <h1><span>마이</span>페이지</h1>
+</div>
+<div style="width: 90%; margin: 0 auto;">
+    <div id="mytable">
+        <div class="title">
+            <h3><span>나의</span>점수</h3>
+        </div>
+        <div class="score">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">video</th>
+                        <th scope="col">score</th>
+                        <th scope="col">date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for edus_list in Edus_list %}
+                    <tr>
+                        <td>{{ edus_list.video_id__title }}</td>
+                        <td>{{ edus_list.score }}</td>
+                        <td>{{ edus_list.edu_days }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">데이터가 없습니다.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="title">
+            <h3><span>업로드</span>영상</h3>
+        </div>
+        <div class="myvideo">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">video</th>
+                        <th scope="col">date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for video in Video_list %}
+                    <tr>
+                        <td><a href="{% url 'ResultVideosList' %}">
+                                {{video.title}}
+                            </a>
+                        </td>
+                        <td>{{ video.start_date }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2">데이터가 없습니다.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="upload">
+        <div class="title">
+            <h3><span>영상</span>올리기</h3>
+        </div>
+        <form enctype="multipart/form-data" method="POST" action="">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <th>title</th>
+                    <td>{{form.title}}</td>
+                </tr>
+                <tr>
+                    <th>video</th>
+                    <td>{{form.videofile}}</td>
+                </tr>
+                <tr>
+                    <th>image</th>
+                    <td>{{form.video_img}}</td>
+                </tr>
+                <tr>
+                    <th>level</th>
+                    <td>{{form.level}}</td>
+                </tr>
+            </table>
+            <button type="submit">업로드</button>
+        </form>
+    </div>
+</div>
 
 
-
+<!--
 <section id="blog">
     <div class="container">
         <div class="row">
@@ -31,7 +123,7 @@
                                 <div class="title">
                                     <h3><span>나의</span>점수</h3>
                                 </div>
-                                <div id = 'score'>
+                                <div id='score'>
                                     <h5 style="display: inline;">총 점수: </h5>
                                     <h5 style="display: inline;">{{ score_sum|floatformat }}</h5>
                                 </div>
@@ -67,8 +159,8 @@
                                         {% for video in Video_list %}
                                         <tr>
                                             <td><a href="{% url 'ResultVideosList' %}">
-                                                {{video.title}}
-                                            </a>
+                                                    {{video.title}}
+                                                </a>
                                             </td>
                                             <td>{{ video.start_date }}</td>
                                         </tr>
@@ -80,30 +172,31 @@
                                 <div class="title">
                                     <h3><span>영상</span>올리기</h3>
                                 </div>
-                                <form enctype="multipart/form-data"  method="POST" action="">
+                                <form enctype="multipart/form-data" method="POST" action="">
                                     {% csrf_token %}
                                     <h5>title : </h5>
                                     {{form.title}}
-                                </br><br>
+                                    </br><br>
                                     <h5>video : </h5>
                                     {{form.videofile}}
-                                </br><br>
+                                    </br><br>
                                     <h5>image : </h5>
                                     {{form.video_img}}
-                                </br><br>
+                                    </br><br>
                                     <h5>level : </h5>
                                     {{form.level}}
-                                </br><br>
-                                    <input class="btn btn-secondary" type="submit" value="Upload" onclick = 'alert("업로드")'/>
-                                </form>  
+                                    </br><br>
+                                    <input class="btn btn-secondary" type="submit" value="Upload"
+                                        onclick='alert("업로드")' />
+                                </form>
                             </div>
                         </li>
                     </ul>
                 </div>
-            </div><!-- .col-md-12 close -->
-        </div><!-- .row close -->
-    </div><!-- .containe close -->
-</section><!-- #blog close -->
-
+            </div>
+        </div>
+    </div>
+</section>
+-->
 
 {% endblock %}

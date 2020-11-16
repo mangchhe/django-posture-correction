@@ -51,6 +51,7 @@ s_count = 0
 skel_list = 0
 s_len = 0
 videoCamera = 0
+sendFlag = True
 
 
 BODY_PARTS = {"Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
@@ -187,9 +188,10 @@ def play(request, page_no, video_id):
 
 def play_after(request, page_no, video_no):
 
-    global total_zum, nowDatetime, videoCamera
+    global total_zum, nowDatetime, videoCamera, sendFlag
     # 비디오 정보 (mp4, avi 등)
     del videoCamera
+    sendFlag = False
 
     # after
     # 조회수 증가
@@ -475,11 +477,12 @@ def sendImg(request):
 
     global flag
     global s_len
+    global nowDatetime
+    global skel_list
+    global videoCamera
+    global sendFlag
 
     if flag:
-        global nowDatetime
-        global skel_list
-        global videoCamera
         now = datetime.datetime.now()
         nowDatetime = now.strftime('%Y%m%d%H%M%S')
         videoCamera = VideoCamera(nowDatetime)
@@ -502,9 +505,11 @@ def sendImg(request):
 
     # img = Image.fromarray(decoded)
 
-    frame, image = videoCamera.get_frame(decoded)
-    
-    getSkelImg(image)
+    if sendFlag:
+        frame, image = videoCamera.get_frame(decoded)
+        getSkelImg(image)
+    else:
+        pass
 
     return JsonResponse({'':''})
 

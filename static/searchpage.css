@@ -1,0 +1,75 @@
+div.pagename{
+    width: 20%;
+    margin: 0 auto;
+    overflow: auto;
+    margin-bottom: 5%;
+    text-align: center;
+}
+div#searchlistbox{
+    width: 60%;
+    margin: 0 auto;
+    overflow: auto;
+}
+div#searchlistbox div.searchlist{
+    overflow: auto;
+    margin-bottom: 5%;
+    cursor:pointer;
+}
+div#searchlistbox div.video_img{
+    width: 30%;
+    min-width: 200px;
+    float: left;
+}
+div#searchlistbox div.video_info{
+    padding-left: 2%;
+    width: 30%;
+    float: left;
+}
+div#searchlistbox div.video_info h3{
+    margin-top: 0%;
+    margin-bottom: 1%;
+    font-size: 2vw;
+}
+div#searchlistbox div.video_info p{
+    margin-top: 0%;
+    margin-bottom: 0%;
+    font-size: 1vw;
+}
+div#page{
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+div#page input {
+    margin: 0 0.25em 0 0.25em ;
+    width: 2em;
+    height: 2em;
+    background:#e0c0a0;
+    color:#fff;
+    border:none;
+    border-radius:50%;
+}
+
+div#filter{
+    float: left;
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 3%;
+    margin-bottom: 1%;
+}
+
+div#filter .checkbox {
+    display: none; 
+}
+div#filter .title {
+    color:#e0c0a0;
+    font-weight: bold;
+}
+div#filter .desc {
+    max-height: 0px;
+    overflow: hidden;
+}
+div#filter .checkbox:checked + .title + .desc {
+    max-height: 1000px;
+}

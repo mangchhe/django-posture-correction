@@ -1,51 +1,68 @@
-.wrapper {
-    display : grid;
+
+div#mytable{
+    float: left;
+    width: 45%;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+    overflow: auto;
+    text-align: center;
+}
+div#mytable div.title {
+    width: 20%;
+    padding-left: 40%;
+    padding-right: 40%;
+    float: left;
+    text-align: center;
 }
 
-#s_left_top{
-    grid-column:1 / 2;
-    grid-row:1;
-    width:360px;
-    height:360px;
-    float:left;
-    margin-left:120;
-    margin-right:20;
-    margin-top:20;
-    margin-bottom:20;
-    text-align:center;
-}
-#s_left_bottom{
-    grid-column:1 / 2;
-    grid-row:2;
-    width:360px;
-    height:360px;
-    float:left;
-    margin-left:120;
-    margin-right:20;
-    text-align:center;
-}
-#s_right{
-    grid-column:2 / 2;
-    grid-row: 1/3;
-    width:480px;
-    height:740px;
-    float:left;
-    margin-left:20;
-    margin-right:120;
-    margin-top:20;
-    text-align:center;
+div#mytable div.score {
+    width: 90%;
+    margin: 0 auto;
+    float: left;
+    text-align: center;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
-th {
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
-    font-weight: lighter;
-    font-weight: bolder;
+div#mytable div.myvideo {
+    width: 90%;
+    margin: 0 auto;
+    float: left;
+    text-align: center;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
-h5{
-    font-family: 'Spoqa Han Sans', 'Sans-serif';
-    font-weight: lighter;
-    display: inline-block;
-    padding: 10px;
-    font-size: 20px;
-  }
+div#upload{
+    
+    width: 45%;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+    overflow: auto;
+    text-align: center;
+}
+
+div#upload div.title{
+    width: 20%;
+    padding-left: 40%;
+    padding-right: 40%;
+    float: left;
+    text-align: center;
+}
+
+div#upload th{
+    font-weight: bold;
+    color: #fff;
+    background: #73685d;
+}
+
+div#upload button {
+    font-weight: bold;
+    color: #fff;
+    background: #73685d;
+    border:none;
+    width: 50%;
+    height: 5vh;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+}
