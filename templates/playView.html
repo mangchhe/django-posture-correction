@@ -23,6 +23,7 @@
         <br /><br />
         <div id="s_left">
             <h4>따라할 영상</h4>
+            <br />
             <video
                 id = "movie"
                 src="{{ MEDIA_URL }}{{ videoName }}"
@@ -37,14 +38,18 @@
         </div>
         <div id="s_right">
             <h4>나의 실시간 영상</h4>
+            <br />
             <!-- 11/13 수정 -->
             <div id="container">
                 <video autoplay="true" id="videoElement" height="480" width="640">
                 
                 </video>
             </div>
-            <canvas id="canv" width="640" height="480"></canvas>
+            <canvas id="canv" width="640" height="480" hidden="true"></canvas>
             <script>
+                document.getElementById('movie').addEventListener('ended', function(){
+                    location.href = 'result/page={{currentPage}}';
+                }, false);
                 var a = 1
                 var videooo = document.getElementById("movie");
                 timer = setInterval(function () {
@@ -52,13 +57,20 @@
                         url: "{% url 'calculatePosture' %}",
                         dataType: "Json",
                         success: function (data) {
-                            $("#description").html(
-                                "등급 : " +
-                                    data.rank +
-                                    "    " +
-                                    "정확도 : " +
-                                    data.accuracy
-                            );
+                            if(data.accuracy == 0){
+                                $("#description").html(
+                                    "채점 준비중..."
+                                )
+                            }
+                            else{
+                                $("#description").html(
+                                    "등급 : " +
+                                        data.rank +
+                                        "    " +
+                                        "정확도 : " +
+                                        data.accuracy
+                                );
+                            }
                             if(data.com_movie && a == 1){
                                 videooo.play();
                                 a = 2;
@@ -102,58 +114,5 @@
     </div>
 
     <div id="description"></div>
-
-    <footer>
-        <div id="s_bbottom">
-            <div><h3>결과 리스트</h3></div>
-            <br /><br />
-            <div>
-                <table class="table table-hover table-sm" id="user_rank">
-                    <thead class="thead-light">
-                        <tr>
-                            <th class="text-center">나의 영상</th>
-                            <th class="text-center">날짜</th>
-                            <th class="text-center">영상확인</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for a,i,j,b,k in videoList %}
-                        <tr>
-                            <td>{{ b }}</td>
-                            <td class="text-center">{{ k }}</td>
-                            <td>
-                                <button
-                                    class="btn btn btn-outline-secondary"
-                                    onclick="window.open('{% url 'playResultView' a %}','test','width=550,height=310,location=no,status=no,scrollbars=yes')"
-                                >
-                                    영상확인
-                                </button>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="7" class="text-center bg-warning">
-                                데이터가 없습니다.
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            {% for page in totalPageList %}
-            <a href="page={{page}}">
-                [ {% ifequal page currentPage %}
-                <b>
-                    {% endifequal %} {{page}} {% ifequal page currentPage %}
-                </b>
-            </a>
-            {% endifequal %} ] {% endfor %}
-        </div>
-    </footer>
-    <meta
-        http-equiv="refresh"
-        content="{{videoLength}}; url=result/page={{currentPage}}"
-    />
 </body>
 {% endblock content %}

@@ -7,11 +7,16 @@ from django.contrib import auth
 def signup(request):
 
     if request.method == "POST":
+        print(UsersDB.objects.all().filter(username=request.POST["username"]))
+        if UsersDB.objects.all().filter(username=request.POST["username"]).exists():
+            return render(request, 'signup.html', {'error2':'실패'})
         if request.POST["password1"] == request.POST["password2"]:
             user = UsersDB.objects.create_user(
-                username=request.POST["username"], password=request.POST["password1"])
+            username=request.POST["username"], password=request.POST["password1"])
+            auth.login(request, user)
             return redirect('main')
-        return render(request, 'signup.html')
+            
+        return render(request,'signup.html', {'error1':'실패'})
     return render(request,'signup.html')
 
 def login(request):

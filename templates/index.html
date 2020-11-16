@@ -67,6 +67,10 @@
                     <td>{{ x.user_id__username }}</td>
                     <td>{{ x.score__sum }}</td>
                 </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">데이터가 없습니다.</td>
+                </tr>
             </tbody>
             {% endfor %}
         </table>
@@ -83,12 +87,13 @@
                     <td>{{ x.editor__username }}</td>
                     <td>{{ x.views__sum }}</td>
                 </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">데이터가 없습니다.</td>
+                </tr>
             </tbody>
             {% endfor %}
         </table>
     </div>
-</div>
-<div style="padding-bottom: 10%;">
-    
 </div>
 {% endblock %}

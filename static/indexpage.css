@@ -88,6 +88,12 @@
             width: 90%;
         }
         */
+
+        div#table{
+            overflow: auto;
+            padding-bottom: 5%;
+        }
+
         div#table div.title {
             width: 20%;
             padding-left: 15%;

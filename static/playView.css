@@ -1,16 +1,17 @@
 #sec_1 {
     display: flex;
-    margin: 30px 200px;
+    margin: 30px 100px;
+    justify-content: center;
 }
 #s_left {
     text-align: center;
-    font-family: "Spoqa Han Sans", "Sans-serif";
+    font-family:'Malgun Gothic';
     font-weight: lighter;
     font-size: 30px;
     margin: 10px;
 }
 h3 {
-    font-family: "Spoqa Han Sans", "Sans-serif";
+    font-family:'Malgun Gothic';
     font-weight: lighter;
     font-size: 30px;
     text-align: left;
@@ -20,39 +21,35 @@ h4 {
     margin: 10px 110px 10px 110px;
     display: inline-block;
     font-size: 30px;
-    font-family: "Spoqa Han Sans", "Sans-serif";
+    font-family:'Malgun Gothic';
     font-weight: lighter;
+    position: relative;
 }
 
 h5 {
-    font-family: "Spoqa Han Sans", "Sans-serif";
+    font-family:'Malgun Gothic';
     font-weight: lighter;
     display: inline-block;
     padding: 10px;
     font-size: 20px;
 }
 
-tr {
-    font-family: "Spoqa Han Sans", "Sans-serif";
-    font-weight: lighter;
-    font-size: 18px;
-}
 #s_right {
     display: inline-block;
     text-align: center;
-    font-family: "Spoqa Han Sans", "Sans-serif";
+    font-family:'Malgun Gothic';
     font-weight: lighter;
     font-size: 30px;
     margin: 10px;
 }
 #s_bottom {
     text-align: center;
-    font-family: "Spoqa Han Sans", "Sans-serif";
+    font-family:'Malgun Gothic';
     font-weight: lighter;
 }
 #s_bbottom {
     text-align: center;
-    font-family: "Spoqa Han Sans", "Sans-serif";
+    font-family:'Malgun Gothic';
     font-weight: lighter;
     margin: 200px;
 }
@@ -64,14 +61,8 @@ tr {
     border-radius: 10px;
 }
 
-th {
-    font-family: "Spoqa Han Sans", "Sans-serif";
-    font-weight: lighter;
-    font-weight: bolder;
-    font-size: 21px;
-}
-
 #description {
     text-align: center;
     font-size: 40px;
 }
+

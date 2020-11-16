@@ -178,7 +178,6 @@ def play(request, page_no, video_id):
         'videoList': zip(eid, idx, video, desc, days),
         'totalPageList': totalPageList,
         'currentPage': currentPage,
-        'videoLength': videoLength,
         'videoName': videoName,
         'videoNo': video_id,
     }
@@ -190,7 +189,6 @@ def play_after(request, page_no, video_no):
 
     global total_zum, nowDatetime, videoCamera, sendFlag
     # 비디오 정보 (mp4, avi 등)
-    del videoCamera
     sendFlag = False
 
     # after
@@ -255,6 +253,7 @@ def play_after(request, page_no, video_no):
     if request.method == 'POST':
         form = EdusDBForm(request.POST)
         if form.is_valid():
+            del videoCamera
             edus_form = form.save(commit=False)
             edus_form.video_id=video_get
             edus_form.user_id=request.user
@@ -530,6 +529,7 @@ def calculatePosture(request):
 
 def playResultView(request, edu_id):
     print(edu_id,'------------------------------')
+
     result = EdusDB.objects.filter(id=edu_id)
     return render(request, 'playviewshowmodal.html', {'result': result})
 
