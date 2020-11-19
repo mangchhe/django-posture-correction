@@ -57,6 +57,7 @@
         <table>
             <thead>
                 <tr>
+                    <th scope="col">순위</th>
                     <th scope="col">이름</th>
                     <th scope="col">점수</th>
                 </tr>
@@ -64,6 +65,7 @@
             {% for x in user %}
             <tbody>
                 <tr>
+                    <td>{{ forloop.counter }}</td>
                     <td>{{ x.user_id__username }}</td>
                     <td>{{ x.score__sum }}</td>
                 </tr>
@@ -78,12 +80,14 @@
     <div class="channel">
         <table>
             <thead>
+                <th scope="col">순위</th>
                 <th scope="col">이름</th>
                 <th scope="col">조회수</th>
             </thead>
             {% for x in channel %}
             <tbody>
                 <tr>
+                    <td>{{ forloop.counter }}</td>
                     <td>{{ x.editor__username }}</td>
                     <td>{{ x.views__sum }}</td>
                 </tr>
