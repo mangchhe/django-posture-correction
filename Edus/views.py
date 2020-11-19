@@ -257,7 +257,7 @@ def play_after(request, page_no, video_no):
             edus_form = form.save(commit=False)
             edus_form.video_id=video_get
             edus_form.user_id=request.user
-            edus_form.recode_video = settings.EDUS_ROOT+nowDatetime+'.mp4'
+            edus_form.recode_video = '/edus/'+nowDatetime+'.mp4'
             edus_form.score = total_zum
             edus_form.save()
     elif request.method == 'GET':
@@ -528,12 +528,11 @@ def calculatePosture(request):
 
 
 def playResultView(request, edu_id):
-    print(edu_id,'------------------------------')
 
     result = EdusDB.objects.filter(id=edu_id)
     return render(request, 'playviewshowmodal.html', {'result': result})
 
 
 def UploadPreView(request):
-    result = settings.EDUS_ROOT+nowDatetime+'.mp4'
+    result = '/edus/'+nowDatetime+'.mp4'
     return render(request, 'uploadpreview.html', {'result': result})

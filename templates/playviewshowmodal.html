@@ -1,4 +1,4 @@
 {% load static %}
 {% for EdusDB in result %}
-<video width='600' controls><source src='{{ EdusDB.recode_video }}' type='video/mp4'></video>
+<video autoplay controls><source src='{{ EdusDB.recode_video }}' type='video/mp4'></video>
 {% endfor %}

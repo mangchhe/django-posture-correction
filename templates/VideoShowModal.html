@@ -1,4 +1,4 @@
 {% load static %}
 {% for VideosDB in result %}
-<video width='600' controls><source src='{{ MEDIA_URL }}{{ VideosDB.recode_video }}' type='video/mp4'></video>
+<video autoplay controls><source src='{{ MEDIA_URL }}{{ VideosDB.recode_video }}' type='video/mp4'></video>
 {% endfor %}

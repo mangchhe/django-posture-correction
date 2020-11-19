@@ -47,7 +47,7 @@ class VideoCamera(object):
 
         # fps = self.video.get(cv2.CAP_PROP_FPS)  # 프레임 수
 
-        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        fourcc = cv2.VideoWriter_fourcc('H','2','6','4')
         self.out = cv2.VideoWriter(
             settings.EDUS_ROOT+nowDatetime+'.mp4', fourcc, 3, (int(width), int(height)))
 
