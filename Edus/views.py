@@ -435,12 +435,13 @@ def ResultVideosList(request):  # 학습한 결과 영상 리스트 화면 view
 
 def video_select(request, video_id):  # 영상 선택 후 화면 view
     Edus_list = EdusDB.objects.filter(
+        video_id=video_id,
     id=Subquery(
         EdusDB.objects.filter(user_id=OuterRef('user_id'))
             .order_by('-score')
             .values('id')[:1])
     ).values('user_id__username', 'edu_days', 'score')
-    another_list = EdusDB.objects.values('user_id__username', 'edu_days','id').exclude(user_id=request.user.id)
+    another_list = EdusDB.objects.values('user_id__username', 'edu_days','id').exclude(user_id=request.user.id).filter(video_id=video_id)
     context = {'Edus_list' : Edus_list,
                 'another_list' : another_list,
                'video_id': video_id}
