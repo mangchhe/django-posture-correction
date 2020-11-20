@@ -201,7 +201,7 @@
                 <h5>점수:  {{total_zum}}</h5>
                 <h5>등급:  {{total_rank}}</h5>
                 <h5>정확도:  {{total_accuracy}}  </h5>
-                <button class="btn btn-secondary" type = 'button' onclick="window.open('{% url 'UploadPreView' %}','test','width=493,height=373,location=no,status=no,scrollbars=yes')">
+                <button class="btn btn-secondary" type = 'button' onclick="window.open('{% url 'UploadPreView' %}','test','width=661,height=501,location=no,status=no,scrollbars=yes')">
                     영상 보기
                 </button>
             </div>
@@ -238,7 +238,7 @@
                         <tr>
                             <td>{{ b }}</td>
                             <td class="text-center">{{ k }}</td>
-                            <td><button class="btn btn btn-outline-secondary" onclick="window.open('{% url 'playResultView' a %}','test','width=493,height=373,location=no,status=no,scrollbars=yes')">영상확인</button></td>
+                            <td><button class="btn btn btn-outline-secondary" onclick="window.open('{% url 'playResultView' a %}','test','width=661,height=501,location=no,status=no,scrollbars=yes')">영상확인</button></td>
                         </tr>
                         {% empty %}
                         <tr>

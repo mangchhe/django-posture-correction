@@ -123,7 +123,7 @@ def score_skeleton(train, result):
 
                 if degree:
 
-                    if degree < 20 * i:
+                    if degree < 3 * i:
 
                         rankList.append(4.5 - .5 * (i - 1))
                         break
