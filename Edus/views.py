@@ -52,6 +52,7 @@ skel_list = 0
 s_len = 0
 videoCamera = 0
 sendFlag = True
+sendFlag2 = True
 
 
 BODY_PARTS = {"Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
@@ -310,41 +311,30 @@ def getSkelImg(img):  # https://item4.blog/2016-05-08/Generator-and-Yield-Keywor
             save[i][0] += points[i][0]
             save[i][1] += points[i][1]
 
-    # fps 평균 구하기
-    if(count % 3 == 2):
-        for i in range(0, 19):
-            if(save[i][0] != 0):
-                save[i][0] /= 3 - n_count[i]
-            if(save[i][1] != 0):
-                save[i][1] /= 3 - n_count[i]
+    score_skeleton(skel_list[s_count], save)
 
-        score_skeleton(skel_list[s_count], save)
+    zum = round(sum(rankList) / len(rankList), 2)
 
-        zum = round(sum(rankList) / len(rankList), 2)
+    accuracy = round(zum / 4.5 * 100, 2)
 
-        accuracy = round(zum / 4.5 * 100, 2)
+    total_zum_list.append(zum)
+    total_accuracy_list.append(accuracy)
 
-        total_zum_list.append(zum)
-        total_accuracy_list.append(accuracy)
+    zumList = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F']
 
-        zumList = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F']
+    for i in range(1, 10):
 
-        for i in range(1, 10):
+        if zum > 4.5 - .5 * i:
+            total_rank_list.append(4.5 - .5 * (i - 1))
+            rank = zumList[i - 1]
+            break
 
-            if zum > 4.5 - .5 * i:
-                total_rank_list.append(4.5 - .5 * (i - 1))
-                rank = zumList[i - 1]
-                break
+    del rankList[:]
 
-        del rankList[:]
+            # p_list.append(save) # 초당 평균 데이터 -> 이 데이터와 학습 영상 데이터랑 비교하면 됨
 
-                # p_list.append(save) # 초당 평균 데이터 -> 이 데이터와 학습 영상 데이터랑 비교하면 됨
-
-        save = [[0 for col in range(2)] for row in range(19)]
-        n_count = [0 for row in range(19)]
-        s_count += 1
-
-    count += 1
+    save = [[0 for col in range(2)] for row in range(19)]
+    s_count += 1
 
     # yield (b'--frame\r\n'
     #         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
@@ -397,20 +387,17 @@ def post_list(request):
                             save_data[i][0] += points[i][0]
                             save_data[i][1] += points[i][1]
 
-                    # fps 평균 구하기
-                    if(count % 3 == 2):
-                        for i in range(0, 19):
-                            if(save_data[i][0] != 0):
-                                save_data[i][0] /= 3 - n_count[i]
-                            if(save_data[i][1] != 0):
-                                save_data[i][1] /= 3 - n_count[i]
+                    for i in range(0, 19):
+                        if(save_data[i][0] != 0):
+                            save_data[i][0] /= 3 - n_count[i]
+                        if(save_data[i][1] != 0):
+                            save_data[i][1] /= 3 - n_count[i]
 
-                        p_list.append(save_data)  # 초당 평균 데이터
-                        save_data = [
-                            [0 for col in range(2)] for row in range(19)]
-                        n_count = [0 for row in range(19)]
+                    p_list.append(save_data)  # 초당 평균 데이터
+                    save_data = [
+                        [0 for col in range(2)] for row in range(19)]
+                    n_count = [0 for row in range(19)]
 
-                    count += 1
 
             # JSON 인코딩
             jsonString = json.dumps(p_list)
@@ -480,6 +467,7 @@ def sendImg(request):
     global skel_list
     global videoCamera
     global sendFlag
+    global sendFlag2
 
     if flag:
         now = datetime.datetime.now()
@@ -504,9 +492,11 @@ def sendImg(request):
 
     # img = Image.fromarray(decoded)
 
-    if sendFlag:
+    if sendFlag and sendFlag2:
+        sendFlag2 = False
         frame, image = videoCamera.get_frame(decoded)
         getSkelImg(image)
+        sendFlag2 = True
     else:
         pass
 

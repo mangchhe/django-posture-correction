@@ -33,15 +33,19 @@
             overflow: auto;
         }
         div#list div.title button {
+            float: right;
             background:#e0c0a0;
             color:#fff;
             border:none;
             width: 5%;
+            min-width: 60px;
             padding-top: 0.5%;
             padding-bottom: 0.5%;
+            margin-top: 0.5%;
+            margin-right: 2.5%;
         }
         div#list div.title h3 {
-            width: 92.65%;
+            width: 30%;
             float: left;
         }
         div#search button.btn-1{
@@ -107,6 +111,7 @@
             margin: 0 auto;
             float: left;
             text-align: center;
+            margin-top: 2%;
             margin-left: 5%;
             margin-right: 5%;
         }
@@ -116,6 +121,7 @@
             margin: 0 auto;
             float: left;
             text-align: center;
+            margin-top: 2%;
             margin-left: 5%;
             margin-right: 5%;
         }

@@ -28,7 +28,7 @@ def search(request):
         qs = qs.filter(title__icontains=q)  # 제목에 q가 포함되어 있는 레코드만 필터링
 
     page = int(request.GET.get('page', 1))
-    paginated_by = 2
+    paginated_by = 5
 
     total_count = len(qs)
     total_page = math.ceil(total_count/paginated_by)
@@ -85,8 +85,8 @@ def level(request):
 
     qs = list(qs.values())
 
-    page = int(request.POST.get('page', 1))
-    paginated_by = 2
+    page = int(request.POST.get('value', 1))
+    paginated_by = 5
 
     total_count = len(qs)
     total_page = math.ceil(total_count/paginated_by)
