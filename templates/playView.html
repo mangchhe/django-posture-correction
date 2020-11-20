@@ -70,7 +70,7 @@
                                         data.accuracy
                                 );
                             }
-                            if(data.com_movie && a == 1){
+                            if(a == 1){
                                 videooo.play();
                                 a = 2;
                             }
@@ -92,19 +92,21 @@
                     video.play();
 
                     timer2 = setInterval(function () {
-                        canvas.getContext("2d").drawImage(video, 0, 0, 640, 480);
-                        var img = canvas.toDataURL("image/png");
-                        $.ajax({
-                            url: "{% url 'sendImg' %}",
-                            dataType: "Json",
-                            data: {"url" : img},
-                            type: "POST",
-                            success: function (data) {
-                            },
-                            error: function (request, status, error) {
-                                alert("ajax 통신 실패...");
-                            },
-                        });
+                        if (a==2){
+                            canvas.getContext("2d").drawImage(video, 0, 0, 640, 480);
+                            var img = canvas.toDataURL("image/png");
+                            $.ajax({
+                                url: "{% url 'sendImg' %}",
+                                dataType: "Json",
+                                data: {"url" : img},
+                                type: "POST",
+                                success: function (data) {
+                                },
+                                error: function (request, status, error) {
+                                    alert("ajax 통신 실패...");
+                                },
+                            });
+                        }
                     }, 1000);
                 }, function(err) { alert("there was an error " + err)});
 

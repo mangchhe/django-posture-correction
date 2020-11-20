@@ -51,10 +51,22 @@ class VideoCamera(object):
         self.out = cv2.VideoWriter(
             settings.EDUS_ROOT+nowDatetime+'.mp4', fourcc, 3, (int(width), int(height)))
 
+        self.flag = True
+
     def __del__(self):  # 소멸자
 
         # self.video.release()  # 비디오 객체 소멸
-        self.out.release()
+        # self.out.release()
+        pass
+
+    def createCamera(self):
+        if self.flag:
+            self.out.release()
+            self.flag = False
+
+    def getFlag(self):
+        
+        return self.flag
 
     def get_frame(self, image):
 

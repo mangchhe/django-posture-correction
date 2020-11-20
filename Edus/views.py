@@ -38,7 +38,6 @@ total_zum_list = []
 total_accuracy = 0
 total_rank = ''
 total_zum = 0
-com_movie = False
 # 추가 11/14
 video_no = 0
 flag = True
@@ -233,6 +232,7 @@ def play_after(request, page_no, video_no):
     days = []
     video = []
     desc = []
+    isVideoUpload = 'false'
 
     totalPageList = [i for i in range(1, eduList.num_pages + 1)]
     currentPage = page_no
@@ -253,14 +253,16 @@ def play_after(request, page_no, video_no):
 
     if request.method == 'POST':
         form = EdusDBForm(request.POST)
-        if form.is_valid():
-            del videoCamera
-            edus_form = form.save(commit=False)
-            edus_form.video_id=video_get
-            edus_form.user_id=request.user
-            edus_form.recode_video = '/edus/'+nowDatetime+'.mp4'
-            edus_form.score = total_zum
-            edus_form.save()
+        if videoCamera.getFlag():
+            if form.is_valid():
+                videoCamera.createCamera()
+                edus_form = form.save(commit=False)
+                edus_form.video_id=video_get
+                edus_form.user_id=request.user
+                edus_form.recode_video = '/edus/'+nowDatetime+'.mp4'
+                edus_form.score = total_zum
+                edus_form.save()
+                isVideoUpload = 'true'
     elif request.method == 'GET':
         form = EdusDBForm()
     else:
@@ -280,6 +282,7 @@ def play_after(request, page_no, video_no):
         'total_accuracy_list': total_accuracy_list,
         'total_rank_list': total_rank_list,
         'text_len': text_len,
+        'isVideoUpload': isVideoUpload,
     }
 
     return render(request, 'playViewResult.html', context)
@@ -290,7 +293,6 @@ def getSkelImg(img):  # https://item4.blog/2016-05-08/Generator-and-Yield-Keywor
     global accuracy
     global rank
     global rankList
-    global com_movie
     global p_list
     global save
     global count
@@ -303,7 +305,6 @@ def getSkelImg(img):  # https://item4.blog/2016-05-08/Generator-and-Yield-Keywor
 
     points = img
     
-    com_movie = True
     for i in range(0, 19):
         if(points[i] == None):
             n_count[i] += 1
@@ -387,16 +388,10 @@ def post_list(request):
                             save_data[i][0] += points[i][0]
                             save_data[i][1] += points[i][1]
 
-                    for i in range(0, 19):
-                        if(save_data[i][0] != 0):
-                            save_data[i][0] /= 3 - n_count[i]
-                        if(save_data[i][1] != 0):
-                            save_data[i][1] /= 3 - n_count[i]
 
-                    p_list.append(save_data)  # 초당 평균 데이터
-                    save_data = [
-                        [0 for col in range(2)] for row in range(19)]
-                    n_count = [0 for row in range(19)]
+                p_list.append(save_data)  # 초당 평균 데이터
+                save_data = [
+                    [0 for col in range(2)] for row in range(19)]
 
 
             # JSON 인코딩
@@ -506,12 +501,10 @@ def calculatePosture(request):
 
     global accuracy
     global rank
-    global com_movie
 
     content = {
         'accuracy': accuracy,
         'rank': rank,
-        'com_movie': com_movie,
     }
 
     return JsonResponse(content)
